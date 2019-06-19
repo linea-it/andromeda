@@ -1,17 +1,20 @@
-import React from 'react';
-// import axios from 'axios';
+import React, { useEffect } from 'react';
+import axios from 'axios';
+
+const config = {
+  headers: { 'Access-Control-Allow-Origin': '*' },
+};
 
 function Api() {
-  // axios.get('/jobs')
-  //   .then((res) => res.json())
-  //   .catch((err) => console.error(err))
-  //   .finally((data) => {
-  //     // Handle retrieved data:
-
-  //   });
+  useEffect(() => {
+    axios.get('http://loginicx.linea.gov.br:/5000/jobs', config)
+      .then(res => res.json())
+      .catch(err => err)
+      .finally(data => data);
+  });
 
   return (
-    <p>Home</p>
+    <p>...</p>
   );
 }
 
