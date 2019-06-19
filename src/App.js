@@ -1,10 +1,8 @@
 import React from 'react';
-import Home from './Home';
+import Drawer from './Drawer';
 
 function App() {
-  return (
-    <Home />
-  );
+  return <Drawer />;
 }
 
 export default App;
