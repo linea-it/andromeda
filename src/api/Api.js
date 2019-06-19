@@ -2,7 +2,6 @@ import React from 'react';
 // import axios from 'axios';
 
 function Api() {
-
   // axios.get('/jobs')
   //   .then((res) => res.json())
   //   .catch((err) => console.error(err))
@@ -11,7 +10,7 @@ function Api() {
 
   //   });
 
-  return(
+  return (
     <p>Home</p>
   );
 }
