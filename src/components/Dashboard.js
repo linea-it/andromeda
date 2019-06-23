@@ -28,9 +28,12 @@ function Dashboard() {
       <Typography component="h1">Dashboard</Typography>
       <div className={classes.root}>
         <Grid container spacing={3}>
-          {[1, 2, 3, 4].map(i => (
-            <Grid key={i} item xs={12} sm={6} md={3}>
-              <CardStatus />
+          {[{ title: 'Servers', active: 20 }, { title: 'Total Jobs', active: 1142 }, { title: 'Users', active: 5 }, { title: 'Jobs Running', active: 115 }].map(el => (
+            <Grid key={el.title} item xs={12} sm={6} md={3}>
+              <CardStatus
+                title={el.title}
+                services={el.active}
+              />
             </Grid>
           ))}
         </Grid>
