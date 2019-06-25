@@ -20,12 +20,14 @@ import Report from './components/Report';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Users from './components/Users';
+import Footer from './components/Footer';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    height: '100%',
   },
   appBar: {
     background: 'white',
@@ -80,17 +82,22 @@ const useStyles = makeStyles(theme => ({
     overflowX: 'hidden',
     width: theme.spacing(7) + 1,
   },
-  toolbar: {
+  drawerControlWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     padding: '0 8px',
-
     ...theme.mixins.toolbar,
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    marginTop: 68,
+    backgroundColor: 'rgb(240, 241, 244)',
+  },
+  bodyWrapper: {
+    height: '100%',
+    width: '100%',
   },
   homeBtn: {
     fontSize: 18,
@@ -115,6 +122,10 @@ const useStyles = makeStyles(theme => ({
   ListIconDrawer: {
     minWidth: 40,
     color: 'white',
+  },
+  ListIconControlDrawer: {
+    backgroundColor: 'rgba(255,255,255,.2)',
+    padding: 7,
   },
   iconDrawer: {
     width: 'auto',
@@ -144,6 +155,9 @@ const useStyles = makeStyles(theme => ({
   reportDrawer: {
     marginTop: 120,
   },
+  toolbar: {
+    padding: 0,
+  },
 }));
 
 function MiniDrawer() {
@@ -168,7 +182,7 @@ function MiniDrawer() {
             [classes.appBarShift]: open,
           })}
         >
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <Login />
           </Toolbar>
         </AppBar>
@@ -232,23 +246,26 @@ function MiniDrawer() {
             </Link>
             <Divider className={classes.borderDrawer} />
           </List>
-          <div className={classes.toolbar}>
+          <div className={classes.drawerControlWrapper}>
             <IconButton
               onClick={open ? handleDrawerClose : handleDrawerOpen}
-              className={classes.ListIconDrawer}
+              className={clsx(classes.ListIconDrawer, classes.ListIconControlDrawer)}
             >
               {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.btnGroup}>
-            <Report className={classes.reportDrawer} />
-          </div>
-          <Route exact path="/" component={Dashboard} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/users" component={Users} />
-        </main>
+        <div className={classes.bodyWrapper}>
+          <main className={classes.content}>
+            <div className={classes.btnGroup}>
+              <Report className={classes.reportDrawer} />
+            </div>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/users" component={Users} />
+          </main>
+          <Footer />
+        </div>
       </Router>
     </div>
   );
