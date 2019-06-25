@@ -8,39 +8,50 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(({
-  card: {
-    display: 'flex',
-    boxShadow: 'none',
-    borderLeft: '4px solid blue',
-    position: 'relative',
-  },
-  content: {
-    flex: '1 0 auto',
-  },
-  iconCard: {
-    position: 'absolute',
-    right: 5,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    fontSize: 26,
-    opacity: 0.12,
-  },
-}));
-
 function CardStatus(props) {
+  const { title, services, color, icon } = props;
+
+  const useStyles = makeStyles(({
+    card: {
+      display: 'flex',
+      borderLeft: `4px solid ${color}`,
+      position: 'relative',
+    },
+    content: {
+      flex: '1 0 auto',
+    },
+    iconCard: {
+      position: 'absolute',
+      right: 15,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      fontSize: 26,
+      opacity: 0.12,
+    },
+    title: {
+      color,
+      textTransform: 'uppercase',
+      fontSize: 12,
+      fontWeight: 'bold',
+    },
+    services: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+  }));
+
   const classes = useStyles();
-  const { title, services } = props;
+
   return (
-    <Card className={classes.card}>
+    <Card className={clsx(classes.card, classes.cardColor)}>
       <CardContent className={classes.content}>
-        <Typography component="h5" variant="h5">
+        <Typography component="h5" variant="h5" className={classes.title}>
           {title}
         </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography variant="subtitle1" color="textSecondary" className={classes.services}>
           {services}
         </Typography>
-        <Icon className={clsx(classes.iconCard, 'fas', 'fa-server')} />
+        <Icon className={clsx(classes.iconCard, 'fas', icon)} />
       </CardContent>
     </Card>
   );
@@ -49,11 +60,15 @@ function CardStatus(props) {
 CardStatus.defaultProps = {
   title: '',
   services: 0,
+  color: '',
+  icon: '',
 };
 
 CardStatus.propTypes = {
   title: PropTypes.string,
   services: PropTypes.number,
+  color: PropTypes.string,
+  icon: PropTypes.string,
 };
 
 
