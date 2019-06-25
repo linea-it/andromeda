@@ -18,13 +18,7 @@ import {
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(({
   card: {
@@ -40,10 +34,6 @@ const useStyles = makeStyles(({
     color: 'rgb(100, 117, 223)',
     fontSize: 14,
     fontWeight: 'bold',
-  },
-  settingsHeader: {
-    padding: 5,
-    marginTop: 7,
   },
 }));
 
@@ -177,37 +167,6 @@ const data = {
   ],
 };
 
-const StyledMenu = withStyles({
-  paper: {
-    border: '1px solid #d3d4d5',
-  },
-})(props => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
-    }}
-    {...props}
-  />
-));
-
-const StyledMenuItem = withStyles(theme => ({
-  root: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-}))(MenuItem);
-
 function Nodes() {
   // const [rows, setRows] = React.useState(data.rows);
   // const [columns, setColumns] = React.useState(data.columns);
@@ -218,56 +177,10 @@ function Nodes() {
   const [rows] = React.useState(data.rows);
   const [columns] = React.useState(data.columns);
   const [tableColumnExtensions] = React.useState(data.tableColumnExtensions);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  function handleSettingsOpen(event) {
-    setAnchorEl(event.currentTarget);
-  }
-
-  function handleSettingsClose() {
-    setAnchorEl(null);
-  }
 
   return (
     <Card className={classes.card}>
       <CardHeader
-        action={(
-          <React.Fragment>
-            <IconButton aria-label="Settings" className={classes.settingsHeader} onClick={handleSettingsOpen}>
-              <MoreVertIcon />
-            </IconButton>
-            <StyledMenu
-              id="customized-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleSettingsClose}
-            >
-              <StyledMenuItem>
-                <ListItemText
-                  primary={(
-                    <span className={classes.itemText}>Action</span>
-                  )}
-                />
-              </StyledMenuItem>
-              <StyledMenuItem>
-                <ListItemText
-                  primary={(
-                    <span className={classes.itemText}>Another action</span>
-                  )}
-                />
-              </StyledMenuItem>
-              <Divider />
-              <StyledMenuItem>
-                <ListItemText
-                  primary={(
-                    <span className={classes.itemText}>Something else</span>
-                  )}
-                />
-              </StyledMenuItem>
-            </StyledMenu>
-          </React.Fragment>
-        )}
         title={(
           <span className={classes.headerTitle}>Nodes</span>
         )}
