@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import CardStatus from './dashboard/CardStatus';
 import Nodes from './dashboard/Nodes';
 import Jobs from './dashboard/Jobs';
-import Api from '../api/Api';
+import * as api from '../api/Api';
 
 const useStyles = makeStyles(({
   root: {
@@ -30,6 +30,45 @@ const useStyles = makeStyles(({
 
 function Dashboard() {
   const classes = useStyles();
+  const [servers, setServers] = React.useState([]);
+  const [jobs, setJobs] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [jobsRunning, setJobsRunning] = React.useState([]);
+
+  function getUniqueServers() {
+    api.getActiveServers()
+      .then((res) => {
+        setServers(res);
+      });
+  }
+
+  function getJobs() {
+    api.getJobs()
+      .then((response) => {
+        setJobs(response);
+      });
+  }
+
+  function getUniqueUsers() {
+    api.getUniqueUsers()
+      .then((res) => {
+        setUsers(res);
+      });
+  }
+
+  function getJobsRunning() {
+    api.getJobsRunning()
+      .then((response) => {
+        setJobsRunning(response);
+      });
+  }
+
+  useEffect(() => {
+    getUniqueServers();
+    getJobs();
+    getUniqueUsers();
+    getJobsRunning();
+  }, []);
 
   return (
     <React.Fragment>
@@ -41,25 +80,25 @@ function Dashboard() {
             [
               {
                 title: 'Servers',
-                active: 20,
+                active: servers.length,
                 color: '#F2443F',
                 icon: 'fa-server',
               },
               {
                 title: 'Total Jobs',
-                active: 1142,
+                active: jobs.length,
                 color: '#377ADA',
                 icon: 'fa-rocket',
               },
               {
                 title: 'Users',
-                active: 5,
+                active: users.length,
                 color: '#FEBC4F',
                 icon: 'fa-users',
               },
               {
                 title: 'Jobs Running',
-                active: 115,
+                active: jobsRunning.length,
                 color: '#00C68D',
                 icon: 'fa-running',
               },
@@ -84,7 +123,6 @@ function Dashboard() {
           </Grid>
         </Grid>
       </div>
-      <Api />
     </React.Fragment>
   );
 }

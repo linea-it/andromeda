@@ -9,7 +9,9 @@ import Icon from '@material-ui/core/Icon';
 import PropTypes from 'prop-types';
 
 function CardStatus(props) {
-  const { title, services, color, icon } = props;
+  const {
+    title, services, color, icon,
+  } = props;
 
   const useStyles = makeStyles(({
     card: {
