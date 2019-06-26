@@ -3,7 +3,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Api from '../api/Api';
 import ActiveUsers from './users/ActiveUsers';
 import Cluster from './users/Cluster';
 
@@ -44,7 +43,6 @@ function Users() {
           </Grid>
         </Grid>
       </div>
-      <Api />
     </React.Fragment>
   );
 }
