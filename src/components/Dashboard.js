@@ -4,8 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardStatus from './dashboard/CardStatus';
-import Nodes from './dashboard/Nodes';
+import ActiveUsers from './dashboard/ActiveUsers';
 import Jobs from './dashboard/Jobs';
+import Chart from './dashboard/Chart';
 import * as api from '../api/Api';
 
 const useStyles = makeStyles(({
@@ -44,8 +45,8 @@ function Dashboard() {
 
   function getJobs() {
     api.getJobs()
-      .then((response) => {
-        setJobs(response);
+      .then((res) => {
+        setJobs(res);
       });
   }
 
@@ -58,8 +59,8 @@ function Dashboard() {
 
   function getJobsRunning() {
     api.getJobsRunning()
-      .then((response) => {
-        setJobsRunning(response);
+      .then((res) => {
+        setJobsRunning(res);
       });
   }
 
@@ -115,10 +116,13 @@ function Dashboard() {
           }
         </Grid>
         <Grid container spacing={3} className={classes.cardsContainer}>
-          <Grid item xs={12} md={6}>
-            <Nodes />
+          <Grid item xs={12}>
+            <Chart />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} style={{position: 'relative'}}>
+            <ActiveUsers />
+          </Grid>
+          <Grid item xs={12}>
             <Jobs />
           </Grid>
         </Grid>

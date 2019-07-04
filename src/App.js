@@ -2,6 +2,7 @@ import React from 'react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from './theme/MaterialTheme';
 import Drawer from './Drawer';
+import './index.css';
 
 function App() {
   return (

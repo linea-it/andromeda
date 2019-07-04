@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
     float: 'right',
     textTransform: 'none',
     padding: '4px 12px',
+    backgroundColor: '#34465d',
   },
   iconReport: {
     fontSize: 18,

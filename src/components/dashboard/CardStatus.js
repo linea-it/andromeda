@@ -29,6 +29,7 @@ function CardStatus(props) {
       transform: 'translateY(-50%)',
       fontSize: 26,
       opacity: 0.12,
+      width: 'auto',
     },
     title: {
       color,
