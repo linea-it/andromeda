@@ -31,7 +31,7 @@ const useStyles = makeStyles(({
     paddingBottom: 5,
   },
   headerTitle: {
-    color: 'rgb(100, 117, 223)',
+    color: '#34465d',
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -157,13 +157,7 @@ const data = {
     },
   ],
   tableColumnExtensions: [
-    { columnName: 'node', width: 230 },
-    { columnName: 'status', width: 100 },
-    { columnName: 'load', width: 80 },
-    { columnName: 'core', width: 80 },
-    { columnName: 'jobs', width: 80 },
-    { columnName: 'memory', width: 100 },
-    { columnName: 'disk', width: 80 },
+    { columnName: 'node', width: 320 },
   ],
 };
 

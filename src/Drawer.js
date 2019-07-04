@@ -16,6 +16,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
+import Logo from './icon-des.png';
 import Report from './components/Report';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -30,9 +31,9 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   appBar: {
-    background: 'white',
+    backgroundColor: '#fff',
     boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2)',
-    color: 'black',
+    color: '#000',
     width: `calc(100% - ${theme.spacing(7) + 1}px)`,
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -64,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
   },
   drawerOpen: {
-    background: '#365dcd',
+    background: '#34465d',
     borderRight: 'none',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -73,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     }),
   },
   drawerClose: {
-    background: '#365dcd',
+    background: '#34465d',
     borderRight: 'none',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -130,22 +131,23 @@ const useStyles = makeStyles(theme => ({
   iconDrawer: {
     width: 'auto',
     marginLeft: -3,
+    fontSize: '1.4rem',
   },
   borderDrawer: {
     backgroundColor: 'rgba(255, 255, 255, 0.32)',
   },
   iconHomeOpen: {
     fontSize: 50,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   iconHomeClose: {
     fontSize: 42,
-    marginLeft: -7,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
+    marginLeft: -5,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
@@ -204,7 +206,8 @@ function MiniDrawer() {
             <Link to="/" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemIcon className={classes.ListIconDrawer}>
-                  <Icon className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose, 'fa', 'fa-atom')} />
+                  {/* <Icon className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose, 'fa', 'fa-atom')} /> */}
+                  <img src={Logo} alt="Monitor" className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose)} />
                 </ListItemIcon>
                 <ListItemText
                   primary={(
