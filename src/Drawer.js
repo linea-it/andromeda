@@ -11,16 +11,17 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router, Route, Link, Redirect,
+} from 'react-router-dom';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
-import Logo from './icon-des.png';
+import Logo from './linea.png';
 import Report from './components/Report';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import Users from './components/Users';
 import Footer from './components/Footer';
 
 const drawerWidth = 240;
@@ -137,15 +138,16 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(255, 255, 255, 0.32)',
   },
   iconHomeOpen: {
-    fontSize: 50,
+    maxWidth: 65,
+    borderRadius: 65,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   iconHomeClose: {
-    fontSize: 42,
-    marginLeft: -5,
+    maxWidth: 42,
+    marginLeft: -8,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.leavingScreen,
@@ -203,7 +205,7 @@ function MiniDrawer() {
           open={open}
         >
           <List className={classes.drawerList}>
-            <Link to="/" className={classes.invisibleLink}>
+            <Link to="/dashboard" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemIcon className={classes.ListIconDrawer}>
                   {/* <Icon className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose, 'fa', 'fa-atom')} /> */}
@@ -212,11 +214,9 @@ function MiniDrawer() {
                 <ListItemText
                   primary={(
                     <span className={classes.homeDrawer}>
-                      LIneA
+                      Condor
                       <br />
-                      Monitoring
-                      <br />
-                      Dashboard
+                      Monitor
                     </span>
                   )}
                   className={clsx(classes.homeBtn, classes.textDrawer)}
@@ -231,18 +231,6 @@ function MiniDrawer() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Dashboard"
-                  className={classes.textDrawer}
-                />
-              </ListItem>
-            </Link>
-            <Divider className={classes.borderDrawer} />
-            <Link to="/users" className={classes.invisibleLink}>
-              <ListItem button>
-                <ListItemIcon className={classes.ListIconDrawer}>
-                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-users')} />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Users"
                   className={classes.textDrawer}
                 />
               </ListItem>
@@ -263,9 +251,8 @@ function MiniDrawer() {
             <div className={classes.btnGroup}>
               <Report className={classes.reportDrawer} />
             </div>
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/users" component={Users} />
+            <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
+            <Route exact path="/dashboard" component={Dashboard} />
           </main>
           <Footer />
         </div>
