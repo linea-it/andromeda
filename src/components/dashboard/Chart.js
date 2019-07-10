@@ -31,20 +31,16 @@ export default function Chart() {
     'https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Controller%20Nodes&r=hour&st=0',
   ]);
 
-  function loadImages() {
+  useInterval(() => {
+    setCount(count + 1);
+  }, 5000);
+
+  useEffect(() => {
     setImages([
       `https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute%20Nodes&r=hour&st=${count}`,
       `https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Rack%201&r=hour&st=${count}`,
       `https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Controller%20Nodes&r=hour&st=${count}`,
     ]);
-  }
-
-  useInterval(() => {
-    setCount(count + 1);
-  }, 10000);
-
-  useEffect(() => {
-    loadImages();
   }, [count]);
 
   return (
