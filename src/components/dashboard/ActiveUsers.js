@@ -64,7 +64,7 @@ function ActiveUsers() {
       { name: 'percentage_utilization', title: '% Cluster Utilization' },
     ],
     rows: usersStats.map(user => ({
-      user: user.Owner.split('.').map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(' '),
+      user: user.Owner,
       processes: user.PortalProcesses,
       submited: user.ManualJobs,
       cluster: user.Cluster,
