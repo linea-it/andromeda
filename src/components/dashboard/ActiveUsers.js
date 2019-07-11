@@ -39,15 +39,7 @@ const useStyles = makeStyles(({
 }));
 
 function ActiveUsers() {
-  // const [rows, setRows] = React.useState(data.rows);
-  // const [columns, setColumns] = React.useState(data.columns);
-  // const [tableColumnExtensions, setTableColumnExtensions] =
-  // React.useState(data.tableColumnExtensions);
-
   const classes = useStyles();
-  // const [rows] = React.useState(data.rows);
-  // const [columns] = React.useState(data.columns);
-  // const [tableColumnExtensions] = React.useState(data.tableColumnExtensions);
   const [usersStats, setUsersStats] = React.useState([]);
 
   function getUsersStats() {

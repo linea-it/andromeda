@@ -119,7 +119,7 @@ function Dashboard() {
           <Grid item xs={12}>
             <Chart />
           </Grid>
-          <Grid item xs={12} style={{position: 'relative'}}>
+          <Grid item xs={12} style={{ position: 'relative' }}>
             <ActiveUsers />
           </Grid>
           <Grid item xs={12}>
