@@ -208,7 +208,6 @@ function MiniDrawer() {
             <Link to="/dashboard" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemIcon className={classes.ListIconDrawer}>
-                  {/* <Icon className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose, 'fa', 'fa-atom')} /> */}
                   <img src={Logo} alt="Monitor" className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose)} />
                 </ListItemIcon>
                 <ListItemText
