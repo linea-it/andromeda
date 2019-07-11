@@ -24,6 +24,8 @@ module.exports = {
     'react/jsx-filename-extension': [1, { 
       extensions: ['.js', '.jsx']
     }],
+    'jsx-a11y/click-events-have-key-events': false,
+    'jsx-a11y/no-static-element-interactions': false,
   }
   
 };
