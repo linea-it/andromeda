@@ -39,15 +39,7 @@ const useStyles = makeStyles(({
 }));
 
 function ActiveUsers() {
-  // const [rows, setRows] = React.useState(data.rows);
-  // const [columns, setColumns] = React.useState(data.columns);
-  // const [tableColumnExtensions, setTableColumnExtensions] =
-  // React.useState(data.tableColumnExtensions);
-
   const classes = useStyles();
-  // const [rows] = React.useState(data.rows);
-  // const [columns] = React.useState(data.columns);
-  // const [tableColumnExtensions] = React.useState(data.tableColumnExtensions);
   const [usersStats, setUsersStats] = React.useState([]);
 
   function getUsersStats() {
@@ -72,7 +64,7 @@ function ActiveUsers() {
       { name: 'percentage_utilization', title: '% Cluster Utilization' },
     ],
     rows: usersStats.map(user => ({
-      user: user.Owner.split('.').map(el => el.charAt(0).toUpperCase() + el.slice(1)).join(' '),
+      user: user.Owner,
       processes: user.PortalProcesses,
       submited: user.ManualJobs,
       cluster: user.Cluster,

@@ -214,7 +214,7 @@ function MiniDrawer() {
                 <ListItemText
                   primary={(
                     <span className={classes.homeDrawer}>
-                      Condor
+                      Cluster
                       <br />
                       Monitor
                     </span>
