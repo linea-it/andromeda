@@ -122,9 +122,9 @@ function Dashboard() {
           <Grid item xs={12} style={{ position: 'relative' }}>
             <ActiveUsers />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Jobs />
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     </React.Fragment>

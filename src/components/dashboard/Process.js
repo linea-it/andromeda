@@ -1,87 +1,80 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  SearchState,
-  IntegratedFiltering,
-  PagingState,
-  IntegratedPaging,
-  SortingState,
-  IntegratedSorting,
+  PagingState, IntegratedPaging, IntegratedSorting, SortingState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
   Table,
-  Toolbar,
-  SearchPanel,
-  TableHeaderRow,
   PagingPanel,
+  TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
+import moment from 'moment';
 
-const useStyles = makeStyles(({
-  card: {
-    maxHeight: 600,
-  },
-  cardHeader: {
-    backgroundColor: 'rgb(248, 249, 252)',
-    borderBottom: '1px solid rgb(227, 230, 240)',
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  headerTitle: {
-    color: '#34465d',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-}));
 
 function Process(props) {
-  const classes = useStyles();
-  const { columns, rows } = props;
-  const data = { columns, rows };
+  const columns = [
+    { name: 'process', title: 'Process' },
+    { name: 'start_date', title: 'Start Date' },
+    { name: 'status', title: 'Status' },
+  ];
+  const { owner, processes } = props;
+
+  const rows = processes.filter((el) => {
+    if (el.Owner === owner) {
+      return el;
+    }
+    return null;
+  }).map((el) => {
+    let status = 'Unknown';
+
+    if (el.JobStatus === '1') {
+      status = 'Idle';
+    } else if (el.JobStatus === '2') {
+      status = 'Running';
+    } else if (el.JobStatus === '3') {
+      status = 'Removed';
+    } else if (el.JobStatus === '4') {
+      status = 'Completed';
+    } else if (el.JobStatus === '5') {
+      status = 'Held';
+    } else if (el.JobStatus === '6') {
+      status = 'Transferring Output';
+    } else {
+      status = 'Unknown';
+    }
+
+    return {
+      process: el.Process ? el.Process : null,
+      start_date: el.JobStartDate ? moment.unix(el.JobStartDate).format('DD/MM/YY') : null,
+      status,
+    };
+  });
 
   return (
-    <Card className={classes.card}>
-      <CardHeader
-        title={(
-          <span className={classes.headerTitle}>Processes</span>
-        )}
-        className={classes.cardHeader}
+    <Grid rows={rows} columns={columns}>
+      <PagingState defaultCurrentPage={0} defaultPageSize={10} />
+      <SortingState
+        defaultSorting={[{ columnName: 'start_date', direction: 'desc' }]}
       />
-      <CardContent>
-        <Grid
-          rows={data.rows}
-          columns={data.columns}
-        >
-
-          <SearchState />
-          <PagingState
-            defaultCurrentPage={0}
-            pageSize={10}
-          />
-          <SortingState
-            defaultSorting={[{ columnName: 'user', direction: 'asc' }]}
-          />
-          <IntegratedFiltering />
-          <IntegratedPaging />
-          <IntegratedSorting />
-          <Table columnExtensions={data.tableColumnExtensions} />
-          <TableHeaderRow showSortingControls />
-          <Toolbar />
-          <SearchPanel />
-          <PagingPanel />
-        </Grid>
-      </CardContent>
-    </Card>
+      <IntegratedPaging />
+      <IntegratedSorting />
+      <Table />
+      <TableHeaderRow showSortingControls />
+      <PagingPanel pageSizes={[5, 10, 15]} />
+    </Grid>
   );
 }
 
-Process.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+Process.defaultProps = {
+  processes: [{}],
+  owner: '',
 };
+
+Process.propTypes = {
+  processes: PropTypes.arrayOf(PropTypes.object),
+  owner: PropTypes.string,
+};
+
 
 export default Process;
