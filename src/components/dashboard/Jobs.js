@@ -14,6 +14,7 @@ import {
   SearchPanel,
   TableHeaderRow,
   PagingPanel,
+  TableColumnVisibility,
 } from '@devexpress/dx-react-grid-material-ui';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -23,6 +24,7 @@ import moment from 'moment';
 import Modal from '@material-ui/core/Modal';
 import { getJobs, getNodes } from '../../api/Api';
 import Process from './Process';
+import CustomColumnChooser from './CustomColumnChooser';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -245,9 +247,11 @@ function Jobs() {
           <IntegratedSorting />
           <Table columnExtensions={data.tableColumnExtensions} />
           <TableHeaderRow />
+          <TableColumnVisibility />
           <Toolbar />
           <SearchPanel />
           <PagingPanel />
+          <CustomColumnChooser />
         </Grid>
       </CardContent>
     </Card>

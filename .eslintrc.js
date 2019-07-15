@@ -26,6 +26,7 @@ module.exports = {
     }],
     'jsx-a11y/click-events-have-key-events': false,
     'jsx-a11y/no-static-element-interactions': false,
+    'array-callback-return': 0,
   }
   
 };
