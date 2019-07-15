@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import {
   SearchState,
   IntegratedFiltering,
@@ -19,10 +19,14 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
 import * as api from '../../api/Api';
+import Cores from './Cores';
+import Process from './Process';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
 import CustomColumnChooser from './CustomColumnChooser';
-
 
 const useStyles = makeStyles(({
   card: {
@@ -39,42 +43,100 @@ const useStyles = makeStyles(({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  iconList: {
+    fontSize: 24,
+    cursor: 'pointer',
+  },
 }));
 
 function ActiveUsers() {
   const classes = useStyles();
-  const [usersStats, setUsersStats] = React.useState([]);
+  const [usersStats, setUsersStats] = useState([]);
+  const [activeJobs, setActiveJobs] = useState([]);
+  const [slotOwner, setSlotOwner] = useState('');
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   function getUsersStats() {
     api.getUsersStats()
-      .then((res) => {
-        setUsersStats(res);
-      });
+      .then(data => setUsersStats(data));
+  }
+
+
+  function getActiveJobs() {
+    api.getJobs()
+      .then(data => setActiveJobs(data));
+  }
+
+  const onHideModal = () => setModalVisible(false);
+
+  const onShowModal = (title, owner, rows) => {
+    setModalTitle(title);
+    setModalVisible(true);
+    setModalContent(rows);
+    setSlotOwner(owner);
+  };
+
+  function renderNodes(owner, nodes) {
+    if (nodes) {
+      return (
+        <Fragment>
+          <FormatListBulleted
+            onClick={() => onShowModal('Nodes', owner, nodes)}
+            className={classes.iconList}
+          />
+        </Fragment>
+      );
+    }
+    return '-';
+  }
+
+  function renderProcesses(owner, processes) {
+    if (processes) {
+      return (
+        <Fragment>
+          <FormatListBulleted
+            onClick={() => onShowModal('Processes', owner, processes)}
+            className={classes.iconList}
+          />
+        </Fragment>
+      );
+    }
+    return '-';
   }
 
   useEffect(() => {
     getUsersStats();
+    getActiveJobs();
   }, []);
 
   const data = {
     columns: [
       { name: 'user', title: 'Owner' },
-      { name: 'processes', title: 'Portal Processes' },
-      { name: 'submited', title: 'Manualy Submited' },
+      { name: 'processes', title: 'Processes' },
+      { name: 'submitted', title: 'Submitted' },
       { name: 'cluster', title: 'Cluster' },
-      { name: 'running', title: 'Jobs Running' },
-      { name: 'waiting', title: 'Jobs Waiting' },
+      { name: 'node', title: 'Node' },
       { name: 'percentage_utilization', title: '% Cluster Utilization' },
     ],
-    rows: usersStats.map(user => ({
-      user: user.Owner,
-      processes: user.PortalProcesses,
-      submited: user.ManualJobs,
-      cluster: user.Cluster,
-      running: user.Running,
-      waiting: user.Waiting,
-      percentage_utilization: `${user.ClusterUtilization}%`,
-    })),
+    rows: usersStats.map((user) => {
+      let submitted = '';
+      if (user.ManualJobs === 0) {
+        submitted = 'Portal';
+      } else if (user.ManualJobs > 0) {
+        submitted = 'Manual';
+      }
+
+      return {
+        user: user.Owner,
+        processes: renderProcesses(user.Owner, activeJobs),
+        submitted,
+        cluster: user.Cluster,
+        node: renderNodes(user.Owner, activeJobs),
+        percentage_utilization: `${user.ClusterUtilization}%`,
+      };
+    }),
     tableColumnExtensions: [
       { columnName: 'running', width: 130 },
       { columnName: 'waiting', width: 130 },
@@ -95,7 +157,6 @@ function ActiveUsers() {
           rows={data.rows}
           columns={data.columns}
         >
-
           <SearchState />
           <PagingState
             defaultCurrentPage={0}
@@ -116,6 +177,16 @@ function ActiveUsers() {
           <CustomColumnChooser />
         </Grid>
       </CardContent>
+      <Dialog
+        onClose={onHideModal}
+        open={modalVisible}
+        aria-labelledby={modalTitle}
+      >
+        {modalTitle === 'Processes'
+          ? <Process processes={modalContent} owner={slotOwner} />
+          : <Cores cores={modalContent} owner={slotOwner} />
+        }
+      </Dialog>
     </Card>
   );
 }

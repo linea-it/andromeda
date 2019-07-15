@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardStatus from './dashboard/CardStatus';
 import ActiveUsers from './dashboard/ActiveUsers';
-import Jobs from './dashboard/Jobs';
 import Chart from './dashboard/Chart';
 import * as api from '../api/Api';
 
@@ -122,9 +121,9 @@ function Dashboard() {
           <Grid item xs={12} style={{ position: 'relative' }}>
             <ActiveUsers />
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Jobs />
-          </Grid>
+          </Grid> */}
         </Grid>
       </div>
     </React.Fragment>

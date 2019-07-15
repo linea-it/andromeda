@@ -86,10 +86,20 @@ function Jobs() {
     rows: jobs.length >= 1 ? jobs.map((job) => {
       let status = 'Unknown';
 
-      if (job.JobStatus === '2') {
-        status = 'Running';
-      } else if (job.JobStatus === '5') {
+      if (job.JobStatus === '1') {
         status = 'Idle';
+      } else if (job.JobStatus === '2') {
+        status = 'Running';
+      } else if (job.JobStatus === '3') {
+        status = 'Removed';
+      } else if (job.JobStatus === '4') {
+        status = 'Completed';
+      } else if (job.JobStatus === '5') {
+        status = 'Held';
+      } else if (job.JobStatus === '6') {
+        status = 'Transferring Output';
+      } else {
+        status = 'Unknown';
       }
 
       return {
