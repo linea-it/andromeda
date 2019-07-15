@@ -1,22 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  PagingState, IntegratedPaging, IntegratedSorting, SortingState,
+  PagingState,
+  IntegratedPaging,
+  IntegratedSorting,
+  SortingState,
+  GroupingState,
+  IntegratedGrouping,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
   Table,
   PagingPanel,
   TableHeaderRow,
+  TableGroupRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import moment from 'moment';
-
 
 function Process(props) {
   const columns = [
     { name: 'process', title: 'Process' },
-    { name: 'start_date', title: 'Start Date' },
     { name: 'status', title: 'Status' },
+    { name: 'node', title: 'Node' },
+    { name: 'core', title: 'Core' },
+    { name: 'start_date', title: 'Start Date' },
   ];
   const { owner, processes } = props;
 
@@ -46,8 +53,10 @@ function Process(props) {
 
     return {
       process: el.Process ? el.Process : null,
-      start_date: el.JobStartDate ? moment.unix(el.JobStartDate).format('DD/MM/YY') : null,
       status,
+      node: el.RemoteHost ? el.RemoteHost.split('.')[0].split('@')[1] : null,
+      core: el.RemoteHost ? el.RemoteHost.split('@')[0] : null,
+      start_date: el.JobStartDate ? moment.unix(el.JobStartDate).format('DD/MM/YY') : null,
     };
   });
 
@@ -59,8 +68,13 @@ function Process(props) {
       />
       <IntegratedPaging />
       <IntegratedSorting />
+      <GroupingState
+        grouping={[{ columnName: 'process' }]}
+      />
+      <IntegratedGrouping />
       <Table />
       <TableHeaderRow showSortingControls />
+      <TableGroupRow />
       <PagingPanel pageSizes={[5, 10, 15]} />
     </Grid>
   );
