@@ -12,7 +12,6 @@ import {
   Table,
   Toolbar,
   SearchPanel,
-  TableHeaderRow,
   PagingPanel,
   TableColumnVisibility,
 } from '@devexpress/dx-react-grid-material-ui';
@@ -21,7 +20,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import * as api from '../../api/Api';
+import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
 import CustomColumnChooser from './CustomColumnChooser';
+
 
 const useStyles = makeStyles(({
   card: {
@@ -107,7 +108,7 @@ function ActiveUsers() {
           <IntegratedPaging />
           <IntegratedSorting />
           <Table columnExtensions={data.tableColumnExtensions} />
-          <TableHeaderRow showSortingControls />
+          <CustomTableHeaderRowCell />
           <TableColumnVisibility />
           <Toolbar />
           <SearchPanel />
