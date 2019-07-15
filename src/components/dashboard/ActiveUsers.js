@@ -109,7 +109,6 @@ function ActiveUsers() {
           <IntegratedSorting />
           <Table columnExtensions={data.tableColumnExtensions} />
           <CustomTableHeaderRowCell />
-          <TableHeaderRow showSortingControls />
           <TableColumnVisibility />
           <Toolbar />
           <SearchPanel />
