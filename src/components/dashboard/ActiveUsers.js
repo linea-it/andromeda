@@ -179,7 +179,7 @@ function ActiveUsers() {
       </CardContent>
       <Dialog
         fullWidth
-        maxWidth="md"
+        maxWidth={modalTitle === 'Processes' ? 'md' : 'sm'}
         style={{ minWidth: 600 }}
         onClose={onHideModal}
         open={modalVisible}
