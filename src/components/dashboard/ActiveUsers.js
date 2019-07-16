@@ -53,7 +53,7 @@ function ActiveUsers() {
   const classes = useStyles();
   const [usersStats, setUsersStats] = useState([]);
   const [activeJobs, setActiveJobs] = useState([]);
-  const [slotOwner, setSlotOwner] = useState('');
+  const [coreOwner, setCoreOwner] = useState('');
   const [modalTitle, setModalTitle] = useState('');
   const [modalContent, setModalContent] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -75,7 +75,7 @@ function ActiveUsers() {
     setModalTitle(title);
     setModalVisible(true);
     setModalContent(rows);
-    setSlotOwner(owner);
+    setCoreOwner(owner);
   };
 
   function renderNodes(owner, nodes) {
@@ -178,13 +178,16 @@ function ActiveUsers() {
         </Grid>
       </CardContent>
       <Dialog
+        fullWidth
+        maxWidth={modalTitle === 'Processes' ? 'md' : 'sm'}
+        style={{ minWidth: 600 }}
         onClose={onHideModal}
         open={modalVisible}
         aria-labelledby={modalTitle}
       >
         {modalTitle === 'Processes'
-          ? <Process processes={modalContent} owner={slotOwner} />
-          : <Cores cores={modalContent} owner={slotOwner} />
+          ? <Process processes={modalContent} owner={coreOwner} />
+          : <Cores cores={modalContent} owner={coreOwner} />
         }
       </Dialog>
     </Card>

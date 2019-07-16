@@ -41,9 +41,6 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     fontWeight: 'bold',
   },
-  itemText: {
-    fontSize: 12,
-  },
   paper: {
     position: 'absolute',
     top: '50%',
