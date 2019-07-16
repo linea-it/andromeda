@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SearchState,
-  IntegratedFiltering,
   PagingState,
   IntegratedPaging,
   SortingState,
@@ -19,11 +18,8 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import FormatListBulleted from '@material-ui/icons/FormatListBulleted';
+import moment from 'moment';
 import * as api from '../../api/Api';
-import Cores from './Cores';
-import Process from './Process';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
 import CustomColumnChooser from './CustomColumnChooser';
@@ -49,19 +45,9 @@ const useStyles = makeStyles(({
   },
 }));
 
-function ActiveUsers() {
+function TableUser() {
   const classes = useStyles();
-  const [usersStats, setUsersStats] = useState([]);
   const [activeJobs, setActiveJobs] = useState([]);
-  const [coreOwner, setCoreOwner] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalContent, setModalContent] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-
-  function getUsersStats() {
-    api.getUsersStats()
-      .then(data => setUsersStats(data));
-  }
 
 
   function getActiveJobs() {
@@ -69,72 +55,56 @@ function ActiveUsers() {
       .then(data => setActiveJobs(data));
   }
 
-  const onHideModal = () => setModalVisible(false);
-
-  const onShowModal = (title, owner, rows) => {
-    setModalTitle(title);
-    setModalVisible(true);
-    setModalContent(rows);
-    setCoreOwner(owner);
-  };
-
-  function renderNodes(owner, nodes) {
-    if (nodes) {
-      return (
-        <Fragment>
-          <FormatListBulleted
-            onClick={() => onShowModal('Nodes', owner, nodes)}
-            className={classes.iconList}
-          />
-        </Fragment>
-      );
-    }
-    return '-';
-  }
-
-  function renderProcesses(owner, processes) {
-    if (processes) {
-      return (
-        <Fragment>
-          <FormatListBulleted
-            onClick={() => onShowModal('Processes', owner, processes)}
-            className={classes.iconList}
-          />
-        </Fragment>
-      );
-    }
-    return '-';
-  }
-
   useEffect(() => {
-    getUsersStats();
     getActiveJobs();
   }, []);
 
   const data = {
     columns: [
       { name: 'user', title: 'Owner' },
-      { name: 'processes', title: 'Processes' },
+      { name: 'process', title: 'Process' },
+      { name: 'start_date', title: 'Start Date' },
+      { name: 'status', title: 'Status' },
       { name: 'submitted', title: 'Submitted' },
       { name: 'cluster', title: 'Cluster' },
       { name: 'node', title: 'Node' },
-      { name: 'percentage_utilization', title: '% Cluster Utilization' },
+      { name: 'core', title: 'Core' },
     ],
-    rows: usersStats.map((user) => {
+    rows: activeJobs.map((job) => {
       let submitted = '';
-      if (user.ManualJobs === 0) {
+      let status = 'Unknown';
+
+      if (job.Process.indexOf(100) === 0) {
         submitted = 'Portal';
-      } else if (user.ManualJobs > 0) {
+      } else {
         submitted = 'Manual';
       }
 
+      if (job.JobStatus === '1') {
+        status = 'Idle';
+      } else if (job.JobStatus === '2') {
+        status = 'Running';
+      } else if (job.JobStatus === '3') {
+        status = 'Removed';
+      } else if (job.JobStatus === '4') {
+        status = 'Completed';
+      } else if (job.JobStatus === '5') {
+        status = 'Held';
+      } else if (job.JobStatus === '6') {
+        status = 'Transferring Output';
+      } else {
+        status = 'Unknown';
+      }
+
       return {
-        user: user.Owner,
-        processes: renderProcesses(user.Owner, activeJobs),
-        submitted,
-        cluster: user.Cluster,
-        node: renderNodes(user.Owner, activeJobs),
-        percentage_utilization: `${user.ClusterUtilization}%`,
+        user: job.Owner ? job.Owner : null,
+        process: job.Process ? job.Process : null,
+        start_date: job.JobStartDate ? moment.unix(job.JobStartDate).format('DD/MM/YY HH:mm') : null,
+        status: job.JobStatus ? status : null,
+        submitted: job.Process ? submitted : null,
+        cluster: 'ICEX',
+        node: job.RemoteHost ? job.RemoteHost.split('.')[0].split('@')[1] : null,
+        core: job.RemoteHost ? job.RemoteHost.split('@')[0].split('slot').join('core') : null,
       };
     }),
     tableColumnExtensions: [
@@ -165,7 +135,6 @@ function ActiveUsers() {
           <SortingState
             defaultSorting={[{ columnName: 'user', direction: 'asc' }]}
           />
-          <IntegratedFiltering />
           <IntegratedPaging />
           <IntegratedSorting />
           <Table columnExtensions={data.tableColumnExtensions} />
@@ -177,21 +146,8 @@ function ActiveUsers() {
           <CustomColumnChooser />
         </Grid>
       </CardContent>
-      <Dialog
-        fullWidth
-        maxWidth={modalTitle === 'Processes' ? 'md' : 'sm'}
-        style={{ minWidth: 600 }}
-        onClose={onHideModal}
-        open={modalVisible}
-        aria-labelledby={modalTitle}
-      >
-        {modalTitle === 'Processes'
-          ? <Process processes={modalContent} owner={coreOwner} />
-          : <Cores cores={modalContent} owner={coreOwner} />
-        }
-      </Dialog>
     </Card>
   );
 }
 
-export default ActiveUsers;
+export default TableUser;
