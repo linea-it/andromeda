@@ -14,14 +14,14 @@ import {
 function Cores(props) {
   const columns = [
     { name: 'node', title: 'Node' },
-    { name: 'core', title: 'Core' },
+    { name: 'slot', title: 'Slot' },
   ];
   const { owner, cores } = props;
 
   const rows = cores.filter(el => (el.Owner === owner ? el : null)).map(el => ({
     node: el.RemoteHost ? el.RemoteHost.split('.')[0].split('@')[1] : null,
-    core: el.RemoteHost ? el.RemoteHost.split('@')[0].split('slot').join('core') : null,
-  })).filter(el => el.node && el.core !== null);
+    slot: el.RemoteHost ? el.RemoteHost.split('@')[0] : null,
+  })).filter(el => el.node && el.slot !== null);
 
   return (
     <Grid rows={rows} columns={columns}>

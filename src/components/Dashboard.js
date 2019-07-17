@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardStatus from './dashboard/CardStatus';
-import ActiveUsers from './dashboard/ActiveUsers';
 import Chart from './dashboard/Chart';
 import * as api from '../api/Api';
 
@@ -30,22 +29,28 @@ const useStyles = makeStyles(({
 
 function Dashboard() {
   const classes = useStyles();
-  const [servers, setServers] = React.useState([]);
   const [jobs, setJobs] = React.useState([]);
+  const [nodes, setNodes] = React.useState([]);
+  const [cores, setCores] = React.useState([]);
   const [users, setUsers] = React.useState([]);
   const [jobsRunning, setJobsRunning] = React.useState([]);
-
-  function getUniqueServers() {
-    api.getActiveServers()
-      .then((res) => {
-        setServers(res);
-      });
-  }
 
   function getJobs() {
     api.getJobs()
       .then((res) => {
         setJobs(res);
+      });
+  }
+
+  function getNodes() {
+    api.getNodes()
+      .then((res) => {
+        const allNodes = res.map(el => el.UtsnameNodename);
+        const uniqueNodes = allNodes.filter((el, i) => allNodes.indexOf(el) === i);
+        const allCores = res.map(el => el.Name);
+        const uniqueCores = allCores.filter((el, i) => allCores.indexOf(el) === i);
+        setNodes(uniqueNodes);
+        setCores(uniqueCores);
       });
   }
 
@@ -64,7 +69,7 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    getUniqueServers();
+    getNodes();
     getJobs();
     getUniqueUsers();
     getJobsRunning();
@@ -79,22 +84,34 @@ function Dashboard() {
           {
             [
               {
-                title: 'Servers',
-                active: servers.length,
-                color: '#F2443F',
-                icon: 'fa-server',
+                title: 'Users',
+                active: users.length,
+                color: '#FEBC4F',
+                icon: 'fa-users',
+              },
+              {
+                title: 'Processes',
+                active: jobs.length,
+                color: '#58326c',
+                icon: 'fa-microchip',
+              },
+              {
+                title: 'Nodes',
+                active: nodes.length,
+                color: '#458c12',
+                icon: 'fa-cubes',
+              },
+              {
+                title: 'Cores',
+                active: cores.length,
+                color: '#8c5b12',
+                icon: 'fa-atom',
               },
               {
                 title: 'Total Jobs',
                 active: jobs.length,
                 color: '#377ADA',
-                icon: 'fa-rocket',
-              },
-              {
-                title: 'Users',
-                active: users.length,
-                color: '#FEBC4F',
-                icon: 'fa-users',
+                icon: 'fa-people-carry',
               },
               {
                 title: 'Jobs Running',
@@ -103,7 +120,7 @@ function Dashboard() {
                 icon: 'fa-running',
               },
             ].map(el => (
-              <Grid key={el.title} item xs={12} sm={6} md={3}>
+              <Grid key={el.title} item xs={12} sm={6} md={2}>
                 <CardStatus
                   title={el.title}
                   services={el.active}
@@ -118,12 +135,6 @@ function Dashboard() {
           <Grid item xs={12}>
             <Chart />
           </Grid>
-          <Grid item xs={12} style={{ position: 'relative' }}>
-            <ActiveUsers />
-          </Grid>
-          {/* <Grid item xs={12}>
-            <Jobs />
-          </Grid> */}
         </Grid>
       </div>
     </React.Fragment>

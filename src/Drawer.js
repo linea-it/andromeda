@@ -23,6 +23,7 @@ import Report from './components/Report';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
+import User from './components/User';
 
 const drawerWidth = 240;
 
@@ -235,6 +236,18 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
+            <Link to="/users" className={classes.invisibleLink}>
+              <ListItem button>
+                <ListItemIcon className={classes.ListIconDrawer}>
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-users')} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Users"
+                  className={classes.textDrawer}
+                />
+              </ListItem>
+            </Link>
+            <Divider className={classes.borderDrawer} />
           </List>
           <div className={classes.drawerControlWrapper}>
             <IconButton
@@ -252,6 +265,7 @@ function MiniDrawer() {
             </div>
             <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/users" component={User} />
           </main>
           <Footer />
         </div>
