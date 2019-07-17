@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
-import Logo from './linea.png';
+import Logo from './assets/img/linea.png';
 import Report from './components/Report';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -236,17 +236,6 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
-            <Link to="/icex" className={classes.invisibleLink}>
-              <ListItem button>
-                <ListItemIcon className={classes.ListIconDrawer}>
-                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server')} />
-                </ListItemIcon>
-                <ListItemText
-                  primary="ICEx"
-                  className={classes.textDrawer}
-                />
-              </ListItem>
-            </Link>
             <Link to="/users" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemIcon className={classes.ListIconDrawer}>
@@ -254,6 +243,18 @@ function MiniDrawer() {
                 </ListItemIcon>
                 <ListItemText
                   primary="Users"
+                  className={classes.textDrawer}
+                />
+              </ListItem>
+            </Link>
+            <Divider className={classes.borderDrawer} />
+            <Link to="/icex" className={classes.invisibleLink}>
+              <ListItem button>
+                <ListItemIcon className={classes.ListIconDrawer}>
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server')} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="ICEx"
                   className={classes.textDrawer}
                 />
               </ListItem>
@@ -279,7 +280,7 @@ function MiniDrawer() {
             <Route exact path="/icex" component={Icex} />
             <Route exact path="/users" component={User} />
           </main>
-          <Footer />
+          <Footer drawerOpen={open} />
         </div>
       </Router>
     </div>
