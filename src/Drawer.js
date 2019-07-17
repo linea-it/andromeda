@@ -23,6 +23,7 @@ import Report from './components/Report';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
+import Icex from './components/Icex';
 
 const drawerWidth = 240;
 
@@ -131,7 +132,6 @@ const useStyles = makeStyles(theme => ({
   },
   iconDrawer: {
     width: 'auto',
-    marginLeft: -3,
     fontSize: '1.4rem',
   },
   borderDrawer: {
@@ -235,6 +235,18 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
+            <Link to="/icex" className={classes.invisibleLink}>
+              <ListItem button>
+                <ListItemIcon className={classes.ListIconDrawer}>
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server')} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="ICEx"
+                  className={classes.textDrawer}
+                />
+              </ListItem>
+            </Link>
+            <Divider className={classes.borderDrawer} />
           </List>
           <div className={classes.drawerControlWrapper}>
             <IconButton
@@ -252,6 +264,7 @@ function MiniDrawer() {
             </div>
             <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/icex" component={Icex} />
           </main>
           <Footer />
         </div>
