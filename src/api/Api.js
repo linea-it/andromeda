@@ -38,6 +38,10 @@ export const getJobsRunning = () =>
   axios.get(`${url}/jobs`)
   .then(res => res.data.filter(el => el.JobStatus === '2'));
 
+export const getJobsIdle = () =>
+  axios.get(`${url}/jobs`)
+  .then(res => res.data.filter(el => el.JobStatus === '1'));
+
 export const getUsersStats = () =>
   axios.get(`${url}/users_stats`)
     .then(res => res.data)
