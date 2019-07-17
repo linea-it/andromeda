@@ -38,9 +38,10 @@ export default function Chart() {
   const classes = useStyles();
   const [count, setCount] = useState(1);
   const [images, setImages] = useState([
-    'https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute%20Nodes&r=hour&st==0',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?r=hour&z=xlarge&me=ICE&m=load_one&s=by+hosts+up&mc=2&g=mem_report&st&st=0',
+    'https://srvlupa.linea.gov.br/gangliaicx/graph.php?r=hour&z=xlarge&me=ICE&m=load_one&s=by+name&mc=2&g=cpu_report&st==0',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?r=hour&z=xlarge&me=ICE&m=load_one&s=by+hosts+up&mc=2&g=network_report&st=0',
+    'https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute%20Nodes&r=hour&st==0',
   ]);
 
   useInterval(() => {
@@ -49,9 +50,10 @@ export default function Chart() {
 
   useEffect(() => {
     setImages([
-      `https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute%20Nodes&r=hour&st==${count}`,
       `https://srvlupa.linea.gov.br/gangliaicx/graph.php?r=hour&z=xlarge&me=ICE&m=load_one&s=by+hosts+up&mc=2&g=mem_report&st&st=${count}`,
+      `https://srvlupa.linea.gov.br/gangliaicx/graph.php?r=hour&z=xlarge&me=ICE&m=load_one&s=by+name&mc=2&g=cpu_report&st==${count}`,
       `https://srvlupa.linea.gov.br/gangliaicx/graph.php?r=hour&z=xlarge&me=ICE&m=load_one&s=by+hosts+up&mc=2&g=network_report&st=${count}`,
+      `https://srvlupa.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute%20Nodes&r=hour&st==${count}`,
     ]);
   }, [count]);
 
@@ -78,7 +80,7 @@ export default function Chart() {
               variant="h6"
               className={classes.plotTitle}
             >
-              Aggregated Cluster Load
+              Memory Usage
             </Typography>
             <img src={images[0]} alt="Ganglia chart" />
           </GridListTile>
@@ -87,7 +89,7 @@ export default function Chart() {
               variant="h6"
               className={classes.plotTitle}
             >
-              Memory Usage
+              CPU Usage
             </Typography>
             <img src={images[1]} alt="Ganglia chart" />
           </GridListTile>
@@ -99,6 +101,25 @@ export default function Chart() {
               Network Usage
             </Typography>
             <img src={images[2]} alt="Ganglia chart" />
+          </GridListTile>
+        </GridList>
+        <GridList
+          cellHeight={470}
+          style={{
+            margin: '10px auto 0',
+            height: 500,
+            width: '100%',
+          }}
+          cols={1}
+        >
+          <GridListTile style={{ textAlign: 'center' }}>
+            <Typography
+              variant="h6"
+              className={classes.plotTitle}
+            >
+              Aggregated Cluster Load
+            </Typography>
+            <img src={images[3]} alt="Ganglia chart" style={{ maxWidth: 680, margin: 'auto', textAlign: 'center' }} />
           </GridListTile>
         </GridList>
       </div>
