@@ -34,6 +34,7 @@ function Dashboard() {
   const [cores, setCores] = React.useState([]);
   const [users, setUsers] = React.useState([]);
   const [jobsRunning, setJobsRunning] = React.useState([]);
+  const [jobsIdle, setJobsIdle] = React.useState([]);
 
   function getJobs() {
     api.getJobs()
@@ -68,11 +69,19 @@ function Dashboard() {
       });
   }
 
+  function getJobsIdle() {
+    api.getJobsIdle()
+      .then((res) => {
+        setJobsIdle(res);
+      });
+  }
+
   useEffect(() => {
     getNodes();
     getJobs();
     getUniqueUsers();
     getJobsRunning();
+    getJobsIdle();
   }, []);
 
   return (
@@ -108,16 +117,16 @@ function Dashboard() {
                 icon: 'fa-atom',
               },
               {
-                title: 'Total Jobs',
-                active: jobs.length,
-                color: '#377ADA',
-                icon: 'fa-people-carry',
-              },
-              {
                 title: 'Jobs Running',
                 active: jobsRunning.length,
                 color: '#00C68D',
                 icon: 'fa-running',
+              },
+              {
+                title: 'Jobs Idle',
+                active: jobsIdle.length,
+                color: '#377ADA',
+                icon: 'fa-people-carry',
               },
             ].map(el => (
               <Grid key={el.title} item xs={12} sm={6} md={2}>
