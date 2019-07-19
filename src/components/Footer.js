@@ -61,10 +61,11 @@ function Footer(props) {
     }
   };
 
-  const instance = process.env.NODE_ENV === 'production'
-    // eslint-disable-next-line no-underscore-dangle
-    ? window._env_.REACT_APP_INSTANCE
-    : process.env.REACT_APP_INSTANCE;
+  const instance = 'Testing';
+  // process.env.NODE_ENV === 'production'
+  //   // eslint-disable-next-line no-underscore-dangle
+  //   ? window._env_.REACT_APP_INSTANCE
+  //   : process.env.REACT_APP_INSTANCE;
 
   let version = '--';
   let vlink = null;
