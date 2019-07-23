@@ -48,6 +48,7 @@ const useStyles = makeStyles(({
 function TableUser() {
   const classes = useStyles();
   const [activeJobs, setActiveJobs] = useState([]);
+  const [userStats, setUserStats] = useState([]);
 
 
   function getActiveJobs() {
@@ -55,8 +56,14 @@ function TableUser() {
       .then(data => setActiveJobs(data));
   }
 
+  function getUsersStats() {
+    api.getUsersStats()
+      .then(data => setUserStats(data));
+  }
+
   useEffect(() => {
     getActiveJobs();
+    getUsersStats();
   }, []);
 
   const data = {
@@ -69,6 +76,7 @@ function TableUser() {
       { name: 'cluster', title: 'Cluster' },
       { name: 'node', title: 'Node' },
       { name: 'core', title: 'Core' },
+      { name: 'cluster_utilization', title: 'Cluster %' },
     ],
     rows: activeJobs.map((job) => {
       let submitted = '';
@@ -96,6 +104,8 @@ function TableUser() {
         status = 'Unknown';
       }
 
+      const ownerStats = userStats.filter(user => user.Owner === job.Owner)[0];
+
       return {
         user: job.Owner ? job.Owner : null,
         process: job.Process ? job.Process : null,
@@ -105,6 +115,7 @@ function TableUser() {
         cluster: 'ICEX',
         node: job.RemoteHost ? job.RemoteHost.split('.')[0].split('@')[1] : null,
         core: job.RemoteHost ? job.RemoteHost.split('@')[0].split('slot').join('core') : null,
+        cluster_utilization: ownerStats ? `${ownerStats.ClusterUtilization}%` : null,
       };
     }),
     tableColumnExtensions: [
