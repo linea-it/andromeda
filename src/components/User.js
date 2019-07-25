@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TableUser from './user/TableUser';
+import TableProcess from './user/TableProcess';
 
 const useStyles = makeStyles(({
   root: {
@@ -32,6 +33,9 @@ function User() {
         <Grid container spacing={3} className={classes.cardsContainer}>
           <Grid item xs={12} style={{ position: 'relative' }}>
             <TableUser />
+          </Grid>
+          <Grid item xs={12} style={{ position: 'relative' }}>
+            <TableProcess />
           </Grid>
         </Grid>
       </div>

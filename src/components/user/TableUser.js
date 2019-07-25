@@ -18,7 +18,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
 import * as api from '../../api/Api';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
@@ -48,6 +47,7 @@ const useStyles = makeStyles(({
 function TableUser() {
   const classes = useStyles();
   const [activeJobs, setActiveJobs] = useState([]);
+  const [activeProcessesByOwner, setActiveProcessesByOwner] = useState([]);
   const [userStats, setUserStats] = useState([]);
 
 
@@ -56,9 +56,17 @@ function TableUser() {
       .then(data => setActiveJobs(data));
   }
 
+  function getActiveProcessesByOwner(owner) {
+    api.getProcessesByOwner(owner)
+      .then(data => setActiveProcessesByOwner(processes => processes.concat([{ [`"${owner}"`]: data }])));
+  }
+
   function getUsersStats() {
     api.getUsersStats()
-      .then(data => setUserStats(data));
+      .then((data) => {
+        setUserStats(data);
+        data.map(user => getActiveProcessesByOwner(user.Owner));
+      });
   }
 
   useEffect(() => {
@@ -69,59 +77,23 @@ function TableUser() {
   const data = {
     columns: [
       { name: 'user', title: 'Owner' },
-      { name: 'process', title: 'Process' },
-      { name: 'start_date', title: 'Start Date' },
-      { name: 'status', title: 'Status' },
-      { name: 'submitted', title: 'Submitted' },
-      { name: 'cluster', title: 'Cluster' },
-      { name: 'node', title: 'Node' },
-      { name: 'core', title: 'Core' },
+      { name: 'processes', title: 'Processes' },
+      { name: 'jobs', title: 'Jobs' },
       { name: 'cluster_utilization', title: 'Cluster %' },
     ],
-    rows: activeJobs.map((job) => {
-      let submitted = '';
-      let status = 'Unknown';
-
-      if (job.Process.indexOf(100) === 0) {
-        submitted = 'Portal';
-      } else {
-        submitted = 'Manual';
-      }
-
-      if (job.JobStatus === '1') {
-        status = 'Idle';
-      } else if (job.JobStatus === '2') {
-        status = 'Running';
-      } else if (job.JobStatus === '3') {
-        status = 'Removed';
-      } else if (job.JobStatus === '4') {
-        status = 'Completed';
-      } else if (job.JobStatus === '5') {
-        status = 'Held';
-      } else if (job.JobStatus === '6') {
-        status = 'Transferring Output';
-      } else {
-        status = 'Unknown';
-      }
-
-      const ownerStats = userStats.filter(user => user.Owner === job.Owner)[0];
+    rows: userStats.map((user) => {
+      const processes = activeProcessesByOwner.filter(process => process[`"${user.Owner}"`])[0];
+      const jobs = activeJobs.filter(job => job.Owner === user.Owner);
 
       return {
-        user: job.Owner ? job.Owner : null,
-        process: job.Process ? job.Process : null,
-        start_date: job.JobStartDate ? moment.unix(job.JobStartDate).format('DD/MM/YY HH:mm') : null,
-        status: job.JobStatus ? status : null,
-        submitted: job.Process ? submitted : null,
-        cluster: 'ICEX',
-        node: job.RemoteHost ? job.RemoteHost.split('.')[0].split('@')[1] : null,
-        core: job.RemoteHost ? job.RemoteHost.split('@')[0].split('slot').join('core') : null,
-        cluster_utilization: ownerStats ? `${ownerStats.ClusterUtilization}%` : null,
+        user: user.Owner ? user.Owner : null,
+        processes: processes ? Object.values(processes)[0].length : null,
+        jobs: jobs ? jobs.length : null,
+        cluster_utilization: user ? `${user.ClusterUtilization}%` : null,
       };
     }),
     tableColumnExtensions: [
-      { columnName: 'running', width: 130 },
-      { columnName: 'waiting', width: 130 },
-      { columnName: 'percentage_utilization', width: 180 },
+      { columnName: 'cluster_utilization', width: 180 },
     ],
   };
 

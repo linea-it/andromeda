@@ -67,15 +67,12 @@ function Icex() {
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl14&l=&v=0.00&r=hour&su=1&st=1563362535&x=17.00&n=0&vl=+&st=',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl15&l=&v=17.00&r=hour&su=1&st=1563362535&x=17.00&n=0&vl=+&st=',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl16&l=&v=1.05&r=hour&su=1&st=1563362535&x=17.00&n=0&vl=+&st=',
-    'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=gwicx&l=&v=0.10&r=hour&su=1&st=1563362535&x=17.00&n=0&vl=+&st=',
-    'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=loginicx&l=&v=4.09&r=hour&su=1&st=1563367079&x=18.05&n=0&vl=+&st=',
   ]);
   const [rackPlots, setRackPlots] = useState([
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n0&l=&v=1.00&r=hour&su=1&st=1563366833&x=1.03&n=0&vl=+&st=',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n1&l=&v=0.00&r=hour&su=1&st=1563366833&x=1.03&n=0&vl=+&st=',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n0&l=&v=0.00&r=hour&su=1&st=1563366833&x=1.03&n=0&vl=+&st=',
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n1&l=&v=0.01&r=hour&su=1&st=1563366833&x=1.03&n=0&vl=+&st=',
-    'https://srvlupa.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1lead&l=&v=0.00&r=hour&su=1&st=1563366833&x=1.03&n=0&vl=+&st=',
   ]);
   const [computerNodesOverview, setComputerNodesOverview] = useState([
     'https://srvlupa.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1563362232&g=mem_report&z=medium&_=1563364904424&st=',
