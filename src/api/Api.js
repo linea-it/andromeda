@@ -26,7 +26,15 @@ export const getJobs = () =>
       return err;
     });
 
-export const getUniqueJobsOfOwnerByProcess = (owner) =>
+export const getProcesses = () =>
+  axios.get(`${url}/jobs`)
+    .then(res => res.data.filter((obj, pos, arr) => arr.map(mapObj => mapObj.Process).indexOf(obj.Process) === pos))
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+
+export const getProcessesByOwner = (owner) =>
   axios.get(`${url}/jobs?Owner="${owner}"`)
     .then(res => res.data.filter((obj, pos, arr) => arr.map(mapObj => mapObj.Process).indexOf(obj.Process) === pos))
     .catch((err) => {
