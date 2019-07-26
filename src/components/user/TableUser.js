@@ -5,6 +5,7 @@ import {
   IntegratedPaging,
   SortingState,
   IntegratedSorting,
+  IntegratedFiltering,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -81,7 +82,7 @@ function TableUser() {
       { name: 'jobs', title: 'Jobs' },
       { name: 'cluster_utilization', title: 'Cluster %' },
     ],
-    rows: userStats.map((user) => {
+    rows: userStats.length > 0 ? userStats.map((user) => {
       const processes = activeProcessesByOwner.filter(process => process[`"${user.Owner}"`])[0];
       const jobs = activeJobs.filter(job => job.Owner === user.Owner);
 
@@ -89,9 +90,9 @@ function TableUser() {
         user: user.Owner ? user.Owner : null,
         processes: processes ? Object.values(processes)[0].length : null,
         jobs: jobs ? jobs.length : null,
-        cluster_utilization: user ? `${user.ClusterUtilization}%` : null,
+        cluster_utilization: user ? `${user.ClusterUtilization.toFixed(2)}%` : null,
       };
-    }),
+    }) : [],
     tableColumnExtensions: [
       { columnName: 'cluster_utilization', width: 180 },
     ],
@@ -101,7 +102,7 @@ function TableUser() {
     <Card className={classes.card}>
       <CardHeader
         title={(
-          <span className={classes.headerTitle}>Active Users</span>
+          <span className={classes.headerTitle}>Users</span>
         )}
         className={classes.cardHeader}
       />
@@ -120,6 +121,7 @@ function TableUser() {
           />
           <IntegratedPaging />
           <IntegratedSorting />
+          <IntegratedFiltering />
           <Table columnExtensions={data.tableColumnExtensions} />
           <CustomTableHeaderRowCell />
           <TableColumnVisibility />
