@@ -97,14 +97,3 @@ export const getNodes = () =>
     console.error(err);
     return err;
   });
-
-export const getSlotsByNode = () =>
-  axios.all([
-    axios.get(`${icex}/nodes`),
-    axios.get(`${altix}/nodes`),
-  ])
-  .then(axios.spread((icexRes, altixRes) => altixRes.data.concat(icexRes.data)))
-  .catch((err) => {
-    console.error(err);
-    return err;
-  });
