@@ -159,6 +159,10 @@ function TableProcess() {
         status = 'Unknown';
       }
 
+      if (jobs.filter(job => job.JobStatus === '2').length > 0) {
+        status = 'Running';
+      }
+
       return {
         user: process.Owner ? process.Owner : null,
         process: process.Process ? process.Process : null,
