@@ -83,12 +83,19 @@ function TableUser() {
       { name: 'cluster_utilization', title: 'Cluster %' },
     ],
     rows: userStats.length > 0 ? userStats.map((user) => {
-      const processes = activeProcessesByOwner.filter(process => process[`"${user.Owner}"`])[0];
+      const processes = activeProcessesByOwner.map(processesArr => (
+        processesArr[`"${user.Owner}"`]
+          ? processesArr[`"${user.Owner}"`]
+          : null
+      )).filter(processesArr => processesArr !== null)[0];
+
       const jobs = activeJobs.filter(job => job.Owner === user.Owner);
 
       return {
         user: user.Owner ? user.Owner : null,
-        processes: processes ? Object.values(processes)[0].length : null,
+        processes: processes
+          ? processes.filter(process => process.Owner === user.Owner).length
+          : null,
         jobs: jobs ? jobs.length : null,
         cluster_utilization: user ? `${user.ClusterUtilization.toFixed(2)}%` : null,
       };
