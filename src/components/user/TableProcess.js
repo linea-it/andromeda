@@ -65,21 +65,30 @@ const useStyles = makeStyles(({
 
 function TableProcess() {
   const classes = useStyles();
+  const [data, setData] = useState({ columns: [], rows: [] });
   const [activeJobs, setActiveJobs] = useState([]);
   const [activeProcesses, setActiveProcesses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showNodeTable, setShowNodeTable] = useState(false);
   const [nodeTableData, setNodeTableData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
 
 
   function getActiveJobs() {
     api.getJobs()
-      .then(data => setActiveJobs(data));
+      .then((res) => {
+        setActiveJobs(res);
+      });
   }
 
 
   function getActiveProcesses() {
     api.getProcesses()
-      .then(data => setActiveProcesses((data)));
+      .then((res) => {
+        setActiveProcesses((res));
+        setLoading(false);
+      });
   }
 
   function showStartDate(date) {
@@ -111,13 +120,9 @@ function TableProcess() {
     );
   }
 
-  useEffect(() => {
-    getActiveJobs();
-    getActiveProcesses();
-  }, []);
 
-  const data = {
-    columns: [
+  function getData() {
+    const columns = [
       { name: 'user', title: 'Owner' },
       { name: 'process', title: 'Process' },
       { name: 'start_date', title: 'Start Date' },
@@ -125,8 +130,9 @@ function TableProcess() {
       { name: 'cluster', title: 'Cluster' },
       { name: 'status', title: 'Status' },
       { name: 'nodes', title: 'Nodes' },
-    ],
-    rows: activeProcesses.map((process) => {
+    ];
+
+    const rows = activeProcesses.map((process) => {
       const jobs = activeJobs.filter(job => job.Process === process.Process);
       const remoteHosts = jobs.filter((obj, pos, arr) => (obj.RemoteHost
         ? arr.map(mapObj => mapObj.RemoteHost).indexOf(obj.RemoteHost) === pos
@@ -168,8 +174,24 @@ function TableProcess() {
         cluster: process.ClusterName ? process.ClusterName : null,
         nodes: nodes ? showNodes(remoteHosts, nodes) : null,
       };
-    }),
-  };
+    }).filter(row => row.user.indexOf(searchValue) > -1 || row.process.indexOf(searchValue) > -1);
+
+    setData({ columns, rows });
+  }
+
+  useEffect(() => {
+    getActiveJobs();
+    getActiveProcesses();
+    getData();
+  }, [loading, searchValue]);
+
+
+  function handleSearchValue(value) {
+    setSearchValue(value);
+    setCurrentPage(0);
+  }
+
+  const changeCurrentPage = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <Fragment>
@@ -185,8 +207,13 @@ function TableProcess() {
             rows={data.rows}
             columns={data.columns}
           >
-            <SearchState />
+            <SearchState
+              value={searchValue}
+              onValueChange={handleSearchValue}
+            />
             <PagingState
+              currentPage={currentPage}
+              onCurrentPageChange={changeCurrentPage}
               defaultCurrentPage={0}
               pageSize={10}
             />
@@ -195,7 +222,7 @@ function TableProcess() {
             />
             <IntegratedPaging />
             <IntegratedSorting />
-            <Table columnExtensions={data.tableColumnExtensions} />
+            <Table />
             <CustomTableHeaderRowCell />
             <TableColumnVisibility />
             <Toolbar />
