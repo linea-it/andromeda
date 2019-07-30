@@ -55,8 +55,8 @@ function Dashboard() {
       });
   }
 
-  function getUniqueUsers() {
-    api.getUniqueUsers()
+  function getUsersStats() {
+    api.getUsersStats()
       .then((res) => {
         setUsers(res);
       });
@@ -79,7 +79,7 @@ function Dashboard() {
   useEffect(() => {
     getNodes();
     getJobs();
-    getUniqueUsers();
+    getUsersStats();
     getJobsRunning();
     getJobsIdle();
   }, []);
