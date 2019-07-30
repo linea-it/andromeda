@@ -5,6 +5,7 @@ import {
   IntegratedPaging,
   SortingState,
   IntegratedSorting,
+  IntegratedFiltering,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -165,6 +166,10 @@ function TableProcess() {
         status = 'Unknown';
       }
 
+      if (jobs.filter(job => job.JobStatus === '2').length > 0) {
+        status = 'Running';
+      }
+
       return {
         user: process.Owner ? process.Owner : null,
         process: process.Process ? process.Process : null,
@@ -223,6 +228,7 @@ function TableProcess() {
             <IntegratedPaging />
             <IntegratedSorting />
             <Table />
+            <IntegratedFiltering />
             <CustomTableHeaderRowCell />
             <TableColumnVisibility />
             <Toolbar />

@@ -5,6 +5,7 @@ import {
   IntegratedPaging,
   SortingState,
   IntegratedSorting,
+  IntegratedFiltering,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -87,6 +88,7 @@ function TableNode(props) {
             />
             <IntegratedPaging />
             <IntegratedSorting />
+            <IntegratedFiltering />
             <Table columnExtensions={data.tableColumnExtensions} />
             <CustomTableHeaderRowCell />
             <TableColumnVisibility />
