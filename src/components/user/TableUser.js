@@ -66,7 +66,7 @@ function TableUser() {
     api.getUsersStats()
       .then((data) => {
         setUserStats(data);
-        data.map(user => getActiveProcessesByOwner(user.Owner));
+        if (data.length > 0) data.forEach(user => getActiveProcessesByOwner(user.Owner));
       });
   }
 

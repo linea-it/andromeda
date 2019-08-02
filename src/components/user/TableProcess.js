@@ -72,6 +72,7 @@ function TableProcess() {
   const [loading, setLoading] = useState(true);
   const [showNodeTable, setShowNodeTable] = useState(false);
   const [nodeTableData, setNodeTableData] = useState([]);
+  const [nodeTableProcess, setNodeTableProcess] = useState('Hello, World');
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -100,17 +101,18 @@ function TableProcess() {
     );
   }
 
-  function handleNodeClick(nodes) {
+  function handleNodeClick(process, nodes) {
     if (showNodeTable === false) {
+      setNodeTableProcess(process);
       setNodeTableData(nodes);
     }
     setShowNodeTable(!showNodeTable);
   }
 
-  function showNodes(remoteHosts, nodes) {
+  function showNodes(process, remoteHosts, nodes) {
     if (nodes.length > 0) {
       return (
-        <Button onClick={() => handleNodeClick(remoteHosts)}>{nodes.length}</Button>
+        <Button onClick={() => handleNodeClick(process, remoteHosts)}>{nodes.length}</Button>
       );
     }
 
@@ -125,10 +127,10 @@ function TableProcess() {
   function getData() {
     const columns = [
       { name: 'user', title: 'Owner' },
+      { name: 'cluster', title: 'Cluster' },
+      { name: 'submitted', title: 'Submitted' },
       { name: 'process', title: 'Process' },
       { name: 'start_date', title: 'Start Date' },
-      { name: 'submitted', title: 'Submitted' },
-      { name: 'cluster', title: 'Cluster' },
       { name: 'status', title: 'Status' },
       { name: 'nodes', title: 'Nodes' },
     ];
@@ -177,9 +179,14 @@ function TableProcess() {
         status: process.JobStatus ? status : null,
         submitted: process.Process ? submitted : null,
         cluster: process.ClusterName ? process.ClusterName : null,
-        nodes: nodes ? showNodes(remoteHosts, nodes) : null,
+        nodes: nodes ? showNodes(process.Process, remoteHosts, nodes) : null,
       };
-    }).filter(row => row.user.indexOf(searchValue) > -1 || row.process.indexOf(searchValue) > -1);
+    }).filter(row => (
+      row.user
+        ? row.user.indexOf(searchValue) > -1
+          || row.process.indexOf(searchValue) > -1
+        : row
+    ));
 
     setData({ columns, rows });
   }
@@ -239,6 +246,7 @@ function TableProcess() {
         </CardContent>
       </Card>
       <TableNode
+        process={nodeTableProcess}
         showNodeTable={showNodeTable}
         handleNodeClick={handleNodeClick}
         nodes={nodeTableData}
