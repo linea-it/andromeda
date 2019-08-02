@@ -90,7 +90,7 @@ function Footer(props) {
           <Typography color="inherit" className={classes.grow}>
             {instance}
             {' '}
-            Portal:
+            Monitor:
             {' '}
             <span
               onClick={() => openGithub(vlink)}
