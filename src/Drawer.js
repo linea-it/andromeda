@@ -110,6 +110,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     maxWidth: '100%',
     textTransform: 'uppercase',
+    display: 'block',
   },
   btnGroup: {
     textAlign: 'right',
@@ -150,6 +151,7 @@ const useStyles = makeStyles(theme => ({
   iconHomeClose: {
     maxWidth: 42,
     marginLeft: -8,
+    borderRadius: 42,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.leavingScreen,
@@ -166,6 +168,11 @@ const useStyles = makeStyles(theme => ({
   },
   iconAltixDrawer: {
     transform: 'rotate(180deg)',
+  logoBlock: {
+    display: 'block',
+  },
+  titleBlock: {
+    display: 'block',
   },
 }));
 
@@ -212,16 +219,16 @@ function MiniDrawer() {
           <List className={classes.drawerList}>
             <Link to="/dashboard" className={classes.invisibleLink}>
               <ListItem button>
-                <ListItemIcon className={classes.ListIconDrawer}>
-                  <img src={Logo} alt="Monitor" className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose)} />
-                </ListItemIcon>
                 <ListItemText
                   primary={(
-                    <span className={classes.homeDrawer}>
-                      Cluster
-                      <br />
-                      Monitor
-                    </span>
+                    <React.Fragment>
+                      <ListItemIcon className={clsx(classes.ListIconDrawer, open ? classes.logoBlock : '')}>
+                        <img src={Logo} alt="Monitor" className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose)} />
+                      </ListItemIcon>
+                      <span className={clsx(classes.homeDrawer, open ? classes.titleBlock : '')}>
+                        Cluster Monitor
+                      </span>
+                    </React.Fragment>
                   )}
                   className={clsx(classes.homeBtn, classes.textDrawer)}
                 />
