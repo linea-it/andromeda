@@ -22,11 +22,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Dialog from '@material-ui/core/Dialog';
 import PropTypes from 'prop-types';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import CustomColumnChooser from './CustomColumnChooser';
 import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
 
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles(theme => ({
   card: {
     minHeight: 530,
     overflow: 'auto',
@@ -42,20 +44,31 @@ const useStyles = makeStyles(({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+  closeIcon: {
+    width: '.5em',
+    height: '.5em',
+  },
 }));
 
 function TableNode(props) {
   const classes = useStyles();
-  const { showNodeTable, handleNodeClick, nodes } = props;
+  const {
+    process, showNodeTable, handleNodeClick, nodes,
+  } = props;
 
   const data = {
     columns: [
       { name: 'node', title: 'Node' },
-      { name: 'core', title: 'Core' },
+      { name: 'slot', title: 'Slot' },
     ],
     rows: nodes.length > 0 ? nodes.map(node => ({
       node: node.RemoteHost ? node.RemoteHost.split('.')[0].split('@')[1] : null,
-      core: node.RemoteHost ? node.RemoteHost.split('@')[0].split('slot').join('core') : null,
+      slot: node.RemoteHost ? node.RemoteHost.split('@')[0] : null,
     })) : [],
   };
 
@@ -69,7 +82,12 @@ function TableNode(props) {
       <Card className={classes.card}>
         <CardHeader
           title={(
-            <span className={classes.headerTitle}>Nodes</span>
+            <React.Fragment>
+              <IconButton aria-label="close" className={classes.closeButton} onClick={handleNodeClick}>
+                <CloseIcon className={classes.closeIcon} />
+              </IconButton>
+              <span className={classes.headerTitle}>{process}</span>
+            </React.Fragment>
           )}
           className={classes.cardHeader}
         />
@@ -105,6 +123,7 @@ function TableNode(props) {
 
 
 TableNode.propTypes = {
+  process: PropTypes.string.isRequired,
   nodes: PropTypes.arrayOf(PropTypes.object).isRequired,
   showNodeTable: PropTypes.bool.isRequired,
   handleNodeClick: PropTypes.func.isRequired,

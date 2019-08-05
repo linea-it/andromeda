@@ -11,14 +11,14 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 
 
-function Cores(props) {
+function Slot(props) {
   const columns = [
     { name: 'node', title: 'Node' },
     { name: 'slot', title: 'Slot' },
   ];
-  const { owner, cores } = props;
+  const { owner, slots } = props;
 
-  const rows = cores.filter(el => (el.Owner === owner ? el : null)).map(el => ({
+  const rows = slots.filter(el => (el.Owner === owner ? el : null)).map(el => ({
     node: el.RemoteHost ? el.RemoteHost.split('.')[0].split('@')[1] : null,
     slot: el.RemoteHost ? el.RemoteHost.split('@')[0] : null,
   })).filter(el => el.node && el.slot !== null);
@@ -39,10 +39,10 @@ function Cores(props) {
 }
 
 
-Cores.propTypes = {
-  cores: PropTypes.arrayOf(PropTypes.object).isRequired,
+Slot.propTypes = {
+  slots: PropTypes.arrayOf(PropTypes.object).isRequired,
   owner: PropTypes.string.isRequired,
 };
 
 
-export default Cores;
+export default Slot;

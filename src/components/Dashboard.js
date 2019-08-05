@@ -29,18 +29,16 @@ const useStyles = makeStyles(({
 
 function Dashboard() {
   const classes = useStyles();
-  const [jobs, setJobs] = React.useState([]);
+  const [processes, setProcesses] = React.useState([]);
   const [nodes, setNodes] = React.useState([]);
-  const [cores, setCores] = React.useState([]);
+  const [slots, setSlots] = React.useState([]);
   const [users, setUsers] = React.useState([]);
   const [jobsRunning, setJobsRunning] = React.useState([]);
   const [jobsIdle, setJobsIdle] = React.useState([]);
 
-  function getJobs() {
-    api.getJobs()
-      .then((res) => {
-        setJobs(res);
-      });
+  function getProcesses() {
+    api.getProcesses()
+      .then(res => setProcesses((res)));
   }
 
   function getNodes() {
@@ -48,37 +46,31 @@ function Dashboard() {
       .then((res) => {
         const allNodes = res.map(el => el.UtsnameNodename);
         const uniqueNodes = allNodes.filter((el, i) => allNodes.indexOf(el) === i);
-        const allCores = res.map(el => el.Name);
-        const uniqueCores = allCores.filter((el, i) => allCores.indexOf(el) === i);
+        const allSlots = res.map(el => el.Name);
+        const uniqueSlots = allSlots.filter((el, i) => allSlots.indexOf(el) === i);
         setNodes(uniqueNodes);
-        setCores(uniqueCores);
+        setSlots(uniqueSlots);
       });
   }
 
   function getUsersStats() {
     api.getUsersStats()
-      .then((res) => {
-        setUsers(res);
-      });
+      .then(res => setUsers(res));
   }
 
   function getJobsRunning() {
     api.getJobsRunning()
-      .then((res) => {
-        setJobsRunning(res);
-      });
+      .then(res => setJobsRunning(res));
   }
 
   function getJobsIdle() {
     api.getJobsIdle()
-      .then((res) => {
-        setJobsIdle(res);
-      });
+      .then(res => setJobsIdle(res));
   }
 
   useEffect(() => {
     getNodes();
-    getJobs();
+    getProcesses();
     getUsersStats();
     getJobsRunning();
     getJobsIdle();
@@ -100,7 +92,7 @@ function Dashboard() {
               },
               {
                 title: 'Processes',
-                active: jobs.length,
+                active: processes.length,
                 color: '#58326c',
                 icon: 'fa-microchip',
               },
@@ -111,8 +103,8 @@ function Dashboard() {
                 icon: 'fa-cubes',
               },
               {
-                title: 'Cores',
-                active: cores.length,
+                title: 'Slots',
+                active: slots.length,
                 color: '#8c5b12',
                 icon: 'fa-atom',
               },

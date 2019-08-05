@@ -24,6 +24,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 import Icex from './components/Icex';
+import Altix from './components/Altix';
 import User from './components/User';
 
 const drawerWidth = 240;
@@ -165,6 +166,9 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     padding: 0,
   },
+  iconAltixDrawer: {
+    transform: 'rotate(180deg)',
+  },
   logoBlock: {
     display: 'block',
   },
@@ -268,6 +272,18 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
+            <Link to="/altix" className={classes.invisibleLink}>
+              <ListItem button>
+                <ListItemIcon className={classes.ListIconDrawer}>
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server', classes.iconAltixDrawer)} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Altix"
+                  className={classes.textDrawer}
+                />
+              </ListItem>
+            </Link>
+            <Divider className={classes.borderDrawer} />
           </List>
           <div className={classes.drawerControlWrapper}>
             <IconButton
@@ -286,6 +302,7 @@ function MiniDrawer() {
             <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/icex" component={Icex} />
+            <Route exact path="/altix" component={Altix} />
             <Route exact path="/users" component={User} />
           </main>
           <Footer drawerOpen={open} />
