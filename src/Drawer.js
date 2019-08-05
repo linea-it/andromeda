@@ -168,6 +168,7 @@ const useStyles = makeStyles(theme => ({
   },
   iconAltixDrawer: {
     transform: 'rotate(180deg)',
+  },
   logoBlock: {
     display: 'block',
   },
