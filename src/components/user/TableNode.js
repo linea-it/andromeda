@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SearchState,
   PagingState,
@@ -26,6 +26,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import CustomColumnChooser from './CustomColumnChooser';
 import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
+import { getNodes } from '../../api/Api';
 
 
 const useStyles = makeStyles(theme => ({
@@ -58,18 +59,33 @@ const useStyles = makeStyles(theme => ({
 function TableNode(props) {
   const classes = useStyles();
   const {
-    process, showNodeTable, handleNodeClick, nodes,
+    process, showNodeTable, handleNodeClick, jobs,
   } = props;
+
+  const [nodes, setNodes] = useState([]);
+
+  useEffect(() => {
+    getNodes()
+      .then((res => setNodes(res)));
+  }, []);
 
   const data = {
     columns: [
       { name: 'node', title: 'Node' },
       { name: 'slot', title: 'Slot' },
     ],
-    rows: nodes.length > 0 ? nodes.map(node => ({
-      node: node.RemoteHost ? node.RemoteHost.split('.')[0].split('@')[1] : null,
-      slot: node.RemoteHost ? node.RemoteHost.split('@')[0] : null,
-    })) : [],
+    rows: jobs.length > 0 ? jobs.map((job) => {
+      let slots = job.RemoteHost.split('@')[0];
+
+      if (job.RequiresWholeMachine === 'True') {
+        slots = `${nodes.filter(node => node.Name === job.RemoteHost)[0].TotalCpus.split('.')[0]} slots`;
+      }
+
+      return {
+        node: job.RemoteHost ? job.RemoteHost.split('.')[0].split('@')[1] : null,
+        slot: job.RemoteHost ? slots : null,
+      };
+    }) : [],
   };
 
   return (
@@ -124,7 +140,7 @@ function TableNode(props) {
 
 TableNode.propTypes = {
   process: PropTypes.string.isRequired,
-  nodes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  jobs: PropTypes.arrayOf(PropTypes.object).isRequired,
   showNodeTable: PropTypes.bool.isRequired,
   handleNodeClick: PropTypes.func.isRequired,
 };
