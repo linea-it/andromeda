@@ -20,12 +20,18 @@ export const getProcesses = () =>
     axios.get(`${icex}/jobs`),
     axios.get(`${altix}/jobs`),
   ])
-  .then(axios.spread((icexRes, altixRes) => 
-    altixRes.data
-    .concat(icexRes.data)
-    .filter((obj, pos, arr) => 
+  .then(axios.spread((icexRes, altixRes) => {
+    const icexData = icexRes.data.filter((obj, pos, arr) => 
       arr.map(mapObj => mapObj.Process).indexOf(obj.Process) === pos
     )
+    const altixData = altixRes.data.filter((obj, pos, arr) => 
+      arr.map(mapObj => mapObj.Process).indexOf(obj.Process) === pos
+      &&
+      obj["All queues are empty"] !== 'All'
+    )
+
+    return icexData.concat(altixData)
+    }
   ))
   .catch((err) => {
     console.error(err);
@@ -38,12 +44,14 @@ export const getProcessesByOwner = (owner) =>
     axios.get(`${altix}/jobs?Owner="${owner}"`),
   ])
   .then(axios.spread((icexRes, altixRes) => 
-    altixRes.data
-    .concat(icexRes.data)
-    .filter((obj, pos, arr) => 
+    altixRes.data.filter((obj, pos, arr) => 
       arr.map(mapObj => mapObj.Process)
       .indexOf(obj.Process) === pos
     )
+    .concat(icexRes.data.filter((obj, pos, arr) => 
+      arr.map(mapObj => mapObj.Process)
+      .indexOf(obj.Process) === pos
+    ))
   ))
   .catch((err) => {
     console.error(err);

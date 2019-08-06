@@ -101,10 +101,10 @@ function TableProcess() {
     );
   }
 
-  function handleNodeClick(process, nodes) {
+  function handleNodeClick(process, jobs) {
     if (showNodeTable === false) {
       setNodeTableProcess(process);
-      setNodeTableData(nodes);
+      setNodeTableData(jobs);
     }
     setShowNodeTable(!showNodeTable);
   }
@@ -136,7 +136,10 @@ function TableProcess() {
     ];
 
     const rows = activeProcesses.map((process) => {
-      const jobs = activeJobs.filter(job => job.Process === process.Process);
+      const jobs = activeJobs.filter(
+        job => job.Process === process.Process
+        && job.ClusterName === process.ClusterName,
+      );
       const remoteHosts = jobs.filter((obj, pos, arr) => (obj.RemoteHost
         ? arr.map(mapObj => mapObj.RemoteHost).indexOf(obj.RemoteHost) === pos
         : null
@@ -249,7 +252,7 @@ function TableProcess() {
         process={nodeTableProcess}
         showNodeTable={showNodeTable}
         handleNodeClick={handleNodeClick}
-        nodes={nodeTableData}
+        jobs={nodeTableData}
       />
     </Fragment>
   );

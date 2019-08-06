@@ -78,6 +78,7 @@ function TableUser() {
   const data = {
     columns: [
       { name: 'user', title: 'Owner' },
+      { name: 'cluster', title: 'Cluster' },
       { name: 'processes', title: 'Processes' },
       { name: 'jobs', title: 'Jobs' },
       { name: 'cluster_utilization', title: 'Cluster %' },
@@ -89,12 +90,17 @@ function TableUser() {
           : null
       )).filter(processesArr => processesArr !== null)[0];
 
-      const jobs = activeJobs.filter(job => job.Owner === user.Owner);
+      const jobs = activeJobs.filter(
+        job => job.Owner === user.Owner && job.ClusterName === user.Cluster,
+      );
 
       return {
         user: user.Owner ? user.Owner : null,
+        cluster: user.Cluster ? user.Cluster : null,
         processes: processes
-          ? processes.filter(process => process.Owner === user.Owner).length
+          ? processes.filter(
+            process => process.Owner === user.Owner && process.ClusterName === user.Cluster,
+          ).length
           : null,
         jobs: jobs ? jobs.length : null,
         cluster_utilization: user ? `${user.ClusterUtilization.toFixed(2)}%` : null,
