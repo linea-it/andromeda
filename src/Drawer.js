@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+// import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -19,8 +19,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
 import Logo from './assets/img/linea.png';
-import Report from './components/Report';
-import Login from './components/Login';
+// import Report from './components/Report';
+// import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 import Icex from './components/Icex';
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    marginTop: 68,
+    // marginTop: 68,
     backgroundColor: 'rgb(240, 241, 244)',
   },
   bodyWrapper: {
@@ -160,9 +160,9 @@ const useStyles = makeStyles(theme => ({
   homeDrawer: {
     fontWeight: 'bold',
   },
-  reportDrawer: {
-    marginTop: 120,
-  },
+  // reportDrawer: {
+  //   marginTop: 120,
+  // },
   toolbar: {
     padding: 0,
   },
@@ -199,9 +199,9 @@ function MiniDrawer() {
             [classes.appBarShift]: open,
           })}
         >
-          <Toolbar className={classes.toolbar}>
+          {/* <Toolbar className={classes.toolbar}>
             <Login />
-          </Toolbar>
+          </Toolbar> */}
         </AppBar>
         <Drawer
           variant="permanent"
@@ -296,9 +296,9 @@ function MiniDrawer() {
         </Drawer>
         <div className={classes.bodyWrapper}>
           <main className={classes.content}>
-            <div className={classes.btnGroup}>
+            {/* <div className={classes.btnGroup}>
               <Report className={classes.reportDrawer} />
-            </div>
+            </div> */}
             <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/icex" component={Icex} />
