@@ -36,12 +36,11 @@ const TableHeaderRowCell = ({ ...restProps }) => (
   />
 );
 
-const SortingIcon = ({ direction }) =>
-  direction === 'asc' ? (
-    <ArrowUpward style={{ fontSize: '18px' }} />
-  ) : (
-    <ArrowDownward style={{ fontSize: '18px' }} />
-  );
+const SortingIcon = ({ direction }) => (direction === 'asc' ? (
+  <ArrowUpward style={{ fontSize: '18px' }} />
+) : (
+  <ArrowDownward style={{ fontSize: '18px' }} />
+));
 
 const SortLabel = ({ onSort, children, direction }) => {
   const classes = useStyles();
