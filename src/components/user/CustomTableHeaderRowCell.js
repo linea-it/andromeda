@@ -6,7 +6,7 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles({
   invisibleButton: {
     backgroundColor: 'transparent',
     cursor: 'pointer',
@@ -24,7 +24,7 @@ const useStyles = makeStyles(({
     justifyContent: 'center',
     maxWidth: '100%',
   },
-}));
+});
 
 const TableHeaderRowCell = ({ ...restProps }) => (
   <TableHeaderRow.Cell
@@ -34,7 +34,6 @@ const TableHeaderRowCell = ({ ...restProps }) => (
       fontSize: '1em',
     }}
   />
-
 );
 
 const SortingIcon = ({ direction }) => (direction === 'asc' ? (
@@ -55,7 +54,6 @@ const SortLabel = ({ onSort, children, direction }) => {
   );
 };
 
-
 const CustomTableHeaderRowCell = () => (
   <TableHeaderRow
     cellComponent={TableHeaderRowCell}
@@ -70,7 +68,11 @@ SortingIcon.propTypes = {
 
 SortLabel.propTypes = {
   onSort: PropTypes.func.isRequired,
-  children: PropTypes.shape({ root: PropTypes.symbol }).isRequired,
+  children: PropTypes.shape({
+    root: PropTypes.symbol,
+    props: PropTypes.object,
+    children: PropTypes.string,
+  }).isRequired,
   direction: PropTypes.string,
 };
 
