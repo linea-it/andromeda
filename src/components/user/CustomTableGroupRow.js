@@ -55,9 +55,16 @@ function CustomTableGroupRow({ rows }) {
 
 
 CustomTableGroupRow.defaultProps = {
+  restProps: {
+    row: [],
+  },
+};
+
+CustomTableGroupRow.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
   restProps: PropTypes.shape({
     row: PropTypes.array,
-  }).isRequired,
+  }),
 };
 
 export default CustomTableGroupRow;
