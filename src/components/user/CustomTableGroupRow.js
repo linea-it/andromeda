@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     borderBottom: '1px solid rgba(224, 224, 224, 1)',
     letterSpacing: '0.01071em',
     verticalAlign: 'inherit',
+    cursor: 'pointer',
   },
 });
 
@@ -29,7 +30,7 @@ function CustomTableGroupRow({ rows }) {
         <TableGroupRow.Cell {...restProps} colSpan={2}>
           {restProps.row.value}
         </TableGroupRow.Cell>
-        <td className={classes.tableCell}>
+        <td className={classes.tableCell} onClick={restProps.onToggle}>
           <strong>{slotsQty > 1 ? `${slotsQty} slots` : `${slotsQty} slot`}</strong>
         </td>
       </React.Fragment>

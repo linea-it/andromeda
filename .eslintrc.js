@@ -21,12 +21,13 @@ module.exports = {
     'react',
   ],
   rules: {
-    'react/jsx-filename-extension': [1, { 
+    'react/jsx-filename-extension': [1, {
       extensions: ['.js', '.jsx']
     }],
     'jsx-a11y/click-events-have-key-events': false,
     'jsx-a11y/no-static-element-interactions': false,
+    'jsx-a11y/no-noninteractive-element-interactions': false,
     'array-callback-return': 0,
   }
-  
+
 };
