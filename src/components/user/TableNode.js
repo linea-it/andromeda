@@ -6,6 +6,8 @@ import {
   SortingState,
   IntegratedSorting,
   IntegratedFiltering,
+  GroupingState,
+  IntegratedGrouping,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -14,6 +16,7 @@ import {
   SearchPanel,
   PagingPanel,
   TableColumnVisibility,
+  TableGroupRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -27,6 +30,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import CustomColumnChooser from './CustomColumnChooser';
 import CustomTableHeaderRowCell from './CustomTableHeaderRowCell';
 import { getNodes } from '../../api/Api';
+import CustomTableGroupRow from './CustomTableGroupRow';
 
 
 const useStyles = makeStyles(theme => ({
@@ -69,24 +73,39 @@ function TableNode(props) {
       .then((res => setNodes(res)));
   }, []);
 
+  function slotsIncrementor(n, node) {
+    let i = 1;
+    const r = [];
+    while (i <= n) {
+      r.push({
+        slot: `slot${i}`,
+        node: node ? node.split('.')[0].split('@')[1] : null,
+      });
+      // eslint-disable-next-line no-plusplus
+      i++;
+    }
+    return r;
+  }
+
   const data = {
     columns: [
       { name: 'node', title: 'Node' },
       { name: 'slot', title: 'Slot' },
     ],
     rows: jobs.length > 0 ? jobs.map((job) => {
-      let slots = job.RemoteHost.split('@')[0];
-
+      const slots = job.RemoteHost.split('@')[0];
       if (job.RequiresWholeMachine === 'True') {
-        slots = `${nodes.filter(node => node.Name === job.RemoteHost)[0].TotalCpus.split('.')[0]} slots`;
+        const slotsAmount = Number(nodes.filter(node => node.Name === job.RemoteHost)[0].TotalCpus.split('.')[0]);
+        return slotsIncrementor(slotsAmount, job.RemoteHost);
       }
 
-      return {
+      return [{
         node: job.RemoteHost ? job.RemoteHost.split('.')[0].split('@')[1] : null,
         slot: job.RemoteHost ? slots : null,
-      };
-    }) : [],
+      }];
+    })[0] : [],
   };
+
 
   return (
     <Dialog
@@ -120,11 +139,18 @@ function TableNode(props) {
             <SortingState
               defaultSorting={[{ columnName: 'node', direction: 'asc' }]}
             />
+            <GroupingState
+              grouping={[{ columnName: 'node' }]}
+            />
             <IntegratedPaging />
             <IntegratedSorting />
             <IntegratedFiltering />
+            <IntegratedGrouping />
             <Table columnExtensions={data.tableColumnExtensions} />
             <CustomTableHeaderRowCell />
+            <CustomTableGroupRow
+              rows={data.rows}
+            />
             <TableColumnVisibility />
             <Toolbar />
             <SearchPanel />
