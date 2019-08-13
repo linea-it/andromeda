@@ -155,20 +155,22 @@ function TableProcess() {
         submitted = 'Manual';
       }
 
-      if (jobs[0].JobStatus === '1') {
-        status = 'Idle';
-      } else if (jobs[0].JobStatus === '2') {
-        status = 'Running';
-      } else if (jobs[0].JobStatus === '3') {
-        status = 'Removed';
-      } else if (jobs[0].JobStatus === '4') {
-        status = 'Completed';
-      } else if (jobs[0].JobStatus === '5') {
-        status = 'Hold';
-      } else if (jobs[0].JobStatus === '6') {
-        status = 'Transferring Output';
-      } else {
-        status = 'Unknown';
+      if (jobs.length > 0) {
+        if (jobs[0].JobStatus === '1') {
+          status = 'Idle';
+        } else if (jobs[0].JobStatus === '2') {
+          status = 'Running';
+        } else if (jobs[0].JobStatus === '3') {
+          status = 'Removed';
+        } else if (jobs[0].JobStatus === '4') {
+          status = 'Completed';
+        } else if (jobs[0].JobStatus === '5') {
+          status = 'Hold';
+        } else if (jobs[0].JobStatus === '6') {
+          status = 'Transferring Output';
+        } else {
+          status = 'Unknown';
+        }
       }
 
       if (jobs.filter(job => job.JobStatus === '2').length > 0) {
