@@ -140,11 +140,14 @@ function TableProcess() {
         job => job.Process === process.Process
         && job.ClusterName === process.ClusterName,
       );
-      const remoteHosts = jobs.filter((obj, pos, arr) => (obj.RemoteHost
-        ? arr.map(mapObj => mapObj.RemoteHost).indexOf(obj.RemoteHost) === pos
-        : null
-      ));
-      const nodes = remoteHosts.map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1]).filter((node, i, arr) => arr.indexOf(node) === i);
+
+      const remoteHosts = jobs
+        .filter((obj, pos, arr) => obj.RemoteHost
+          && arr.map(mapObj => mapObj.RemoteHost + mapObj.Owner)
+            .indexOf(obj.RemoteHost + process.Owner) === pos);
+
+      const nodes = remoteHosts
+        .map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1]);
 
       let submitted = '';
       let status = 'Unknown';

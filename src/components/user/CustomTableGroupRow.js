@@ -17,6 +17,13 @@ const useStyles = makeStyles({
     verticalAlign: 'inherit',
     cursor: 'pointer',
   },
+  groupTitle: {
+    fontWeight: 'bolder',
+    color: 'rgb(85, 85, 85)',
+    '&:hover': {
+      color: 'rgba(0, 0, 0, 0.87)',
+    },
+  },
 });
 
 
@@ -27,11 +34,11 @@ function CustomTableGroupRow({ rows }) {
     const slotsQty = rows.filter(row => row.node === restProps.row.value).length;
     return (
       <React.Fragment>
-        <TableGroupRow.Cell {...restProps} colSpan={2}>
+        <TableGroupRow.Cell {...restProps} colSpan={2} className={classes.groupTitle}>
           {restProps.row.value}
         </TableGroupRow.Cell>
         <td className={classes.tableCell} onClick={restProps.onToggle}>
-          <strong>{slotsQty > 1 ? `${slotsQty} slots` : `${slotsQty} slot`}</strong>
+          <span className={classes.groupTitle}>{slotsQty > 1 ? `${slotsQty} slots` : `${slotsQty} slot`}</span>
         </td>
       </React.Fragment>
     );
