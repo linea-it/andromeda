@@ -120,7 +120,7 @@ function TableNode(props) {
               <IconButton aria-label="close" className={classes.closeButton} onClick={handleNodeClick}>
                 <CloseIcon className={classes.closeIcon} />
               </IconButton>
-              <span className={classes.headerTitle}>{process}</span>
+              <span className={classes.headerTitle}>{`PROCESS NAME: ${process}`}</span>
             </React.Fragment>
           )}
           className={classes.cardHeader}
