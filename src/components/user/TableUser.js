@@ -81,7 +81,7 @@ function TableUser() {
       { name: 'cluster', title: 'Cluster' },
       { name: 'processes', title: 'Processes' },
       { name: 'jobs', title: 'Jobs' },
-      { name: 'cluster_utilization', title: 'Cluster %' },
+      { name: 'cluster_utilization', title: 'CPU %' },
     ],
     rows: userStats.length > 0 ? userStats.map((user) => {
       const processes = activeProcessesByOwner.map(processesArr => (
