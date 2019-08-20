@@ -194,6 +194,7 @@ function TableProcess() {
           || row.process.indexOf(searchValue) > -1
           : row
       ))
+      // eslint-disable-next-line consistent-return
       .sort((a, b) => {
         const sortState = sort || sorting;
         if (sortState) {
