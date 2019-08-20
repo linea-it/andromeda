@@ -21,11 +21,11 @@ export const getProcesses = () =>
     axios.get(`${altix}/jobs`),
   ])
   .then(axios.spread((icexRes, altixRes) => {
-    const icexData = icexRes.data.filter((obj, pos, arr) => 
-      arr.map(mapObj => mapObj.Process).indexOf(obj.Process) === pos
+    const icexData = icexRes.data.filter((obj, pos, arr) =>
+      arr.map(mapObj => mapObj.Process + mapObj.Owner).indexOf(obj.Process + obj.Owner) === pos
     )
-    const altixData = altixRes.data.filter((obj, pos, arr) => 
-      arr.map(mapObj => mapObj.Process).indexOf(obj.Process) === pos
+    const altixData = altixRes.data.filter((obj, pos, arr) =>
+      arr.map(mapObj => mapObj.Process + mapObj.Owner).indexOf(obj.Process + obj.Owner) === pos
       &&
       obj["All queues are empty"] !== 'All'
     )
@@ -43,12 +43,12 @@ export const getProcessesByOwner = (owner) =>
     axios.get(`${icex}/jobs?Owner="${owner}"`),
     axios.get(`${altix}/jobs?Owner="${owner}"`),
   ])
-  .then(axios.spread((icexRes, altixRes) => 
-    altixRes.data.filter((obj, pos, arr) => 
+  .then(axios.spread((icexRes, altixRes) =>
+    altixRes.data.filter((obj, pos, arr) =>
       arr.map(mapObj => mapObj.Process)
       .indexOf(obj.Process) === pos
     )
-    .concat(icexRes.data.filter((obj, pos, arr) => 
+    .concat(icexRes.data.filter((obj, pos, arr) =>
       arr.map(mapObj => mapObj.Process)
       .indexOf(obj.Process) === pos
     ))
@@ -63,7 +63,7 @@ export const getJobsRunning = () =>
     axios.get(`${icex}/jobs`),
     axios.get(`${altix}/jobs`),
   ])
-  .then(axios.spread((icexRes, altixRes) => 
+  .then(axios.spread((icexRes, altixRes) =>
     altixRes.data
     .concat(icexRes.data)
     .filter(el => el.JobStatus === '2'))
