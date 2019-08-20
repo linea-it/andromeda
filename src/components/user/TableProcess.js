@@ -72,10 +72,10 @@ function TableProcess() {
   const [loading, setLoading] = useState(true);
   const [showNodeTable, setShowNodeTable] = useState(false);
   const [nodeTableData, setNodeTableData] = useState([]);
-  const [nodeTableProcess, setNodeTableProcess] = useState('Hello, World');
+  const [nodeTableProcess, setNodeTableProcess] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [sorting, setSorting] = useState([{ columnName: 'start_date', direction: 'desc' }]);
 
   function getActiveJobs() {
     api.getJobs()
@@ -83,7 +83,6 @@ function TableProcess() {
         setActiveJobs(res);
       });
   }
-
 
   function getActiveProcesses() {
     api.getProcesses()
@@ -123,8 +122,7 @@ function TableProcess() {
     );
   }
 
-
-  function getData() {
+  function loadData(sort) {
     const columns = [
       { name: 'user', title: 'Owner' },
       { name: 'cluster', title: 'Cluster' },
@@ -135,7 +133,8 @@ function TableProcess() {
       { name: 'nodes', title: 'Nodes' },
     ];
 
-    const rows = activeProcesses.map((process) => {
+
+    let rows = activeProcesses.map((process) => {
       const jobs = activeJobs.filter(
         job => job.Process === process.Process
         && job.ClusterName === process.ClusterName,
@@ -181,32 +180,55 @@ function TableProcess() {
         user: process.Owner ? process.Owner : null,
         process: process.Process ? process.Process : null,
         start_date: process.JobStartDate ? showStartDate(process.JobStartDate) : null,
+        start_date_data: process.JobStartDate ? process.JobStartDate : null,
         status: process.JobStatus ? status : null,
         submitted: process.Process ? submitted : null,
         cluster: process.ClusterName ? process.ClusterName : null,
         nodes: nodes ? showNodes(process.Process, remoteHosts, nodes) : null,
+        nodes_data: nodes ? nodes.length : null,
       };
-    }).filter(row => (
-      row.user
-        ? row.user.indexOf(searchValue) > -1
+    })
+      .filter(row => (
+        row.user
+          ? row.user.indexOf(searchValue) > -1
           || row.process.indexOf(searchValue) > -1
-        : row
-    ));
+          : row
+      ))
+      .sort((a, b) => {
+        const sortState = sort || sorting;
+        if (sortState) {
+          if (sortState[0].columnName === 'start_date' || sortState[0].columnName === 'nodes') {
+            return a[`${sortState[0].columnName}_data`] > b[`${sortState[0].columnName}_data`] ? 1 : -1;
+          }
+          return a[sortState[0].columnName] > b[sortState[0].columnName] ? 1 : -1;
+        }
+      });
+
+
+    const sortState = sort || sorting;
+    if (sortState[0].direction === 'desc') {
+      rows = rows.reverse();
+    }
 
     setData({ columns, rows });
+  }
+
+  function handleSorting(value) {
+    setSorting(value);
+    loadData(value);
+  }
+
+  function handleSearchValue(value) {
+    setSearchValue(value);
+    setCurrentPage(0);
+    loadData();
   }
 
   useEffect(() => {
     getActiveJobs();
     getActiveProcesses();
-    getData();
-  }, [loading, searchValue]);
-
-
-  function handleSearchValue(value) {
-    setSearchValue(value);
-    setCurrentPage(0);
-  }
+    loadData();
+  }, [loading]);
 
   const changeCurrentPage = pageNumber => setCurrentPage(pageNumber);
 
@@ -235,7 +257,8 @@ function TableProcess() {
               pageSize={10}
             />
             <SortingState
-              defaultSorting={[{ columnName: 'start_date', direction: 'asc' }]}
+              defaultSorting={sorting}
+              onSortingChange={handleSorting}
             />
             <IntegratedPaging />
             <IntegratedSorting />
