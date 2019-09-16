@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import CardStatus from './dashboard/CardStatus';
-import Chart from './dashboard/Chart';
+import CardStatus from './CardStatus';
+import Chart from './Chart';
 import * as api from '../api/Api';
 
 const useStyles = makeStyles(({
@@ -29,12 +29,12 @@ const useStyles = makeStyles(({
 
 function Dashboard() {
   const classes = useStyles();
-  const [processes, setProcesses] = React.useState([]);
-  const [nodes, setNodes] = React.useState([]);
-  const [slots, setSlots] = React.useState([]);
-  const [users, setUsers] = React.useState([]);
-  const [jobsRunning, setJobsRunning] = React.useState([]);
-  const [jobsIdle, setJobsIdle] = React.useState([]);
+  const [processes, setProcesses] = useState([]);
+  const [nodes, setNodes] = useState([]);
+  const [slots, setSlots] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [jobsRunning, setJobsRunning] = useState([]);
+  const [jobsIdle, setJobsIdle] = useState([]);
 
   function getProcesses() {
     api.getProcesses()

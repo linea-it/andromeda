@@ -42,22 +42,30 @@ const SortingIcon = ({ direction }) => (direction === 'asc' ? (
   <ArrowDownward style={{ fontSize: '18px' }} />
 ));
 
-const SortLabel = ({ onSort, children, direction }) => {
+const SortLabel = ({
+  onSort, children, direction, ...restProps
+}) => {
   const classes = useStyles();
   return (
     <Tooltip title={children.props.children}>
-      <span onClick={onSort} className={classes.invisibleButton}>
+      <span
+        onClick={!restProps.disabled ? onSort : null}
+        className={!restProps.disabled ? classes.invisibleButton : null}
+        style={{ whiteSpace: `${restProps.column.hasLineBreak ? 'normal' : 'nowrap'}` }}
+      >
         {children}
-        {direction && <SortingIcon direction={direction} />}
+        {!restProps.disabled
+          ? direction && <SortingIcon direction={direction} />
+          : null}
       </span>
     </Tooltip>
   );
 };
 
-const CustomTableHeaderRowCell = () => (
+const CustomTableHeaderRowCell = ({ hasSorting }) => (
   <TableHeaderRow
     cellComponent={TableHeaderRowCell}
-    showSortingControls
+    showSortingControls={!!hasSorting}
     sortLabelComponent={SortLabel}
   />
 );
@@ -78,6 +86,14 @@ SortLabel.propTypes = {
 
 SortLabel.defaultProps = {
   direction: null,
+};
+
+CustomTableHeaderRowCell.defaultProps = {
+  hasSorting: true,
+};
+
+CustomTableHeaderRowCell.propTypes = {
+  hasSorting: PropTypes.bool,
 };
 
 export default CustomTableHeaderRowCell;
