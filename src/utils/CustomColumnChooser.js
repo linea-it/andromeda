@@ -20,9 +20,10 @@ class CustomColumnChooser extends Component {
   constructor(props) {
     super(props);
     this.state = { chooserAllChecked: true };
+    this.containerComponent = this.containerComponent.bind(this);
   }
 
-  containerComponent = (columns) => {
+  containerComponent(columns) {
     let isAllChecked = true;
     const { chooserAllChecked } = this.state;
 
@@ -41,22 +42,25 @@ class CustomColumnChooser extends Component {
           return (
             <React.Fragment key={key}>
               {isFirstIndex ? (
-                <React.Fragment>
+                <>
                   <FormGroup row style={styles.chooserFormGroupWrapper}>
                     <FormControlLabel
                       control={(
                         <Checkbox
-                          checked={isAllChecked === false ? isAllChecked : chooserAllChecked}
-                          value="all"
-                          onChange={() => this.handleToggleAll(columns.children)
+                          checked={
+                            isAllChecked === false
+                              ? isAllChecked
+                              : chooserAllChecked
                           }
+                          value="all"
+                          onChange={() => this.handleToggleAll(columns.children)}
                         />
                       )}
                       label="All"
                     />
                   </FormGroup>
                   <Divider />
-                </React.Fragment>
+                </>
               ) : null}
               <FormGroup row style={styles.chooserFormGroupWrapper}>
                 <FormControlLabel
@@ -64,8 +68,7 @@ class CustomColumnChooser extends Component {
                     <Checkbox
                       checked={!column.props.item.hidden}
                       value={item.name}
-                      onChange={() => this.handleToggle(index, columns.children, toggle)
-                      }
+                      onChange={() => this.handleToggle(index, columns.children, toggle)}
                     />
                   )}
                   label={item.title}
@@ -79,16 +82,14 @@ class CustomColumnChooser extends Component {
           "Warning: Cannot update during an existing state transition (such as within `render`).
           Render methods should be a pure function of props and state."
         */}
-        {
-          !isAllChecked
-            ? this.setState({ chooserAllChecked: isAllChecked })
-            : null
-        }
+        {!isAllChecked
+          ? this.setState({ chooserAllChecked: isAllChecked })
+          : null}
       </Paper>
     );
-  };
+  }
 
-  handleToggle = (currentColumnIndex, columns, toggle) => {
+  handleToggle(currentColumnIndex, columns, toggle) {
     toggle();
     let isAllChecked = true;
     columns.map((column, index) => {
@@ -103,13 +104,11 @@ class CustomColumnChooser extends Component {
     });
 
     this.setState({ chooserAllChecked: isAllChecked });
-  };
+  }
 
-  handleToggleAll = (columns) => {
+  handleToggleAll(columns) {
+    this.setState(prevState => ({ chooserAllChecked: !prevState.chooserAllChecked }));
     const { chooserAllChecked } = this.state;
-
-    this.setState({ chooserAllChecked: !chooserAllChecked });
-
     columns.map((column) => {
       if (chooserAllChecked) {
         if (!column.props.item.hidden) {
@@ -119,7 +118,7 @@ class CustomColumnChooser extends Component {
         column.props.onToggle();
       }
     });
-  };
+  }
 
   render() {
     return <ColumnChooser containerComponent={this.containerComponent} />;
