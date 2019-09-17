@@ -2,8 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-// import Toolbar from '@material-ui/core/Toolbar';
+// import AppBar from '@material-ui/core/AppBar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -19,8 +18,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
 import Logo from './assets/img/linea.png';
-// import Report from './components/Report';
-// import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 import Icex from './components/Icex';
@@ -34,25 +31,25 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     height: '100%',
   },
-  appBar: {
-    backgroundColor: '#fff',
-    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2)',
-    color: '#000',
-    width: `calc(100% - ${theme.spacing(7) + 1}px)`,
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
+  // appBar: {
+  //   backgroundColor: '#fff',
+  //   boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2)',
+  //   color: '#000',
+  //   width: `calc(100% - ${theme.spacing(7) + 1}px)`,
+  //   zIndex: theme.zIndex.drawer + 1,
+  //   transition: theme.transitions.create(['width', 'margin'], {
+  //     easing: theme.transitions.easing.sharp,
+  //     duration: theme.transitions.duration.leavingScreen,
+  //   }),
+  // },
+  // appBarShift: {
+  //   marginLeft: drawerWidth,
+  //   width: `calc(100% - ${drawerWidth}px)`,
+  //   transition: theme.transitions.create(['width', 'margin'], {
+  //     easing: theme.transitions.easing.sharp,
+  //     duration: theme.transitions.duration.enteringScreen,
+  //   }),
+  // },
   menuButton: {
     marginRight: 36,
     color: '#fff',
@@ -193,16 +190,16 @@ function MiniDrawer() {
     <div className={classes.root}>
       <Router>
         <CssBaseline />
-        <AppBar
+        {/* <AppBar
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
-        >
-          {/* <Toolbar className={classes.toolbar}>
+        > */}
+        {/* <Toolbar className={classes.toolbar}>
             <Login />
           </Toolbar> */}
-        </AppBar>
+        {/* </AppBar> */}
         <Drawer
           variant="permanent"
           className={clsx(classes.drawer, {
