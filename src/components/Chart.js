@@ -50,9 +50,9 @@ export default function Chart() {
   const classes = useStyles();
   const [count, setCount] = useState(1);
   const [icex, setIcex] = useState([
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1563362232&g=mem_report&z=medium&_=1563364904424&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1563362232&g=cpu_report&z=medium&_=1563364904425&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&st=1563362232&g=network_report&z=medium&_=1563364904425&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=mem_report&z=medium&_=1563364904424&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=cpu_report&z=medium&_=1563364904425&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=network_report&z=medium&_=1563364904425&st=',
     'http://condorapi.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute+Nodes&r=hour&st=1563364897&host_regex=&st=',
   ]);
   const [altix, setAltix] = useState([
@@ -68,10 +68,10 @@ export default function Chart() {
 
   useEffect(() => {
     setIcex(
-      icex.map(node => node + count),
+      icex.map(node => `${node.split('&st=')[0]}&st=${count}`),
     );
     setAltix(
-      altix.map(node => node + count),
+      altix.map(node => `${node.split('&st=')[0]}&st=${count}`),
     );
   }, [count]);
 

@@ -24,6 +24,10 @@ const useStyles = makeStyles({
       color: 'rgba(0, 0, 0, 0.87)',
     },
   },
+  nodeStats: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
 });
 
 
@@ -33,14 +37,14 @@ function CustomTableGroupRow({ rows }) {
   const TableGroupRowCell = ({ ...restProps }) => {
     const slotsQty = rows.filter(row => row.node === restProps.row.value).length;
     return (
-      <React.Fragment>
+      <>
         <TableGroupRow.Cell {...restProps} colSpan={2} className={classes.groupTitle}>
           {restProps.row.value}
         </TableGroupRow.Cell>
         <td className={classes.tableCell} onClick={restProps.onToggle}>
           <span className={classes.groupTitle}>{slotsQty > 1 ? `${slotsQty} slots` : `${slotsQty} slot`}</span>
         </td>
-      </React.Fragment>
+      </>
     );
   };
 
