@@ -207,7 +207,7 @@ function User() {
 
         const nodes = remoteHosts
           .map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1])
-          .filter((el, i, arr) => arr.indexOf(el) === i);
+          .filter((node, i, arr) => arr.indexOf(node) === i);
 
         let submitted = '';
         let status = 'Unknown';
