@@ -221,9 +221,7 @@ function User() {
         if (jobs.filter(job => job.JobStatus === '2').length > 0) {
           status = 'Running';
         }
-        if (process.Process === '5696') {
-          console.log(nodes);
-        }
+
         return {
           user: process.Owner ? process.Owner : null,
           process: process.Process ? process.Process : null,

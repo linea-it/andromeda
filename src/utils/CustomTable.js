@@ -318,7 +318,9 @@ function CustomTable({
     return (
       <>
         <Grid rows={rows} columns={customColumns}>
-          {hasSearching ? <SearchState onValueChange={changeSearchValue} value={searchValue} /> : null}
+          {hasSearching
+            ? <SearchState onValueChange={changeSearchValue} value={searchValue} />
+            : null}
           {hasSorting
             ? <SortingState sorting={sorting} onSortingChange={changeSorting} />
             : null }
