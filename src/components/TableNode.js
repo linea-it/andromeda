@@ -70,13 +70,17 @@ function TableNode(props) {
       .then((res => setNodes(res)));
   }, []);
 
-  function slotsIncrementor(n, node) {
+  function slotsIncrementor(n, node, imageSize) {
     let i = 1;
     const r = [];
     while (i <= n) {
+      // eslint-disable-next-line no-loop-func
+      const cpu = nodes.filter(el => el.Name === `slot${i}@${node.split('@')[1]}`)[0].LoadAvg;
       r.push({
         slot: `slot${i}`,
         node: node ? node.split('.')[0].split('@')[1] : null,
+        imageSize,
+        cpu,
       });
       // eslint-disable-next-line no-plusplus
       i++;
@@ -87,8 +91,8 @@ function TableNode(props) {
   const columns = [
     { name: 'node', title: 'Node' },
     { name: 'slot', title: 'Slot' },
-    // { name: 'memory', title: 'Memory' },
-    // { name: 'cpu', title: 'CPU' },
+    { name: 'cpu', title: 'CPU' },
+    { name: 'memory', title: 'Memory' },
   ];
   const showNode = (remoteHost) => {
     if (remoteHost) {
@@ -103,11 +107,13 @@ function TableNode(props) {
       const slots = job.RemoteHost.split('@')[0];
       if (job.RequiresWholeMachine === 'True') {
         const slotsAmount = Number(nodes.filter(node => node.Name === job.RemoteHost)[0].TotalCpus.split('.')[0]);
-        lines = lines.concat(slotsIncrementor(slotsAmount, job.RemoteHost));
+        lines = lines.concat(slotsIncrementor(slotsAmount, job.RemoteHost, job.ImageSize));
       } else {
         lines = lines.concat(rows.concat([{
           node: showNode(job.RemoteHost),
           slot: job.RemoteHost ? slots : null,
+          imageSize: job.ImageSize ? job.ImageSize : null,
+          cpu: nodes.filter(node => node.Name === job.RemoteHost)[0].LoadAvg,
         }]));
       }
     });
@@ -120,7 +126,7 @@ function TableNode(props) {
       onClose={handleNodeClick}
       aria-labelledby="nodes"
       open={showNodeTable}
-      maxWidth="sm"
+      maxWidth="md"
     >
       <Card className={classes.card}>
         <CardHeader
