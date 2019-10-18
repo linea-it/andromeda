@@ -87,7 +87,15 @@ function TableNode(props) {
   const columns = [
     { name: 'node', title: 'Node' },
     { name: 'slot', title: 'Slot' },
+    // { name: 'memory', title: 'Memory' },
+    // { name: 'cpu', title: 'CPU' },
   ];
+  const showNode = (remoteHost) => {
+    if (remoteHost) {
+      return remoteHost.split('.')[0].split('@')[1];
+    }
+    return '-';
+  };
 
   useEffect(() => {
     let lines = [];
@@ -98,7 +106,7 @@ function TableNode(props) {
         lines = lines.concat(slotsIncrementor(slotsAmount, job.RemoteHost));
       } else {
         lines = lines.concat(rows.concat([{
-          node: job.RemoteHost ? job.RemoteHost.split('.')[0].split('@')[1] : null,
+          node: showNode(job.RemoteHost),
           slot: job.RemoteHost ? slots : null,
         }]));
       }
@@ -117,12 +125,12 @@ function TableNode(props) {
       <Card className={classes.card}>
         <CardHeader
           title={(
-            <React.Fragment>
+            <>
               <IconButton aria-label="close" className={classes.closeButton} onClick={handleNodeClick}>
                 <CloseIcon className={classes.closeIcon} />
               </IconButton>
               <span className={classes.headerTitle}>{`PROCESS NAME: ${process}`}</span>
-            </React.Fragment>
+            </>
           )}
           className={classes.cardHeader}
         />
