@@ -188,7 +188,8 @@ function User() {
               .indexOf(obj.RemoteHost + process.Owner) === pos);
 
         const nodes = remoteHosts
-          .map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1]);
+          .map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1])
+          .filter((node, i, arr) => arr.indexOf(node) === i);
 
         let submitted = '';
         let status = 'Unknown';
@@ -220,7 +221,9 @@ function User() {
         if (jobs.filter(job => job.JobStatus === '2').length > 0) {
           status = 'Running';
         }
-
+        if (process.Process === '5696') {
+          console.log(nodes);
+        }
         return {
           user: process.Owner ? process.Owner : null,
           process: process.Process ? process.Process : null,
