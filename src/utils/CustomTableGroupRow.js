@@ -24,23 +24,39 @@ const useStyles = makeStyles({
       color: 'rgba(0, 0, 0, 0.87)',
     },
   },
+  nodeStats: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
 });
 
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes} Bytes`;
+  if (bytes < 1048576) return `${(bytes / 1024).toFixed(3)} KB`;
+  if (bytes < 1073741824) return `${(bytes / 1048576).toFixed(3)} MB`;
+  return `${(bytes / 1073741824).toFixed(3)} GB`;
+}
 
 function CustomTableGroupRow({ rows }) {
   const classes = useStyles();
 
   const TableGroupRowCell = ({ ...restProps }) => {
-    const slotsQty = rows.filter(row => row.node === restProps.row.value).length;
+    const node = rows.filter(row => row.node === restProps.row.value);
     return (
-      <React.Fragment>
+      <>
         <TableGroupRow.Cell {...restProps} colSpan={2} className={classes.groupTitle}>
           {restProps.row.value}
         </TableGroupRow.Cell>
         <td className={classes.tableCell} onClick={restProps.onToggle}>
-          <span className={classes.groupTitle}>{slotsQty > 1 ? `${slotsQty} slots` : `${slotsQty} slot`}</span>
+          <span className={classes.groupTitle}>{node.length > 1 ? `${node.length} slots` : `${node.length} slot`}</span>
         </td>
-      </React.Fragment>
+        <td className={classes.tableCell} onClick={restProps.onToggle}>
+          <span className={classes.groupTitle}>{node[0].cpu}</span>
+        </td>
+        <td className={classes.tableCell} onClick={restProps.onToggle}>
+          <span className={classes.groupTitle}>{formatBytes(Number(node[0].imageSize))}</span>
+        </td>
+      </>
     );
   };
 

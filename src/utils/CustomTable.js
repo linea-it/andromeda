@@ -241,6 +241,7 @@ function CustomTable({
   const onClickAction = (column, row) => {
     if (modalContent !== null) {
       setCustomModalContent('');
+      setCustomModalContent(modalContent);
       setVisible(true);
     }
     column.action(row);
