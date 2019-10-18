@@ -17,8 +17,8 @@ export const getJobs = () =>
 
 export const getProcesses = () =>
   axios.all([
-    axios.get(`${icex}/jobs`),
-    axios.get(`${altix}/jobs`),
+    axios.get(`${icex}/jobs?cols=ImageSize`),
+    axios.get(`${altix}/jobs?cols=ImageSize`),
   ])
   .then(axios.spread((icexRes, altixRes) => {
     const icexData = icexRes.data.filter((obj, pos, arr) =>
