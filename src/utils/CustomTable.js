@@ -241,6 +241,7 @@ function CustomTable({
   const onClickAction = (column, row) => {
     if (modalContent !== null) {
       setCustomModalContent('');
+      setCustomModalContent(modalContent);
       setVisible(true);
     }
     column.action(row);
@@ -318,7 +319,9 @@ function CustomTable({
     return (
       <>
         <Grid rows={rows} columns={customColumns}>
-          {hasSearching ? <SearchState /> : null}
+          {hasSearching
+            ? <SearchState onValueChange={changeSearchValue} value={searchValue} />
+            : null}
           {hasSorting
             ? <SortingState sorting={sorting} onSortingChange={changeSorting} />
             : null }

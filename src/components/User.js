@@ -10,7 +10,7 @@ import moment from 'moment';
 import * as api from '../api/Api';
 import CustomTable from '../utils/CustomTable';
 import TableNode from './TableNode';
-// import TableProcess from './user/TableProcess';
+import ResourceUsage from './ResourceUsage';
 
 const useStyles = makeStyles(({
   root: {
@@ -73,6 +73,12 @@ function User() {
     process: '',
     data: [],
   });
+  const [resourceUsage, setResourceUsage] = useState({
+    visible: false,
+    data: [],
+    start_date: '',
+    current_date: '',
+  });
 
   const classes = useStyles();
   const userColumns = [
@@ -101,6 +107,18 @@ function User() {
         visible: !nodeTableModal.visible,
         process: el.process,
         data: el.remoteHosts,
+      }),
+      align: 'center',
+    },
+    {
+      name: 'resources_usage',
+      title: 'Resources Usage',
+      icon: () => <i className="fas fa-hdd" />,
+      action: el => setResourceUsage({
+        visible: !resourceUsage.visible,
+        data: el.remoteHosts,
+        start_date: moment.unix(el.start_date_original).format('MM/DD/YYYY+HH:mm'),
+        current_date: moment(new Date()).format('MM/DD/YYYY+HH:mm'),
       }),
       align: 'center',
     },
@@ -188,7 +206,8 @@ function User() {
               .indexOf(obj.RemoteHost + process.Owner) === pos);
 
         const nodes = remoteHosts
-          .map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1]);
+          .map(mapObj => mapObj.RemoteHost.split('.')[0].split('@')[1])
+          .filter((node, i, arr) => arr.indexOf(node) === i);
 
         let submitted = '';
         let status = 'Unknown';
@@ -212,31 +231,32 @@ function User() {
             status = 'Hold';
           } else if (jobs[0].JobStatus === '6') {
             status = 'Transferring Output';
-          } else {
-            status = 'Unknown';
           }
         }
-
         if (jobs.filter(job => job.JobStatus === '2').length > 0) {
           status = 'Running';
         }
-
         return {
           user: process.Owner ? process.Owner : null,
           process: process.Process ? process.Process : null,
           start_date: process.JobStartDate ? showStartDate(process.JobStartDate) : null,
-          start_date_data: process.JobStartDate ? process.JobStartDate : null,
+          start_date_original: process.JobStartDate ? process.JobStartDate : null,
           status: process.JobStatus ? status : null,
           submitted: process.Process ? submitted : null,
           cluster: process.ClusterName ? process.ClusterName : null,
           nodes: nodes ? nodes.length : null,
+          resources_usage: process.RemoteHost || null,
           remoteHosts,
         };
       }),
     );
-  }, [activeProcesses]);
+  }, [activeProcesses, activeJobs]);
 
   const handleNodeModalClose = () => setNodeTableModal({ visible: false, process: '', data: [] });
+
+  const handleResourceUsageClose = () => setResourceUsage({
+    visible: false, data: [], start_date: '', current_date: '',
+  });
 
   return (
     <>
@@ -282,6 +302,14 @@ function User() {
           </Grid>
         </Grid>
       </div>
+      <ResourceUsage
+        title="Resources Usage in Real Time"
+        showTable={resourceUsage.visible}
+        handleClose={handleResourceUsageClose}
+        remoteHosts={resourceUsage.data}
+        startDate={resourceUsage.start_date}
+        currentDate={resourceUsage.current_date}
+      />
       <TableNode
         process={nodeTableModal.process}
         showNodeTable={nodeTableModal.visible}

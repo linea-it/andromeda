@@ -99,10 +99,10 @@ function Altix() {
 
   useEffect(() => {
     setLineaGridPlots(
-      lineaGridPlots.map(node => node + count),
+      lineaGridPlots.map(node => `${node.split('&st=')[0]}&st=${count}`),
     );
     setLineaGridOverview(
-      lineaGridOverview.map(node => node + count),
+      lineaGridOverview.map(overview => `${overview.split('&st=')[0]}&st=${count}`),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);
