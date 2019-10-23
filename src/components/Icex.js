@@ -61,7 +61,7 @@ function Icex() {
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl08&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl09&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl10&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Comgated cluster loadpute%20Nodes&h=apl11&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes%20Nodes&h=apl11&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl12&l=&v=0.03&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl13&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl14&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
