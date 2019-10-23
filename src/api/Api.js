@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const icex = 'http://condorapi.linea.gov.br/icex';
-const altix = 'http://condorapi.linea.gov.br/altix';
+const icex = 'https://condorapi.linea.gov.br/icex';
+const altix = 'https://condorapi.linea.gov.br/altix';
 
 export const getJobs = () =>
   axios.all([
