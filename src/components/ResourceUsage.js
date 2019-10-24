@@ -100,7 +100,7 @@ function ResourceUsage({
             if (node.indexOf('r1') === 0) grid = 'Rack%201';
 
             return (
-               <React.Fragment key={node}>
+              <React.Fragment key={node}>
                 <Grid container spacing={2} className={classes.cardsContainer}>
                   <Grid item xs={12}>
 
