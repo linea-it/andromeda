@@ -51,34 +51,34 @@ function Icex() {
   const classes = useStyles();
   const [count, setCount] = useState(1);
   const [computerNodesPlots, setComputerNodesPlots] = useState([
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl01&l=&v=1.06&r=hour&su=1&x=16.09&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl02&l=&v=1.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl03&l=&v=0.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl04&l=&v=1.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl05&l=&v=0.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl06&l=&v=1.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl07&l=&v=0.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl08&l=&v=1.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl09&l=&v=1.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl10&l=&v=0.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl11&l=&v=0.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl12&l=&v=0.03&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl13&l=&v=1.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl14&l=&v=0.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl15&l=&v=17.00&r=hour&su=1&x=17.00&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl16&l=&v=1.05&r=hour&su=1&x=17.00&n=0&vl=+&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl01&l=&v=1.06&r=hour&su=1&x=16.09&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl02&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl03&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl04&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl05&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl06&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl07&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl08&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl09&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl10&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes%20Nodes&h=apl11&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl12&l=&v=0.03&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl13&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl14&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl15&l=&v=17.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl16&l=&v=1.05&r=hour&su=1&x=17.00&n=0&st=',
   ]);
   const [rackPlots, setRackPlots] = useState([
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n0&l=&v=1.00&r=hour&su=1&x=1.03&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n1&l=&v=0.00&r=hour&su=1&x=1.03&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n0&l=&v=0.00&r=hour&su=1&x=1.03&n=0&vl=+&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n1&l=&v=0.01&r=hour&su=1&x=1.03&n=0&vl=+&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n0&l=&v=1.00&r=hour&su=1&x=1.03&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n1&l=&v=0.00&r=hour&su=1&x=1.03&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n0&l=&v=0.00&r=hour&su=1&x=1.03&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n1&l=&v=0.01&r=hour&su=1&x=1.03&n=0&st=',
   ]);
   const [computerNodesOverview, setComputerNodesOverview] = useState([
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=mem_report&z=medium&_=1563364904424&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=cpu_report&z=medium&_=1563364904425&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=network_report&z=medium&_=1563364904425&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute+Nodes&r=hour&host_regex=&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute+Nodes&r=hour&st=',
   ]);
   const [rackOverview, setRackOverview] = useState([
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Rack%201&m=load_one&r=hour&s=by%20name&hc=4&mc=2&g=mem_report&z=medium&st=',
@@ -97,19 +97,19 @@ function Icex() {
 
   useEffect(() => {
     setComputerNodesPlots(
-      computerNodesPlots.map(node => `${node.split('&st=')}&st=${count}`),
+      computerNodesPlots.map(node => `${node.split('&st=')[0]}&st=${count}`),
     );
 
     setRackPlots(
-      rackPlots.map(node => `${node.split('&st=')}&st=${count}`),
+      rackPlots.map(node => `${node.split('&st=')[0]}&st=${count}`),
     );
 
     setComputerNodesOverview(
-      computerNodesOverview.map(overview => `${overview.split('&st=')}&st=${count}`),
+      computerNodesOverview.map(overview => `${overview.split('&st=')[0]}&st=${count}`),
     );
 
     setRackOverview(
-      rackOverview.map(overview => `${overview.split('&st=')}&st=${count}`),
+      rackOverview.map(overview => `${overview.split('&st=')[0]}&st=${count}`),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count]);

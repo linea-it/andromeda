@@ -96,7 +96,9 @@ function ResourceUsage({
               : remoteHost.RemoteHost.split('@')[1];
 
             const cluster = remoteHost.ClusterName === 'ICE-X' ? 'gangliaicx' : 'gangliaaltix';
-            const grid = remoteHost.ClusterName === 'ICE-X' ? 'Compute%20Nodes' : 'Rocks-Cluster%20Production%20LIneA';
+            let grid = remoteHost.ClusterName === 'ICE-X' ? 'Compute%20Nodes' : 'Rocks-Cluster%20Production%20LIneA';
+            if (node.indexOf('r1') === 0) grid = 'Rack%201';
+
             return (
               <React.Fragment key={node}>
                 <Grid container spacing={2} className={classes.cardsContainer}>

@@ -1,5 +1,7 @@
-## Running with docker
+### Running with docker
+
 - Using docker-compose:
+
 ```shell
 cp docker-compose.yml.template docker-compose.yml
 docker-compose up
