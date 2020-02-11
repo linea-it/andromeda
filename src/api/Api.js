@@ -105,3 +105,20 @@ export const getNodes = () =>
     console.error(err);
     return err;
   });
+
+
+export const getHistory = ({ limit, offset}) => {
+
+  const params = {
+    limit: limit,
+    offset: offset
+  }
+
+
+  return axios.get(`http://loginicx.linea.gov.br:5001/history`, { params })
+    .then(res => res.data)
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+}
