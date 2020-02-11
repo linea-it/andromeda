@@ -68,7 +68,10 @@ function History() {
 
   const [cluster, setCluster] = useState('icex');
   const [labelWidth, setLabelWidth] = useState(0);
-  const [historyTableData, setHistoryTableData] = useState([]);
+  const [historyTableData, setHistoryTableData] = useState({
+    rows: [],
+    totalCount: 0,
+  });
 
   const inputLabel = useRef(null);
 
@@ -78,17 +81,19 @@ function History() {
 
   const historyColumns = [
     { name: 'Owner', title: 'Owner' },
-    { name: 'processes', title: 'Processes' },
-    { name: 'Job', title: 'Job' },
-    { name: 'JobStartDate', title: 'Start Date' },
-    { name: 'JobFinishedHookDone', title: 'End Date' },
-    { name: 'LastRemoteHost', title: 'Last Slot' },
-    { name: 'ServerTime', title: 'Server Time' },
+    { name: 'Process', title: 'Process', align: 'center', customElement: row => row.Process !== 'None' ? row.Process : '-' },
+    { name: 'Job', title: 'Job', customElement: row => parseInt(row.Job) },
+    { name: 'JobStartDate', title: 'Start Date', customElement: row => moment(row.JobStartDate).format('YYYY-MM-DD') },
+    { name: 'JobFinishedHookDone', title: 'End Date', customElement: row => moment(row.JobStartDate).format('YYYY-MM-DD') },
+    { name: 'LastRemoteHost', title: 'Last Slot', customElement: row => row.LastRemoteHost.split('@')[0], align: 'center' },
+    { name: 'ServerTime', title: 'Server Time', customElement: row => row.ServerTime !== 'None' ? row.ServerTime : '-', align: 'center' },
   ];
 
-  const loadData = async () => {
-    const history = await getHistory({ limit: 10, offset: 0 });
-    setHistoryTableData(history);
+  const loadData = async ({ pageSize, currentPage }) => {
+
+    const rows = await getHistory({ limit: pageSize, offset: currentPage * pageSize });
+    const totalCount = await getHistory({ limit: 0 });
+    setHistoryTableData({ rows, totalCount: totalCount.length });
   };
 
   return (
@@ -119,9 +124,10 @@ function History() {
               <CardContent>
                 <CustomTable
                   columns={historyColumns}
-                  data={historyTableData}
+                  data={historyTableData.rows}
                   loadData={loadData}
                   hasResizing={false}
+                  totalCount={historyTableData.totalCount}
                 />
               </CardContent>
             </Card>
