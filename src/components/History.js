@@ -80,20 +80,49 @@ function History() {
   const handleClusterChange = e => setCluster(e.target.value);
 
   const historyColumns = [
-    { name: 'Owner', title: 'Owner' },
-    { name: 'Process', title: 'Process', align: 'center', customElement: row => row.Process !== 'None' ? row.Process : '-' },
-    { name: 'Job', title: 'Job', customElement: row => parseInt(row.Job) },
-    { name: 'JobStartDate', title: 'Start Date', customElement: row => moment(row.JobStartDate).format('YYYY-MM-DD') },
-    { name: 'JobFinishedHookDone', title: 'End Date', customElement: row => moment(row.JobStartDate).format('YYYY-MM-DD') },
-    { name: 'LastRemoteHost', title: 'Last Slot', customElement: row => row.LastRemoteHost.split('@')[0], align: 'center' },
-    { name: 'ServerTime', title: 'Server Time', customElement: row => row.ServerTime !== 'None' ? row.ServerTime : '-', align: 'center' },
+    {
+      name: 'Owner',
+      title: 'Owner',
+    },
+    {
+      name: 'Process',
+      title: 'Process',
+      align: 'center',
+      customElement: row => (row.Process !== 'None' ? row.Process : '-'),
+    },
+    {
+      name: 'Job',
+      title: 'Job',
+      customElement: row => parseInt(row.Job, 10),
+    },
+    {
+      name: 'JobStartDate',
+      title: 'Start Date',
+      customElement: row => moment(row.JobStartDate).format('YYYY-MM-DD'),
+    },
+    {
+      name: 'JobFinishedHookDone',
+      title: 'End Date',
+      customElement: row => moment(row.JobStartDate).format('YYYY-MM-DD'),
+    },
+    {
+      name: 'LastRemoteHost',
+      title: 'Last Slot',
+      customElement: row => row.LastRemoteHost.split('@')[0],
+      align: 'center',
+    },
+    {
+      name: 'ServerTime',
+      title: 'Server Time',
+      customElement: row => (row.ServerTime !== 'None' ? row.ServerTime : '-'),
+      align: 'center',
+    },
   ];
 
   const loadData = async ({ pageSize, currentPage }) => {
-
     const rows = await getHistory({ limit: pageSize, offset: currentPage * pageSize });
     const totalCount = await getHistory({ limit: 0 });
-    setHistoryTableData({ rows, totalCount: totalCount.length });
+    if (rows && totalCount) setHistoryTableData({ rows, totalCount: totalCount.length });
   };
 
   return (

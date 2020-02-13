@@ -162,6 +162,7 @@ function User() {
     getActiveJobs();
     getUsersStats();
     getActiveProcesses();
+  // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -190,7 +191,7 @@ function User() {
         };
       }),
     );
-  }, [activeProcessesByOwner]);
+  }, [activeProcessesByOwner, activeJobs, userStats]);
 
   useEffect(() => {
     setProcessTableData(

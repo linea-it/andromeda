@@ -73,7 +73,7 @@ export default function Chart() {
     setAltix(
       altix.map(node => `${node.split('&st=')[0]}&st=${count}`),
     );
-  }, [count]);
+  }, [count, icex, altix]);
 
 
   return (

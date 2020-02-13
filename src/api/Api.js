@@ -119,6 +119,6 @@ export const getHistory = ({ limit, offset}) => {
     .then(res => res.data)
     .catch((err) => {
       console.error(err);
-      return err;
+      return null;
     });
 }

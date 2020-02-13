@@ -103,21 +103,24 @@ function TableNode(props) {
 
   useEffect(() => {
     let lines = [];
-    jobs.map((job) => {
-      const slots = job.RemoteHost.split('@')[0];
-      if (job.RequiresWholeMachine === 'True') {
-        const slotsAmount = Number(nodes.filter(node => node.Name === job.RemoteHost)[0].TotalCpus.split('.')[0]);
-        lines = lines.concat(slotsIncrementor(slotsAmount, job.RemoteHost, job.ImageSize));
-      } else {
-        lines = lines.concat(rows.concat([{
-          node: showNode(job.RemoteHost),
-          slot: job.RemoteHost ? slots : null,
-          imageSize: job.ImageSize ? job.ImageSize : null,
-          cpu: nodes.filter(node => node.Name === job.RemoteHost)[0].LoadAvg,
-        }]));
-      }
-    });
-    setRows(lines);
+    if (jobs.length > 0) {
+      jobs.forEach((job) => {
+        const slots = job.RemoteHost.split('@')[0];
+        if (job.RequiresWholeMachine === 'True') {
+          const slotsAmount = Number(nodes.filter(node => node.Name === job.RemoteHost)[0].TotalCpus.split('.')[0]);
+          lines = lines.concat(slotsIncrementor(slotsAmount, job.RemoteHost, job.ImageSize));
+        } else {
+          lines = lines.concat(rows.concat([{
+            node: showNode(job.RemoteHost),
+            slot: job.RemoteHost ? slots : null,
+            imageSize: job.ImageSize ? job.ImageSize : null,
+            cpu: nodes.filter(node => node.Name === job.RemoteHost)[0].LoadAvg,
+          }]));
+        }
+      });
+      setRows(lines);
+    }
+    // eslint-disable-next-line
   }, [jobs]);
 
 
