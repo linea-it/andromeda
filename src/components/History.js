@@ -157,6 +157,7 @@ function History() {
                   loadData={loadData}
                   hasResizing={false}
                   totalCount={historyTableData.totalCount}
+                  hasSorting={false}
                 />
               </CardContent>
             </Card>
