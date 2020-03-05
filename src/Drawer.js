@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-// import AppBar from '@material-ui/core/AppBar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -23,6 +22,7 @@ import Footer from './components/Footer';
 import Icex from './components/Icex';
 import Altix from './components/Altix';
 import User from './components/User';
+import History from './components/History';
 
 const drawerWidth = 240;
 
@@ -31,25 +31,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     height: '100%',
   },
-  // appBar: {
-  //   backgroundColor: '#fff',
-  //   boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2)',
-  //   color: '#000',
-  //   width: `calc(100% - ${theme.spacing(7) + 1}px)`,
-  //   zIndex: theme.zIndex.drawer + 1,
-  //   transition: theme.transitions.create(['width', 'margin'], {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.leavingScreen,
-  //   }),
-  // },
-  // appBarShift: {
-  //   marginLeft: drawerWidth,
-  //   width: `calc(100% - ${drawerWidth}px)`,
-  //   transition: theme.transitions.create(['width', 'margin'], {
-  //     easing: theme.transitions.easing.sharp,
-  //     duration: theme.transitions.duration.enteringScreen,
-  //   }),
-  // },
   menuButton: {
     marginRight: 36,
     color: '#fff',
@@ -190,16 +171,6 @@ function MiniDrawer() {
     <div className={classes.root}>
       <Router>
         <CssBaseline />
-        {/* <AppBar
-          position="fixed"
-          className={clsx(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-        > */}
-        {/* <Toolbar className={classes.toolbar}>
-            <Login />
-          </Toolbar> */}
-        {/* </AppBar> */}
         <Drawer
           variant="permanent"
           className={clsx(classes.drawer, {
@@ -257,6 +228,18 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
+            <Link to="/history" className={classes.invisibleLink}>
+              <ListItem button>
+                <ListItemIcon className={classes.ListIconDrawer}>
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-history')} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="History"
+                  className={classes.textDrawer}
+                />
+              </ListItem>
+            </Link>
+            <Divider className={classes.borderDrawer} />
             <Link to="/icex" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemIcon className={classes.ListIconDrawer}>
@@ -293,14 +276,12 @@ function MiniDrawer() {
         </Drawer>
         <div className={classes.bodyWrapper}>
           <main className={classes.content}>
-            {/* <div className={classes.btnGroup}>
-              <Report className={classes.reportDrawer} />
-            </div> */}
             <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/icex" component={Icex} />
             <Route exact path="/altix" component={Altix} />
             <Route exact path="/users" component={User} />
+            <Route exact path="/history" component={History} />
           </main>
           <Footer drawerOpen={open} />
         </div>

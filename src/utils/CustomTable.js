@@ -123,7 +123,7 @@ function CustomTable({
         sorting, pageSize, currentPage, after, filter, searchValue,
       });
     }
-  }, [sorting, currentPage, currentPage, pageSize, filter, searchValue]);
+  }, [sorting, currentPage, pageSize, filter, searchValue, after, loadData, remote]);
 
   const clearData = () => {
     setCustomData([]);
