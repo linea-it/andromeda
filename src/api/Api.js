@@ -115,7 +115,7 @@ export const getHistory = ({ limit, offset}) => {
   }
 
 
-  return axios.get(`http://loginicx.linea.gov.br:5001/history`, { params })
+  return axios.get('https://condorapi.linea.gov.br/testing/history', { params })
     .then(res => res.data)
     .catch((err) => {
       console.error(err);
