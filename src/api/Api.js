@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const icex = 'https://condorapi.linea.gov.br/icex';
 const altix = 'https://condorapi.linea.gov.br/altix';
+const icexHistory = 'https://condorapi.linea.gov.br/testing';
 
 export const getJobs = () =>
   axios.all([
@@ -114,11 +115,33 @@ export const getHistory = ({ limit, offset}) => {
     offset: offset
   }
 
-
-  return axios.get('https://condorapi.linea.gov.br/testing/history', { params })
+  return axios.get(`${icexHistory}/history`, { params })
     .then(res => res.data)
     .catch((err) => {
       console.error(err);
       return null;
     });
 }
+
+export const getTopUsers = ({
+  startDate,
+  endDate,
+  isToday,
+  limit,
+}) => {
+  if (isToday) {
+
+    console.log('endDate', endDate)
+
+    return axios
+      .get(
+        `${icexHistory}/top_users?JobFinishedHookDone__contains=${endDate}&limit=${limit || 10}`
+      )
+      .then(res => res.data);
+  }
+  return axios
+    .get(
+      `${icexHistory}/top_users?JobFinishedHookDone__range=${startDate},${endDate}&limit=${limit || 10}`
+    )
+    .then(res => res.data);
+};
