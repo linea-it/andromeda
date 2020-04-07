@@ -183,13 +183,13 @@ function History() {
     {
       name: 'LastRemoteHost',
       title: 'Last Slot',
-      customElement: row => row.LastRemoteHost.split('@')[0],
+      customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[0] : '-'),
       align: 'center',
     },
     {
       name: 'Out',
       title: 'Node',
-      customElement: row => row.LastRemoteHost.split('@')[1].split('.')[0],
+      customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[1].split('.')[0] : ''),
       align: 'center',
     },
     {
