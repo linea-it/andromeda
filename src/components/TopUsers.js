@@ -7,22 +7,30 @@ function TopUsers({ data }) {
     <Plot
       data={data}
       layout={{
-        width: '100%',
-        height: 480,
         title: 'Top Users',
-        barmode: 'group',
-        xaxis: {
-          title: 'Owner',
-          automargin: true,
-          autorange: true,
+        font: {
+          family: 'Roboto',
         },
-        yaxis: {
+        margin: {
+          // l: 0,
+          // r: 0,
+          // t: 0,
+          // b: 0,
+          pad: 0,
+          autoexpand: true,
+        },
+        xaxis: {
           title: 'UA (hour)',
           automargin: true,
           autorange: true,
           exponentformat: 'none',
           separatethousands: true,
           showgrid: true,
+        },
+        yaxis: {
+          title: 'Owner',
+          automargin: true,
+          autorange: true,
         },
         hovermode: 'closest',
         autosize: true,

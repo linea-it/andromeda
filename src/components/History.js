@@ -107,10 +107,11 @@ function History() {
       isToday,
     }).then((res) => {
       setTopUsers(res.map(row => ({
-        x: [row.Owner],
-        y: [row.TotalExecutionTime / 3600],
+        x: [row.TotalExecutionTime / 3600],
+        y: [row.Owner],
         name: row.Owner,
         type: 'bar',
+        orientation: 'h',
       })));
     });
   }, [period]);

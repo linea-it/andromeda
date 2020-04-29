@@ -20,5 +20,8 @@ code {
 }
 
 .js-plotly-plot .plot-container.plotly .svg-container {
+  width: 100% !important;
+  /* height: 'auto' !important; */
+  /* min-height: 400px; */
   margin: auto;
 }
