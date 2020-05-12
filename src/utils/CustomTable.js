@@ -414,8 +414,8 @@ function Table({
   const rows = customData.map((row) => {
     const line = {};
     Object.keys(row).forEach((key) => {
-      const column = columns.filter(el => el.name === key)[0];
-      if (key in row) {
+      if (row[key]) {
+        const column = columns.filter(el => el.name === key)[0];
         if (
           (column && column.icon && typeof row[key] !== 'object')
           /*
@@ -432,12 +432,12 @@ function Table({
             line[key] = (
               <>
                 <Button onClick={() => onClickAction(column, row)}>
-                  {column.icon}
+                  {typeof column.icon === 'function' ? column.icon(row) : column.icon}
                 </Button>
               </>
             );
           } else {
-            line[key] = <>{column.icon}</>;
+            line[key] = <>{typeof column.icon === 'function' ? column.icon(row) : column.icon}</>;
           }
           /*
             If the current row has a custom element, than render it, instead of the default.
@@ -447,8 +447,6 @@ function Table({
         } else {
           line[key] = row[key];
         }
-      } else if (column && column.customElement) {
-        line[key] = column.customElement(row);
       } else {
         line[key] = '-';
       }
