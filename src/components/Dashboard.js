@@ -33,8 +33,14 @@ function Dashboard() {
   const [nodes, setNodes] = useState([]);
   const [slots, setSlots] = useState([]);
   const [users, setUsers] = useState([]);
-  const [jobsRunning, setJobsRunning] = useState([]);
-  const [jobsIdle, setJobsIdle] = useState([]);
+  const [jobs, setJobs] = useState({
+    idle: [],
+    running: [],
+    removed: [],
+    completed: [],
+    held: [],
+    transferringOutput: [],
+  });
 
   function getProcesses() {
     api.getProcesses()
@@ -58,22 +64,32 @@ function Dashboard() {
       .then(res => setUsers(res));
   }
 
-  function getJobsRunning() {
-    api.getJobsRunning()
-      .then(res => setJobsRunning(res));
-  }
+  function getJobs() {
+    api.getJobs()
+      .then((res) => {
+        const idle = res.filter(el => el.JobStatus === '1');
+        const running = res.filter(el => el.JobStatus === '2');
+        const removed = res.filter(el => el.JobStatus === '3');
+        const completed = res.filter(el => el.JobStatus === '4');
+        const held = res.filter(el => el.JobStatus === '5');
+        const transferringOutput = res.filter(el => el.JobStatus === '6');
 
-  function getJobsIdle() {
-    api.getJobsIdle()
-      .then(res => setJobsIdle(res));
+        setJobs({
+          idle,
+          running,
+          removed,
+          completed,
+          held,
+          transferringOutput,
+        });
+      });
   }
 
   useEffect(() => {
     getNodes();
     getProcesses();
     getUsersStats();
-    getJobsRunning();
-    getJobsIdle();
+    getJobs();
   }, []);
 
   return (
@@ -81,13 +97,13 @@ function Dashboard() {
       <CssBaseline />
       <Typography component="h1" className={classes.title}>Dashboard</Typography>
       <div className={classes.root}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justify="center">
           {
             [
               {
                 title: 'Users',
                 active: users.length,
-                color: '#FEBC4F',
+                color: '#333300',
                 icon: 'fa-users',
               },
               {
@@ -109,19 +125,43 @@ function Dashboard() {
                 icon: 'fa-atom',
               },
               {
+                title: 'Jobs Idle',
+                active: jobs.idle.length,
+                color: '#FEBC4F',
+                icon: 'fa-spinner',
+              },
+              {
                 title: 'Jobs Running',
-                active: jobsRunning.length,
+                active: jobs.running.length,
                 color: '#00C68D',
                 icon: 'fa-running',
               },
               {
-                title: 'Jobs Idle',
-                active: jobsIdle.length,
+                title: 'Jobs Removed',
+                active: jobs.removed.length,
+                color: '#e60000',
+                icon: 'fa-times',
+              },
+              {
+                title: 'Jobs Completed',
+                active: jobs.completed.length,
                 color: '#377ADA',
+                icon: 'fa-check',
+              },
+              {
+                title: 'Jobs Held',
+                active: jobs.held.length,
+                color: '#808080',
                 icon: 'fa-people-carry',
               },
+              {
+                title: 'Jobs Transferring Output',
+                active: jobs.transferringOutput.length,
+                color: '#cc00cc',
+                icon: 'fa-exchange-alt',
+              },
             ].map(el => (
-              <Grid key={el.title} item xs={12} sm={6} md={2}>
+              <Grid key={el.title} item xs={12} sm={6} md={3}>
                 <CardStatus
                   title={el.title}
                   services={el.active}
