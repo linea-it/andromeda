@@ -211,8 +211,14 @@ function History() {
     },
   ];
 
-  const loadData = useCallback(({ pageSize, currentPage }) => {
-    getHistory({ limit: pageSize, offset: currentPage * pageSize })
+  const loadData = useCallback(({
+    pageSize, currentPage, searchValue, sorting,
+  }) => {
+    const ordering = sorting[0].direction === 'desc' ? `-${sorting[0].columnName}` : sorting[0].columnName;
+
+    getHistory({
+      limit: pageSize, offset: currentPage * pageSize, search: searchValue, sorting: ordering,
+    })
       .then(res => setHistoryTableData({ rows: res.data, totalCount: res.total_count }));
   }, []);
 
@@ -284,7 +290,6 @@ function History() {
                   loadData={loadData}
                   totalCount={historyTableData.totalCount}
                   hasResizing={false}
-                  hasSorting={false}
                   loading={false}
                 />
               </CardContent>
