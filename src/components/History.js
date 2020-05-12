@@ -123,6 +123,19 @@ function History() {
 
   const handleClusterChange = e => setCluster(e.target.value);
 
+
+  const handleResourceUsageClick = (row) => {
+    setResourceUsage({
+      visible: !resourceUsage.visible,
+      data: [{
+        RemoteHost: row.LastRemoteHost,
+        ClusterName: row.ClusterName,
+      }],
+      startDate: moment(row.JobStartDate).format('MM/DD/YYYY+HH:mm'),
+      endDate: moment(row.JobFinishedHookDone).format('MM/DD/YYYY+HH:mm'),
+    });
+  };
+
   const historyColumns = [
     {
       name: 'Owner',
@@ -191,22 +204,15 @@ function History() {
       name: 'Out',
       title: 'Node',
       customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[1].split('.')[0] : ''),
+      sortingEnabled: false,
       align: 'center',
     },
     {
       name: 'RequestCpus',
       title: 'Resources Usage',
-      icon: () => <i className="fas fa-hdd" />,
-      action: el => setResourceUsage({
-        visible: !resourceUsage.visible,
-        data: [{
-          RemoteHost: el.LastRemoteHost,
-          ClusterName: el.ClusterName,
-        }],
-        startDate: moment(el.JobStartDate).format('MM/DD/YYYY+HH:mm'),
-        endDate: moment(el.JobFinishedHookDone).format('MM/DD/YYYY+HH:mm'),
-      }),
+      customElement: row => <i className="fas fa-hdd" onClick={() => handleResourceUsageClick(row)} />,
       width: 130,
+      sortingEnabled: false,
       align: 'center',
     },
   ];
