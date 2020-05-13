@@ -8,6 +8,7 @@ function TopUsers({ data }) {
       data={data}
       layout={{
         title: 'Top Users',
+        height: 400,
         font: {
           family: 'Roboto',
         },

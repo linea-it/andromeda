@@ -92,8 +92,6 @@ export const getHistory = ({ limit, offset, search, sorting }) => {
     limit: limit,
   }
 
-  console.table(params)
-
   return axios.get(`${icexHistory}/history`, { params })
     .then(res => res.data)
     .catch((err) => {
