@@ -59,32 +59,6 @@ export const getProcessesByOwner = (owner) =>
     return err;
   });
 
-export const getJobsRunning = () =>
-  axios.all([
-    axios.get(`${icex}/jobs`),
-    axios.get(`${altix}/jobs`),
-  ])
-  .then(axios.spread((icexRes, altixRes) =>
-    altixRes.data
-    .concat(icexRes.data)
-    .filter(el => el.JobStatus === '2'))
-  )
-  .catch((err) => {
-    console.error(err);
-    return err;
-  });
-
-export const getJobsIdle = () =>
-  axios.all([
-    axios.get(`${icex}/jobs`),
-    axios.get(`${altix}/jobs`),
-  ])
-  .then(axios.spread((icexRes, altixRes) => altixRes.data.concat(icexRes.data).filter(el => el.JobStatus === '1')))
-  .catch((err) => {
-    console.error(err);
-    return err;
-  });
-
 export const getUsersStats = () =>
   axios.all([
     axios.get(`${icex}/users_stats`),
