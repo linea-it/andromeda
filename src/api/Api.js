@@ -108,12 +108,17 @@ export const getNodes = () =>
   });
 
 
-export const getHistory = ({ limit, offset}) => {
+export const getHistory = ({ limit, offset, search, sorting }) => {
+
 
   const params = {
+    search: search,
+    ordering: sorting,
+    offset: offset,
     limit: limit,
-    offset: offset
   }
+
+  console.table(params)
 
   return axios.get(`${icexHistory}/history`, { params })
     .then(res => res.data)

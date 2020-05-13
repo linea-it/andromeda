@@ -123,6 +123,19 @@ function History() {
 
   const handleClusterChange = e => setCluster(e.target.value);
 
+
+  const handleResourceUsageClick = (row) => {
+    setResourceUsage({
+      visible: !resourceUsage.visible,
+      data: [{
+        RemoteHost: row.LastRemoteHost,
+        ClusterName: row.ClusterName,
+      }],
+      startDate: moment(row.JobStartDate).format('MM/DD/YYYY+HH:mm'),
+      endDate: moment(row.JobFinishedHookDone).format('MM/DD/YYYY+HH:mm'),
+    });
+  };
+
   const historyColumns = [
     {
       name: 'Owner',
@@ -191,28 +204,27 @@ function History() {
       name: 'Out',
       title: 'Node',
       customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[1].split('.')[0] : ''),
+      sortingEnabled: false,
       align: 'center',
     },
     {
       name: 'RequestCpus',
       title: 'Resources Usage',
-      icon: () => <i className="fas fa-hdd" />,
-      action: el => setResourceUsage({
-        visible: !resourceUsage.visible,
-        data: [{
-          RemoteHost: el.LastRemoteHost,
-          ClusterName: el.ClusterName,
-        }],
-        startDate: moment(el.JobStartDate).format('MM/DD/YYYY+HH:mm'),
-        endDate: moment(el.JobFinishedHookDone).format('MM/DD/YYYY+HH:mm'),
-      }),
+      customElement: row => <i className="fas fa-hdd" onClick={() => handleResourceUsageClick(row)} />,
       width: 130,
+      sortingEnabled: false,
       align: 'center',
     },
   ];
 
-  const loadData = useCallback(({ pageSize, currentPage }) => {
-    getHistory({ limit: pageSize, offset: currentPage * pageSize })
+  const loadData = useCallback(({
+    pageSize, currentPage, searchValue, sorting,
+  }) => {
+    const ordering = sorting[0].direction === 'desc' ? `-${sorting[0].columnName}` : sorting[0].columnName;
+
+    getHistory({
+      limit: pageSize, offset: currentPage * pageSize, search: searchValue, sorting: ordering,
+    })
       .then(res => setHistoryTableData({ rows: res.data, totalCount: res.total_count }));
   }, []);
 
@@ -284,7 +296,6 @@ function History() {
                   loadData={loadData}
                   totalCount={historyTableData.totalCount}
                   hasResizing={false}
-                  hasSorting={false}
                   loading={false}
                 />
               </CardContent>
