@@ -164,6 +164,12 @@ function History() {
       width: 130,
     },
     {
+      name: 'GlobalJobId',
+      title: 'Start Time',
+      customElement: row => moment(row.JobStartDate).format('HH:mm:ss'),
+      width: 130,
+    },
+    {
       name: 'JobFinishedHookDone',
       title: 'End Date',
       customElement: row => (
@@ -171,6 +177,12 @@ function History() {
           {moment(row.JobFinishedHookDone).format('YYYY-MM-DD')}
         </span>
       ),
+      width: 130,
+    },
+    {
+      name: 'Args',
+      title: 'End Time',
+      customElement: row => moment(row.JobFinishedHookDone).format('HH:mm:ss'),
       width: 130,
     },
     {
@@ -206,6 +218,14 @@ function History() {
       customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[1].split('.')[0] : ''),
       sortingEnabled: false,
       align: 'center',
+    },
+    {
+      name: 'RequiresWholeMachine',
+      title: 'Whole Machine',
+      customElement: row => (row.RequiresWholeMachine === 'True' ? row.RequiresWholeMachine : 'False'),
+      sortingEnabled: false,
+      align: 'center',
+      width: 140,
     },
     {
       name: 'RequestCpus',
