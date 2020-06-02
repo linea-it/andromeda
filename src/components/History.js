@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, useRef, useCallback,
+  useEffect, useState, useRef,
 } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -83,7 +83,7 @@ function History() {
     startDate: '',
     endDate: '',
   });
-
+  const [reload, setReload] = useState(false);
 
   const inputLabel = useRef(null);
 
@@ -105,6 +105,7 @@ function History() {
       startDate,
       endDate,
       isToday,
+      cluster,
     }).then((res) => {
       setTopUsers(res.map(row => ({
         x: [row.TotalExecutionTime / 3600],
@@ -114,7 +115,7 @@ function History() {
         orientation: 'h',
       })));
     });
-  }, [period]);
+  }, [period, cluster]);
 
 
   useEffect(() => {
@@ -123,6 +124,9 @@ function History() {
 
   const handleClusterChange = e => setCluster(e.target.value);
 
+  useEffect(() => {
+    setReload(prevState => !prevState);
+  }, [cluster]);
 
   const handleResourceUsageClick = (row) => {
     setResourceUsage({
@@ -217,16 +221,16 @@ function History() {
     },
   ];
 
-  const loadData = useCallback(({
+  const loadData = ({
     pageSize, currentPage, searchValue, sorting,
   }) => {
     const ordering = sorting[0].direction === 'desc' ? `-${sorting[0].columnName}` : sorting[0].columnName;
 
     getHistory({
-      limit: pageSize, offset: currentPage * pageSize, search: searchValue, sorting: ordering,
+      limit: pageSize, offset: currentPage * pageSize, search: searchValue, sorting: ordering, cluster,
     })
       .then(res => setHistoryTableData({ rows: res.data, totalCount: res.total_count }));
-  }, []);
+  };
 
   const handleResourceUsageClose = () => setResourceUsage({
     visible: false, data: [], startDate: '', endDate: '',
@@ -296,7 +300,8 @@ function History() {
                   loadData={loadData}
                   totalCount={historyTableData.totalCount}
                   hasResizing={false}
-                  loading={false}
+                  loading
+                  reload={reload}
                 />
               </CardContent>
             </Card>
