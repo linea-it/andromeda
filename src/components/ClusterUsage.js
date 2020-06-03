@@ -8,30 +8,12 @@ function TopUsers({ data }) {
       data={data}
       layout={{
         title: 'Top Users',
-        height: 400,
         font: {
           family: 'Roboto',
         },
         margin: {
-          // l: 0,
-          // r: 0,
-          // t: 0,
-          // b: 0,
           pad: 0,
           autoexpand: true,
-        },
-        xaxis: {
-          title: 'UA (hour)',
-          automargin: true,
-          autorange: true,
-          exponentformat: 'none',
-          separatethousands: true,
-          showgrid: true,
-        },
-        yaxis: {
-          title: 'Owner',
-          automargin: true,
-          autorange: true,
         },
         hovermode: 'closest',
         autosize: true,
