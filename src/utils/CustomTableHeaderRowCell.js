@@ -51,7 +51,6 @@ const SortLabel = ({
       <span
         onClick={!restProps.disabled ? onSort : null}
         className={!restProps.disabled ? classes.invisibleButton : null}
-        style={{ whiteSpace: `${restProps.column.hasLineBreak ? 'normal' : 'nowrap'}` }}
       >
         {children}
         {!restProps.disabled
@@ -62,10 +61,10 @@ const SortLabel = ({
   );
 };
 
-const CustomTableHeaderRowCell = ({ hasSorting }) => (
+const CustomTableHeaderRowCell = () => (
   <TableHeaderRow
     cellComponent={TableHeaderRowCell}
-    showSortingControls={!!hasSorting}
+    showSortingControls
     sortLabelComponent={SortLabel}
   />
 );
@@ -86,14 +85,6 @@ SortLabel.propTypes = {
 
 SortLabel.defaultProps = {
   direction: null,
-};
-
-CustomTableHeaderRowCell.defaultProps = {
-  hasSorting: true,
-};
-
-CustomTableHeaderRowCell.propTypes = {
-  hasSorting: PropTypes.bool,
 };
 
 export default CustomTableHeaderRowCell;

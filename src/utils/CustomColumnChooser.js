@@ -1,3 +1,6 @@
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable no-tabs */
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -20,12 +23,10 @@ class CustomColumnChooser extends Component {
   constructor(props) {
     super(props);
     this.state = { chooserAllChecked: true };
-    this.containerComponent = this.containerComponent.bind(this);
   }
 
-  containerComponent(columns) {
+  containerComponent = (columns) => {
     let isAllChecked = true;
-    const { chooserAllChecked } = this.state;
 
     return (
       <Paper style={styles.chooserPaperWrapper}>
@@ -42,7 +43,7 @@ class CustomColumnChooser extends Component {
           return (
             <React.Fragment key={key}>
               {isFirstIndex ? (
-                <>
+                <React.Fragment>
                   <FormGroup row style={styles.chooserFormGroupWrapper}>
                     <FormControlLabel
                       control={(
@@ -50,17 +51,18 @@ class CustomColumnChooser extends Component {
                           checked={
                             isAllChecked === false
                               ? isAllChecked
-                              : chooserAllChecked
+                              : this.state.chooserAllChecked
                           }
                           value="all"
-                          onChange={() => this.handleToggleAll(columns.children)}
+                          onChange={() => this.handleToggleAll(columns.children)
+                          }
                         />
-                      )}
+											)}
                       label="All"
                     />
                   </FormGroup>
                   <Divider />
-                </>
+                </React.Fragment>
               ) : null}
               <FormGroup row style={styles.chooserFormGroupWrapper}>
                 <FormControlLabel
@@ -68,9 +70,10 @@ class CustomColumnChooser extends Component {
                     <Checkbox
                       checked={!column.props.item.hidden}
                       value={item.name}
-                      onChange={() => this.handleToggle(index, columns.children, toggle)}
+                      onChange={() => this.handleToggle(index, columns.children, toggle)
+                      }
                     />
-                  )}
+									)}
                   label={item.title}
                 />
               </FormGroup>
@@ -87,12 +90,12 @@ class CustomColumnChooser extends Component {
           : null}
       </Paper>
     );
-  }
+  };
 
-  handleToggle(currentColumnIndex, columns, toggle) {
+  handleToggle = (currentColumnIndex, columns, toggle) => {
     toggle();
     let isAllChecked = true;
-    columns.forEach((column, index) => {
+    columns.map((column, index) => {
       if (currentColumnIndex === index && column.props.item.hidden === false) {
         isAllChecked = false;
       } else if (
@@ -104,13 +107,15 @@ class CustomColumnChooser extends Component {
     });
 
     this.setState({ chooserAllChecked: isAllChecked });
-  }
+  };
 
-  handleToggleAll(columns) {
-    this.setState(prevState => ({ chooserAllChecked: !prevState.chooserAllChecked }));
-    const { chooserAllChecked } = this.state;
-    columns.forEach((column) => {
-      if (chooserAllChecked) {
+  handleToggleAll = (columns) => {
+    this.setState({
+      chooserAllChecked: !this.state.chooserAllChecked,
+    });
+
+    columns.map((column) => {
+      if (this.state.chooserAllChecked) {
         if (!column.props.item.hidden) {
           column.props.onToggle();
         }
@@ -118,7 +123,7 @@ class CustomColumnChooser extends Component {
         column.props.onToggle();
       }
     });
-  }
+  };
 
   render() {
     return <ColumnChooser containerComponent={this.containerComponent} />;
