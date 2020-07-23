@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-const icex = 'https://condorapi.linea.gov.br/icex';
+const icex = 'http://localhost:8080';
 const altix = 'https://condorapi.linea.gov.br/altix';
-const icexHistory = 'https://condorapi.linea.gov.br/testing';
+const icexHistory = 'http://localhost:8080';
 const altixHistory = 'https://condorapi.linea.gov.br/altix';
+
+// const icex = 'https://condorapi.linea.gov.br/icex';
+// const altix = 'https://condorapi.linea.gov.br/altix';
+// const icexHistory = 'https://condorapi.linea.gov.br/testing';
+// const altixHistory = 'https://condorapi.linea.gov.br/altix';
 
 export const getJobs = () =>
   axios.all([
@@ -85,16 +90,43 @@ export const getNodes = () =>
 
 export const getHistory = ({ cluster, limit, offset, search, sorting }) => {
 
-
+  const cols = 'ProcessId,Owner,Portal,ClusterName,Cmd';
   const params = {
     search: search,
     ordering: sorting,
     offset: offset,
     limit: limit,
+    cols: cols,
   }
-
   return axios.get(`${cluster  === 'icex' ? icexHistory : altixHistory}/history`, { params })
-    .then(res => res.data)
+    .then(res => {
+      res.data.data.forEach(element => {
+        element.submissionMode = element.ProcessId.charAt(0).toUpperCase() + element.ProcessId.substring(1, element.ProcessId.indexOf('.'));
+        element.Id = element.ProcessId !== 'None' ? element.ProcessId.substring(element.ProcessId.indexOf('.') + 1) : '-';
+      });
+      return res.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      return null;
+    });
+}
+
+export const getParentHistory = ({ row, pageSize, currentPage }) => {
+  console.log(row);
+  const params = {
+    limit:pageSize,
+    page: currentPage,
+  }
+  if (row.submissionMode === 'Cluster' || row.submissionMode === 'Manual') {
+    params.ClusterId__eq = row.Id;
+  }else {
+    params.Process__eq = row.Id;
+  }
+  return axios.get(`${icexHistory}/parent_history`, { params })
+    .then(res => {
+      return res.data;
+    })
     .catch((err) => {
       console.error(err);
       return null;
