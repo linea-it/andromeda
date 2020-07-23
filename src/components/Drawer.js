@@ -16,13 +16,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Icon from '@material-ui/core/Icon';
-import Logo from './assets/img/linea.png';
-import Dashboard from './components/Dashboard';
-import Footer from './components/Footer';
-import Icex from './components/Icex';
-import Altix from './components/Altix';
-import User from './components/User';
-import History from './components/History';
+import Logo from '../assets/img/linea.png';
+import Dashboard from '../views/Dashboard';
+import Footer from './Footer';
+import Icex from '../views/Icex';
+import Altix from '../views/Altix';
+import User from '../views/User';
+import Process from '../views/Process';
+import History from '../views/History';
 
 const drawerWidth = 240;
 
@@ -228,13 +229,13 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
-            <Link to="/history" className={classes.invisibleLink}>
+            <Link to="/process" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemIcon className={classes.ListIconDrawer}>
-                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-history')} />
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-tasks')} />
                 </ListItemIcon>
                 <ListItemText
-                  primary="History"
+                  primary="Process"
                   className={classes.textDrawer}
                 />
               </ListItem>
@@ -264,6 +265,18 @@ function MiniDrawer() {
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
+            <Link to="/history" className={classes.invisibleLink}>
+              <ListItem button>
+                <ListItemIcon className={classes.ListIconDrawer}>
+                  <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-history')} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="History"
+                  className={classes.textDrawer}
+                />
+              </ListItem>
+            </Link>
+            <Divider className={classes.borderDrawer} />
           </List>
           <div className={classes.drawerControlWrapper}>
             <IconButton
@@ -281,6 +294,7 @@ function MiniDrawer() {
             <Route exact path="/icex" component={Icex} />
             <Route exact path="/altix" component={Altix} />
             <Route exact path="/users" component={User} />
+            <Route exact path="/process" component={Process} />
             <Route exact path="/history" component={History} />
           </main>
           <Footer drawerOpen={open} />

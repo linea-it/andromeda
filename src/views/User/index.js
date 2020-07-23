@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -7,65 +8,18 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import moment from 'moment';
-import * as api from '../api/Api';
-import CustomTable from '../utils/CustomTable';
-import TableNode from './TableNode';
-import ResourceUsage from './ResourceUsage';
-
-const useStyles = makeStyles(({
-  root: {
-    flexGrow: 1,
-  },
-  cardsContainer: {
-    paddingTop: 20,
-  },
-  title: {
-    fontSize: '1.75rem',
-    fontWeight: '400',
-    color: '#5a5c69',
-    marginBottom: 0,
-  },
-  card: {
-    minHeight: 530,
-  },
-  cardHeader: {
-    backgroundColor: 'rgb(248, 249, 252)',
-    borderBottom: '1px solid rgb(227, 230, 240)',
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  headerTitle: {
-    color: '#34465d',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  iconList: {
-    fontSize: 24,
-    cursor: 'pointer',
-  },
-  nodeFakeBtn: {
-    color: 'rgba(0, 0, 0, 0.87)',
-    margin: 0,
-    fontSize: '1rem',
-    fontWeight: '500',
-    lineHeight: '1.43',
-    letterSpacing: '0.01071em',
-    padding: 0,
-    minWidth: 40,
-    width: '100%',
-    display: 'inherit',
-    alignItems: 'inherit',
-    justifyContent: 'inherit',
-    textAlign: 'center',
-  },
-}));
-
+import * as api from '../../api/Api';
+import CustomTable from '../../utils/CustomTable';
+import TableNode from '../commons/TableNode';
+import ResourceUsage from '../commons/ResourceUsage';
+import useStyles from './styles';
 
 function User() {
   const [activeJobs, setActiveJobs] = useState([]);
   const [activeProcessesByOwner, setActiveProcessesByOwner] = useState([]);
   const [userStats, setUserStats] = useState([]);
   const [userTableData, setUserTableData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [processTableData, setProcessTableData] = useState([]);
   const [activeProcesses, setActiveProcesses] = useState([]);
   const [nodeTableModal, setNodeTableModal] = useState({
@@ -277,24 +231,6 @@ function User() {
                 <CustomTable
                   columns={userColumns}
                   data={userTableData}
-                  hasResizing={false}
-                  remote={false}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} style={{ position: 'relative' }}>
-            <Card className={classes.card}>
-              <CardHeader
-                title={(
-                  <span className={classes.headerTitle}>Processes</span>
-                )}
-                className={classes.cardHeader}
-              />
-              <CardContent>
-                <CustomTable
-                  columns={processColumns}
-                  data={processTableData}
                   hasResizing={false}
                   remote={false}
                 />

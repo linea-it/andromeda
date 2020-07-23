@@ -4,7 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import '../../commons/ResourceUsage';
 import Icon from '@material-ui/core/Icon';
 import PropTypes from 'prop-types';
 

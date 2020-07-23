@@ -1,64 +1,18 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import '../commons/ResourceUsage';
 import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-
-const useStyles = makeStyles(theme => ({
-  avatar: {
-    margin: 3,
-    justifyContent: 'end',
-  },
-  buttonWrapper: {
-    width: '100%',
-    float: 'right',
-  },
-  buttonText: {
-    textTransform: 'none',
-    textAlign: 'right',
-    paddingRight: 5,
-    color: 'rgb(160, 151, 157)',
-    fontSize: 14,
-  },
-  button: {
-    margin: theme.spacing(1),
-    padding: '3px 0',
-    display: 'block',
-    float: 'right',
-    backgroundColor: 'transparent !important',
-    boxShadow: 'none',
-    borderLeft: '1px solid rgb(227, 230, 240)',
-    borderRadius: 0,
-    minWidth: 120,
-    '&:active': {
-      boxShadow: 'none',
-    },
-  },
-  icon: {
-    fontSize: 12,
-    width: 'auto',
-    color: 'rgb(160, 151, 157)',
-  },
-  listItemIcon: {
-    minWidth: 24,
-  },
-  itemText: {
-    fontSize: '.875em',
-    color: 'rgb(160, 151, 157)',
-  },
-  menuItem: {
-    padding: '.25rem 1.5rem',
-  },
-}));
+import useStyles from './styles';
 
 const StyledMenu = withStyles({
   paper: {
