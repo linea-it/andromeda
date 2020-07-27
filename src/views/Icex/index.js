@@ -1,30 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-
-const useStyles = makeStyles(({
-  root: {
-    flexGrow: 1,
-  },
-  cardsContainer: {
-    paddingTop: 20,
-  },
-  title: {
-    fontSize: '1.75rem',
-    fontWeight: '400',
-    color: '#5a5c69',
-    marginBottom: 0,
-  },
-  imgResponsive: {
-    maxWidth: '100%',
-    width: '100%',
-    height: 'auto',
-  },
-}));
+import useStyles from './styles';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();

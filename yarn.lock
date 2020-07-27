@@ -875,6 +875,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.4.4":
+  version "7.10.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.5.tgz#303d8bd440ecd5a491eae6117fd3367698674c5c"
+  integrity sha512-otddXKhdNn7d0ptoFRHtMLa8LqDxLYwTjB4nYgM1yy5N6gU/MUf8zqyyLltCH3yAVitBzmwK4us+DD0l/MauAg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.1.0", "@babel/template@^7.4.0", "@babel/template@^7.4.4":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -933,38 +940,38 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-9.0.1.tgz#c27b391d8457d1e893f1eddeaf5e5412d12ffbb5"
   integrity sha512-6It2EVfGskxZCQhuykrfnALg7oVeiI6KclWSmGDqB0AiInVrTGB9Jp9i4/Ad21u9Jde/voVQz6eFX/eSg/UsPA==
 
-"@devexpress/dx-core@1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-1.11.1.tgz#c15f6abde60cfedb741312f1fbac3107298f5c6b"
-  integrity sha512-C8Y2Ed9qqIV2QnihRYktEIK1ZZauOABVFMCUHK2+NUpkP33Gi+S92vazZAki/os0Yy5pUqhgFV8xCTKDraoQ4A==
+"@devexpress/dx-core@1.11.2", "@devexpress/dx-core@^1.10.5":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-core/-/dx-core-1.11.2.tgz#b745aa7674a9c0040cd9c6737d099575b6c6f83d"
+  integrity sha512-0nlBzjulneu4cgu9Y4y2HdrqZl+6VoUSenkH+ywKwFmMSjEcyBJHC5xQ+gIIdfHvJTVl+d9VNoHsF15EjG+Giw==
 
-"@devexpress/dx-grid-core@1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-grid-core/-/dx-grid-core-1.11.1.tgz#e0839a75afd052a6853401a722d073e5e1dac8ce"
-  integrity sha512-9WpxgtY2W15PU6TSb1Xwv2yScdUAJzBMRMLpw7K+xK1Uqunfzpl/amCok3FyzNR782BJJdxzU1SXt1uCRNqGNg==
+"@devexpress/dx-grid-core@1.11.2", "@devexpress/dx-grid-core@^1.10.5":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-grid-core/-/dx-grid-core-1.11.2.tgz#61b69a7c08eecffe45881f7289fb174d5219e649"
+  integrity sha512-/I6t0jJfBYIveEyWSp3EtTUhi6ddzVZsongf96CIAe654hMInnYKTRvvxwv3P6Px7E8rgMw8ZD30pNJ0xCoXmQ==
 
-"@devexpress/dx-react-core@^1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.11.1.tgz#afbcffdb6df4762c9f9ed3cadc36d1dcce874a38"
-  integrity sha512-R/NDWi0btjdfoiPlG9VyOb72c+3KoRelaVH7uxQs1uLtT2l/2lBBmEsEknUbT/JMhz1pnPndMWpE63ZAmQ7E+Q==
+"@devexpress/dx-react-core@^1.10.5":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-core/-/dx-react-core-1.11.2.tgz#ac0f56ed6e3b43ba38caf46f8acc28b182bce68c"
+  integrity sha512-bp8z/C6zSWvZrgHWW/6InFxVoGi9IGblN9x3iJq65YfuNnBZRyTEoQ09LOcEpLdqw/EhunPd82WcFku+Iv8Jvg==
   dependencies:
-    "@devexpress/dx-core" "1.11.1"
+    "@devexpress/dx-core" "1.11.2"
     prop-types "^15.7.2"
 
-"@devexpress/dx-react-grid-material-ui@^1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.11.1.tgz#0a353050e46c488eff4417f40c6eb6d95f40f15f"
-  integrity sha512-OINq+IfbI3MsK07fYP5EIQmTD0Mhc/W3NqF3rPTX6Iv9VnaJx+ku00Xtw3cFDT2EUNgPrYQXNEb2v2+DhGhWsA==
+"@devexpress/dx-react-grid-material-ui@^1.10.5":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid-material-ui/-/dx-react-grid-material-ui-1.11.2.tgz#43fa0d1d8aed8a73bdcaea9417f1266b3cf70185"
+  integrity sha512-0u/eecOPWr+4GjwsDF1QQUeafa4/DVal3L7hWaH60iMo7ECKx95GXqBuAg4rqd4N0dkXajIhOqkrNFpAiP0jyQ==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.7.2"
 
-"@devexpress/dx-react-grid@^1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid/-/dx-react-grid-1.11.1.tgz#3266ad6ebb3c0bb44c4e21ad6834ea5eea882572"
-  integrity sha512-Yq/fXgFlqj+GaISF/xpH6wZNoENPGEiRiPjUGas8Lx/uj46UemHdRnZ/bayfBTb88WfbVDZHw4asxD/8YnTYqg==
+"@devexpress/dx-react-grid@^1.10.5":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-grid/-/dx-react-grid-1.11.2.tgz#81fe2c3ddc309a7a4b81b9fff453a677268e1b18"
+  integrity sha512-mgs67LAJnL5goimePaIAJtcQEIzcPLGtLBJG4+okbi3EVTeXpTRnNvX7pmStNiWlcGXENFuHTJvvvIOUOK0XIg==
   dependencies:
-    "@devexpress/dx-grid-core" "1.11.1"
+    "@devexpress/dx-grid-core" "1.11.2"
 
 "@emotion/hash@^0.7.1":
   version "0.7.1"
@@ -1231,12 +1238,12 @@
     react-transition-group "^4.0.0"
     warning "^4.0.1"
 
-"@material-ui/icons@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.2.0.tgz#cd0b6521288c5e6c0b084d6defec37a4491e0c51"
-  integrity sha512-v+rz61KzH+qR8x17BrfOF73f75x+wUNiBhv9tsKnEed+ElROMK2dqfMAlsdgEP+wgGl4VOcxzUQqWHcaApZ+CA==
+"@material-ui/icons@^4.9.1":
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.9.1.tgz#fdeadf8cb3d89208945b33dbc50c7c616d0bd665"
+  integrity sha512-GBitL3oBWO0hzBhvA9KxqcowRUsA0qzwKkURyC8nppnC3fw54KPKZ+d4V1Eeg/UnDRSzDaI9nGCdel/eh9AQMg==
   dependencies:
-    "@babel/runtime" "^7.2.0"
+    "@babel/runtime" "^7.4.4"
 
 "@material-ui/styles@^4.1.1":
   version "4.1.1"
@@ -10854,6 +10861,11 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+
+regenerator-runtime@^0.13.4:
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
 
 regenerator-transform@^0.13.4:
   version "0.13.4"

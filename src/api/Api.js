@@ -1,9 +1,12 @@
 import axios from 'axios';
 
-const icex = 'https://condorapi.linea.gov.br/icex';
+const icex = 'https://condorapi.linea.gov.br';
 const altix = 'https://condorapi.linea.gov.br/altix';
-const icexHistory = 'https://condorapi.linea.gov.br/testing';
-const altixHistory = 'https://condorapi.linea.gov.br/altix';
+
+// const icex = 'https://condorapi.linea.gov.br/icex';
+// const altix = 'https://condorapi.linea.gov.br/altix';
+// const icex = 'https://condorapi.linea.gov.br/testing';
+// const altix = 'https://condorapi.linea.gov.br/altix';
 
 export const getJobs = () =>
   axios.all([
@@ -85,16 +88,43 @@ export const getNodes = () =>
 
 export const getHistory = ({ cluster, limit, offset, search, sorting }) => {
 
-
+  const cols = 'ProcessId,Owner,Portal,ClusterName,Cmd';
   const params = {
     search: search,
     ordering: sorting,
     offset: offset,
     limit: limit,
+    cols: cols,
   }
+  return axios.get(`${icex}/history`, { params })
+    .then(res => {
+      res.data.data.forEach(element => {
+        element.submissionMode = element.ProcessId.charAt(0).toUpperCase() + element.ProcessId.substring(1, element.ProcessId.indexOf('.'));
+        element.Id = element.ProcessId !== 'None' ? element.ProcessId.substring(element.ProcessId.indexOf('.') + 1) : '-';
+      });
+      return res.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      return null;
+    });
+}
 
-  return axios.get(`${cluster  === 'icex' ? icexHistory : altixHistory}/history`, { params })
-    .then(res => res.data)
+export const getParentHistory = ({ row, pageSize, currentPage }) => {
+  console.log(row);
+  const params = {
+    limit:pageSize,
+    page: currentPage,
+  }
+  if (row.submissionMode === 'Cluster' || row.submissionMode === 'Manual') {
+    params.ClusterId__eq = row.Id;
+  }else {
+    params.Process__eq = row.Id;
+  }
+  return axios.get(`${icex}/parent_history`, { params })
+    .then(res => {
+      return res.data;
+    })
     .catch((err) => {
       console.error(err);
       return null;
@@ -112,13 +142,13 @@ export const getTopUsers = ({
 
     return axios
       .get(
-        `${cluster === 'icex' ? icexHistory : altixHistory}/top_users?JobFinishedHookDone__contains=${endDate}&limit=${limit || 10}`
+        `${cluster === 'icex' ? icex : altix}/top_users?JobFinishedHookDone__contains=${endDate}&limit=${limit || 10}`
       )
       .then(res => res.data);
   }
   return axios
     .get(
-      `${cluster === 'icex' ? icexHistory : altixHistory}/top_users?JobFinishedHookDone__range=${startDate},${endDate}&limit=${limit || 10}`
+      `${cluster === 'icex' ? icex : altix}/top_users?JobFinishedHookDone__range=${startDate},${endDate}&limit=${limit || 10}`
     )
     .then(res => res.data);
 };

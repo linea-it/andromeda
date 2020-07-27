@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import './commons/ResourceUsage';
 
 const useStyles = makeStyles(theme => ({
   button: {

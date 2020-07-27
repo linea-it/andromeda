@@ -25,3 +25,7 @@ code {
   /* min-height: 400px; */
   margin: auto;
 }
+
+.fa, .fas {
+  cursor: pointer;
+}

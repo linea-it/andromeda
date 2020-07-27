@@ -1,9 +1,12 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-console */
+/* eslint-disable max-len */
 import React, {
   useEffect, useState, useRef,
 } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+// import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -11,61 +14,15 @@ import CardContent from '@material-ui/core/CardContent';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+// import SettingsIcon from '@material-ui/icons/Settings';
 import Select from '@material-ui/core/Select';
 import moment from 'moment';
-import TopUsers from './TopUsers';
-import { getHistory, getTopUsers } from '../api/Api';
-import CustomTable from '../utils/CustomTable';
-import ResourceUsage from './ResourceUsage';
-
-const useStyles = makeStyles(({
-  root: {
-    flexGrow: 1,
-  },
-  cardsContainer: {
-    paddingTop: 20,
-  },
-  title: {
-    fontSize: '1.75rem',
-    fontWeight: '400',
-    color: '#5a5c69',
-    marginBottom: 0,
-  },
-  card: {
-    // minHeight: 530,
-  },
-  cardHeader: {
-    backgroundColor: 'rgb(248, 249, 252)',
-    borderBottom: '1px solid rgb(227, 230, 240)',
-    paddingTop: 5,
-    paddingBottom: 5,
-  },
-  headerTitle: {
-    color: '#34465d',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  iconList: {
-    fontSize: 24,
-    cursor: 'pointer',
-  },
-  nodeFakeBtn: {
-    color: 'rgba(0, 0, 0, 0.87)',
-    margin: 0,
-    fontSize: '1rem',
-    fontWeight: '500',
-    lineHeight: '1.43',
-    letterSpacing: '0.01071em',
-    padding: 0,
-    minWidth: 40,
-    width: '100%',
-    display: 'inherit',
-    alignItems: 'inherit',
-    justifyContent: 'inherit',
-    textAlign: 'center',
-  },
-}));
-
+import TopUsers from './TopUsers/TopUsers';
+import { getHistory, getTopUsers } from '../../api/Api';
+import CustomTable from '../../utils/CustomTable';
+// import ResourceUsage from '../commons/ResourceUsage';
+import HistoryDetail from './HistoryDetail';
+import useStyles from './styles';
 
 function History() {
   const classes = useStyles();
@@ -77,7 +34,13 @@ function History() {
     rows: [],
     totalCount: 0,
   });
-  const [resourceUsage, setResourceUsage] = useState({
+  // const [resourceUsage, setResourceUsage] = useState({
+  //   visible: false,
+  //   data: [],
+  //   startDate: '',
+  //   endDate: '',
+  // });
+  const [historyDetail, setHistoryDetail] = useState({
     visible: false,
     data: [],
     startDate: '',
@@ -118,103 +81,88 @@ function History() {
   }, [period, cluster]);
 
 
-  useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth);
-  }, []);
+  // useEffect(() => {
+  //   setLabelWidth(inputLabel.current.offsetWidth);
+  // }, []);
 
-  const handleClusterChange = e => setCluster(e.target.value);
+  // const handleClusterChange = e => setCluster(e.target.value);
 
   useEffect(() => {
     setReload(prevState => !prevState);
   }, [cluster]);
 
-  const handleResourceUsageClick = (row) => {
-    setResourceUsage({
-      visible: !resourceUsage.visible,
-      data: [{
-        RemoteHost: row.LastRemoteHost,
-        ClusterName: row.ClusterName,
-      }],
-      startDate: moment(row.JobStartDate).format('MM/DD/YYYY+HH:mm'),
-      endDate: moment(row.JobFinishedHookDone).format('MM/DD/YYYY+HH:mm'),
+  const handleHistoryDetailClick = (row) => {
+    console.log(row);
+    setHistoryDetail({
+      visible: !historyDetail.visible,
+      row,
     });
   };
 
+  const renderCmd = row => (
+    <Typography title={row.Cmd} variant="body2" display="block" gutterBottom>
+      {row.Cmd.replace(/^.*(\\|\/|\:)/, '')}
+    </Typography>
+  );
+
+  const openProductLog = (row) => {
+    // owner = production and cluster_name = altix / des-portal.linea.gov.br
+    // owner = production and cluster_name = icex / des-portalicex.linea.gov.br
+    // fora isso / <owner>.linea.gov.br (editado)
+    let baseUrl = `${row.Owner}.linea.gov.br`;
+    if (row.Owner === 'production') {
+      baseUrl = row.ClusterName === 'ICE-X' ? 'des-portalicex.linea.gov.br' : 'des-portal.linea.gov.br';
+    }
+    baseUrl += `/VP/getViewProcessCon?process_id=${row.Id}`;
+    window.open(`https://${baseUrl}`, 'Process ID');
+  };
+
+  const renderProcessId = (row) => {
+    if (row.submissionMode === 'Cluster' || row.submissionMode === 'Manual') {
+      return (row.ProcessId !== 'None' ? row.ProcessId.substring(row.ProcessId.indexOf('.') + 1) : '-');
+    }
+    return (
+      <span
+        className={classes.itemLink}
+        title={row.ProcessId !== 'None' ? row.ProcessId.substring(row.ProcessId.indexOf('.') + 1) : '-'}
+        onClick={() => openProductLog(row)}
+      >
+        {row.ProcessId !== 'None' ? row.ProcessId.substring(row.ProcessId.indexOf('.') + 1) : '-'}
+      </span>
+    );
+  };
+
   const historyColumns = [
+    {
+      name: 'submissionMode',
+      title: 'Submission Mode',
+      width: 140,
+    },
+    {
+      name: 'Id',
+      title: 'Process ID',
+      width: 140,
+      customElement: row => (renderProcessId(row)),
+    },
     {
       name: 'Owner',
       title: 'Owner',
       width: 140,
     },
     {
-      name: 'Process',
-      title: 'Process',
-      align: 'center',
-      customElement: row => (row.Process !== 'None' ? row.Process : '-'),
+      name: 'ClusterName',
+      title: 'Cluster Name',
+      width: 140,
     },
     {
-      name: 'Job',
-      title: 'Job',
-      customElement: row => parseInt(row.Job, 10),
+      name: 'Cmd',
+      title: 'Cmd',
+      customElement: row => (renderCmd(row)),
     },
     {
-      name: 'JobStartDate',
-      title: 'Start Date',
-      customElement: row => (
-        <span title={moment(row.JobStartDate).format('HH:mm:ss')}>
-          {moment(row.JobStartDate).format('YYYY-MM-DD')}
-        </span>
-      ),
-      width: 130,
-    },
-    {
-      name: 'JobFinishedHookDone',
-      title: 'End Date',
-      customElement: row => (
-        <span title={moment(row.JobFinishedHookDone).format('HH:mm:ss')}>
-          {moment(row.JobFinishedHookDone).format('YYYY-MM-DD')}
-        </span>
-      ),
-      width: 130,
-    },
-    {
-      name: 'ExecutionTime',
-      title: 'Execution Time',
-      customElement: (row) => {
-        if (row.ExecutionTime) {
-          const execToHours = (row.ExecutionTime / 3600).toFixed(2);
-          const execToMinutes = (row.ExecutionTime / 60).toFixed(2);
-
-          if (execToHours > 1) {
-            return `${execToHours}h`;
-          } if (execToMinutes > 1) {
-            return `${execToMinutes}min`;
-          }
-
-          return `${row.ExecutionTime}s`;
-        }
-        return '-';
-      },
-      align: 'center',
-      width: 130,
-    },
-    {
-      name: 'LastRemoteHost',
-      title: 'Last Slot',
-      customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[0] : '-'),
-      align: 'center',
-    },
-    {
-      name: 'Out',
-      title: 'Node',
-      customElement: row => (row.LastRemoteHost && row.LastRemoteHost !== 'None' ? row.LastRemoteHost.split('@')[1].split('.')[0] : ''),
-      sortingEnabled: false,
-      align: 'center',
-    },
-    {
-      name: 'RequestCpus',
-      title: 'Resources Usage',
-      customElement: row => <i className="fas fa-hdd" onClick={() => handleResourceUsageClick(row)} />,
+      name: 'ProcessId',
+      title: 'Details',
+      customElement: row => <i className="fas fa-hdd" onClick={() => handleHistoryDetailClick(row)} />,
       width: 130,
       sortingEnabled: false,
       align: 'center',
@@ -232,8 +180,8 @@ function History() {
       .then(res => setHistoryTableData({ rows: res.data, totalCount: res.total_count }));
   };
 
-  const handleResourceUsageClose = () => setResourceUsage({
-    visible: false, data: [], startDate: '', endDate: '',
+  const handleHistoryDetailClose = () => setHistoryDetail({
+    visible: false, history: [],
   });
 
   const handlePeriodChange = (e) => {
@@ -246,7 +194,7 @@ function History() {
     <>
       <CssBaseline />
       <Typography component="h1" className={classes.title}>History</Typography>
-      <FormControl variant="outlined" className={classes.formControl}>
+      {/* <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel ref={inputLabel} />
         <Select
           value={cluster}
@@ -256,7 +204,7 @@ function History() {
           <MenuItem value="icex">IceX</MenuItem>
           <MenuItem value="altix">Altix</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl> */}
       <div className={classes.root}>
         <Grid container spacing={3} className={classes.cardsContainer}>
           <Grid item xs={12}>
@@ -299,7 +247,6 @@ function History() {
                   data={historyTableData.rows}
                   loadData={loadData}
                   totalCount={historyTableData.totalCount}
-                  hasResizing={false}
                   loading
                   reload={reload}
                 />
@@ -309,13 +256,10 @@ function History() {
           </Grid>
         </Grid>
       </div>
-      <ResourceUsage
-        title="Resources Usage"
-        showTable={resourceUsage.visible}
-        handleClose={handleResourceUsageClose}
-        remoteHosts={resourceUsage.data}
-        startDate={resourceUsage.startDate}
-        currentDate={resourceUsage.endDate}
+      <HistoryDetail
+        title="History Detail"
+        history={historyDetail}
+        handleClose={handleHistoryDetailClose}
       />
     </>
   );

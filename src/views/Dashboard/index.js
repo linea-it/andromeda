@@ -1,31 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import CardStatus from './CardStatus';
-import Chart from './Chart';
-import * as api from '../api/Api';
-
-const useStyles = makeStyles(({
-  root: {
-    flexGrow: 1,
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardsContainer: {
-    paddingTop: 20,
-  },
-  title: {
-    fontSize: '1.75rem',
-    fontWeight: '400',
-    color: '#5a5c69',
-    marginBottom: 0,
-  },
-}));
-
+import Chart from '../../components/Chart';
+import * as api from '../../api/Api';
+import useStyles from './styles';
 
 function Dashboard() {
   const classes = useStyles();
