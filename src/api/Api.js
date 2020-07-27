@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const icex = 'http://localhost:8080';
+const icex = 'https://condorapi.linea.gov.br';
 const altix = 'https://condorapi.linea.gov.br/altix';
 
 // const icex = 'https://condorapi.linea.gov.br/icex';
