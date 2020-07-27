@@ -67,7 +67,7 @@ function ResourceUsage({
                           variant="h6"
                           className={classes.plotTitle}
                         >
-                          <strong>{`[${node.split('.local')[0]}]`}</strong>
+                          <strong>{`[${node.split('.')[0]}]`}</strong>
                           {' '}
                           <span>Memory Usage</span>
                         </Typography>
@@ -82,7 +82,7 @@ function ResourceUsage({
                           variant="h6"
                           className={classes.plotTitle}
                         >
-                          <strong>{`[${node.split('.local')[0]}]`}</strong>
+                          <strong>{`[${node.split('.')[0]}]`}</strong>
                           {' '}
                           <span>CPU Usage</span>
                         </Typography>
@@ -97,7 +97,7 @@ function ResourceUsage({
                           variant="h6"
                           className={classes.plotTitle}
                         >
-                          <strong>{`[${node.split('.local')[0]}]`}</strong>
+                          <strong>{`[${node.split('.')[0]}]`}</strong>
                           {' '}
                           <span>Network Usage</span>
                         </Typography>

@@ -38,7 +38,7 @@ function TopUsers({ data }) {
         fixedrange: true,
       }}
       config={{
-        scrollZoom: true,
+        scrollZoom: false,
         displaylogo: false,
         responsive: true,
       }}

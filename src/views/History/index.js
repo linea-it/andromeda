@@ -81,11 +81,11 @@ function History() {
   }, [period, cluster]);
 
 
-  useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth);
-  }, []);
+  // useEffect(() => {
+  //   setLabelWidth(inputLabel.current.offsetWidth);
+  // }, []);
 
-  const handleClusterChange = e => setCluster(e.target.value);
+  // const handleClusterChange = e => setCluster(e.target.value);
 
   useEffect(() => {
     setReload(prevState => !prevState);
@@ -135,12 +135,12 @@ function History() {
   const historyColumns = [
     {
       name: 'submissionMode',
-      title: 'submission Mode',
+      title: 'Submission Mode',
       width: 140,
     },
     {
       name: 'Id',
-      title: 'ProcessId',
+      title: 'Process ID',
       width: 140,
       customElement: row => (renderProcessId(row)),
     },
@@ -157,7 +157,6 @@ function History() {
     {
       name: 'Cmd',
       title: 'Cmd',
-      width: 200,
       customElement: row => (renderCmd(row)),
     },
     {
@@ -195,7 +194,7 @@ function History() {
     <>
       <CssBaseline />
       <Typography component="h1" className={classes.title}>History</Typography>
-      <FormControl variant="outlined" className={classes.formControl}>
+      {/* <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel ref={inputLabel} />
         <Select
           value={cluster}
@@ -205,7 +204,7 @@ function History() {
           <MenuItem value="icex">IceX</MenuItem>
           <MenuItem value="altix">Altix</MenuItem>
         </Select>
-      </FormControl>
+      </FormControl> */}
       <div className={classes.root}>
         <Grid container spacing={3} className={classes.cardsContainer}>
           <Grid item xs={12}>

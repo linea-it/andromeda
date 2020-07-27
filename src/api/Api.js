@@ -2,13 +2,11 @@ import axios from 'axios';
 
 const icex = 'http://localhost:8080';
 const altix = 'https://condorapi.linea.gov.br/altix';
-const icexHistory = 'http://localhost:8080';
-const altixHistory = 'https://condorapi.linea.gov.br/altix';
 
 // const icex = 'https://condorapi.linea.gov.br/icex';
 // const altix = 'https://condorapi.linea.gov.br/altix';
-// const icexHistory = 'https://condorapi.linea.gov.br/testing';
-// const altixHistory = 'https://condorapi.linea.gov.br/altix';
+// const icex = 'https://condorapi.linea.gov.br/testing';
+// const altix = 'https://condorapi.linea.gov.br/altix';
 
 export const getJobs = () =>
   axios.all([
@@ -98,7 +96,7 @@ export const getHistory = ({ cluster, limit, offset, search, sorting }) => {
     limit: limit,
     cols: cols,
   }
-  return axios.get(`${cluster  === 'icex' ? icexHistory : altixHistory}/history`, { params })
+  return axios.get(`${icex}/history`, { params })
     .then(res => {
       res.data.data.forEach(element => {
         element.submissionMode = element.ProcessId.charAt(0).toUpperCase() + element.ProcessId.substring(1, element.ProcessId.indexOf('.'));
@@ -123,7 +121,7 @@ export const getParentHistory = ({ row, pageSize, currentPage }) => {
   }else {
     params.Process__eq = row.Id;
   }
-  return axios.get(`${icexHistory}/parent_history`, { params })
+  return axios.get(`${icex}/parent_history`, { params })
     .then(res => {
       return res.data;
     })
@@ -144,13 +142,13 @@ export const getTopUsers = ({
 
     return axios
       .get(
-        `${cluster === 'icex' ? icexHistory : altixHistory}/top_users?JobFinishedHookDone__contains=${endDate}&limit=${limit || 10}`
+        `${cluster === 'icex' ? icex : altix}/top_users?JobFinishedHookDone__contains=${endDate}&limit=${limit || 10}`
       )
       .then(res => res.data);
   }
   return axios
     .get(
-      `${cluster === 'icex' ? icexHistory : altixHistory}/top_users?JobFinishedHookDone__range=${startDate},${endDate}&limit=${limit || 10}`
+      `${cluster === 'icex' ? icex : altix}/top_users?JobFinishedHookDone__range=${startDate},${endDate}&limit=${limit || 10}`
     )
     .then(res => res.data);
 };
