@@ -95,7 +95,7 @@ class CustomColumnChooser extends Component {
   handleToggle = (currentColumnIndex, columns, toggle) => {
     toggle();
     let isAllChecked = true;
-    columns.map((column, index) => {
+    columns.forEach((column, index) => {
       if (currentColumnIndex === index && column.props.item.hidden === false) {
         isAllChecked = false;
       } else if (
@@ -114,7 +114,7 @@ class CustomColumnChooser extends Component {
       chooserAllChecked: !this.state.chooserAllChecked,
     });
 
-    columns.map((column) => {
+    columns.forEach((column) => {
       if (this.state.chooserAllChecked) {
         if (!column.props.item.hidden) {
           column.props.onToggle();

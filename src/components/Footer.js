@@ -105,7 +105,7 @@ function Footer(props) {
               src={logo}
               title="LIneA"
               alt="LineA"
-              style={{ cursor: 'pointer', marginLeft: '10px' }}
+              style={{ cursor: 'pointer', marginLeft: '10px', width: '50px' }}
             />
           </a>
         </Toolbar>
