@@ -1,131 +1,75 @@
 import axios from 'axios';
 
-const icex = 'http://localhost:8080';
-const altix = 'https://condorapi.linea.gov.br/altix';
-const icexHistory = 'http://localhost:8080';
-const altixHistory = 'https://condorapi.linea.gov.br/altix';
+const baseUrl = 'http://localhost:8090';
+let sections = [];
 
-// const icex = 'https://condorapi.linea.gov.br/icex';
-// const altix = 'https://condorapi.linea.gov.br/altix';
-// const icexHistory = 'https://condorapi.linea.gov.br/testing';
-// const altixHistory = 'https://condorapi.linea.gov.br/altix';
-
-export const getJobs = () =>
-  axios.all([
-    axios.get(`${icex}/jobs?cols=ImageSize`),
-    axios.get(`${altix}/jobs?cols=ImageSize`),
-  ])
-  .then(axios.spread((icexRes, altixRes) => altixRes.data.concat(icexRes.data)))
+export const getSections = () =>
+  axios.get(`${baseUrl}/sections`)
+  .then((res) => {
+    if (sections.length === 0) {
+      sections = res.data;
+    }
+  })  
   .catch((err) => {
     console.error(err);
     return err;
   });
+  getSections();
+
+// export const getJobs = () => filtroSection(jobsJson,"Section","data",true);
+export const getJobs = () =>
+  axios.get(`${baseUrl}/jobs?cols=ImageSize`)
+  .then((res) => filtroSection(res.data,"Section","data",true))
+  .catch((err) => {
+    console.error(err);
+    return err;
+  });
+
+export const getJobsByApps = () => {
+    return axios.get(`${baseUrl}/jobs_by_key?key=AppType`)
+      .then(res => res.data)
+      .catch((err) => {
+        console.error(err);
+        return err;
+      });;
+  };
 
 
 export const getProcesses = () =>
-  axios.all([
-    axios.get(`${icex}/jobs?cols=ImageSize`),
-    axios.get(`${altix}/jobs?cols=ImageSize`),
-  ])
-  .then(axios.spread((icexRes, altixRes) => {
-    const icexData = icexRes.data.filter((obj, pos, arr) =>
-      arr.map(mapObj => mapObj.Process + mapObj.Owner).indexOf(obj.Process + obj.Owner) === pos
-    )
-    const altixData = altixRes.data.filter((obj, pos, arr) =>
-      arr.map(mapObj => mapObj.Process + mapObj.Owner).indexOf(obj.Process + obj.Owner) === pos
-      &&
-      obj["All queues are empty"] !== 'All'
-    )
-
-    return icexData.concat(altixData)
-    }
-  ))
-  .catch((err) => {
-    console.error(err);
-    return err;
-  });
-
-export const getProcessesByOwner = (owner) =>
-  axios.all([
-    axios.get(`${icex}/jobs?Owner="${owner}"`),
-    axios.get(`${altix}/jobs?Owner="${owner}"`),
-  ])
-  .then(axios.spread((icexRes, altixRes) =>
-    altixRes.data.filter((obj, pos, arr) =>
-      arr.map(mapObj => mapObj.Process)
-      .indexOf(obj.Process) === pos
-    )
-    .concat(icexRes.data.filter((obj, pos, arr) =>
-      arr.map(mapObj => mapObj.Process)
-      .indexOf(obj.Process) === pos
-    ))
-  ))
-  .catch((err) => {
+  axios.get(`${baseUrl}/jobs?cols=ImageSize`).then(res => {
+    return filtroSection(res.data,"Section","data",true);
+  }).catch((err) => {
     console.error(err);
     return err;
   });
 
 export const getUsersStats = () =>
-  axios.all([
-    axios.get(`${icex}/users_stats`),
-    axios.get(`${altix}/users_stats`),
-  ])
-  .then(axios.spread((icexRes, altixRes) => altixRes.data.concat(icexRes.data)))
-  .catch((err) => {
+  axios.get(`${baseUrl}/users_stats`).then(
+    (res) => filtroSection(res.data,"ClusterName","Users", true)
+  ).catch((err) => {
     console.error(err);
     return err;
   });
 
 export const getNodes = () =>
-  axios.all([
-    axios.get(`${icex}/nodes`),
-    axios.get(`${altix}/nodes`),
-  ])
-  .then(axios.spread((icexRes, altixRes) => altixRes.data.concat(icexRes.data)))
+  axios.get(`${baseUrl}/nodes`).then((res) => res.data)
   .catch((err) => {
     console.error(err);
     return err;
   });
 
 
-export const getHistory = ({ cluster, limit, offset, search, sorting }) => {
-
-  const cols = 'ProcessId,Owner,Portal,ClusterName,Cmd';
+export const getHistory = ({ section }) => {
   const params = {
-    search: search,
-    ordering: sorting,
-    offset: offset,
-    limit: limit,
-    cols: cols,
+    section
   }
-  return axios.get(`${cluster  === 'icex' ? icexHistory : altixHistory}/history`, { params })
+  return axios.get(`${baseUrl}/history`, { params })
     .then(res => {
-      res.data.data.forEach(element => {
-        element.submissionMode = element.ProcessId.charAt(0).toUpperCase() + element.ProcessId.substring(1, element.ProcessId.indexOf('.'));
-        element.Id = element.ProcessId !== 'None' ? element.ProcessId.substring(element.ProcessId.indexOf('.') + 1) : '-';
-      });
-      return res.data;
-    })
-    .catch((err) => {
-      console.error(err);
-      return null;
-    });
-}
-
-export const getParentHistory = ({ row, pageSize, currentPage }) => {
-  console.log(row);
-  const params = {
-    limit:pageSize,
-    page: currentPage,
-  }
-  if (row.submissionMode === 'Cluster' || row.submissionMode === 'Manual') {
-    params.ClusterId__eq = row.Id;
-  }else {
-    params.Process__eq = row.Id;
-  }
-  return axios.get(`${icexHistory}/parent_history`, { params })
-    .then(res => {
-      return res.data;
+      const data = filtroSection(res.data,"Section");
+      return {
+        total_count: data.total_count,
+        data: data.data.map(item => ({...item, Id: item.ClusterId || item.ProcessId}))
+      };
     })
     .catch((err) => {
       console.error(err);
@@ -134,23 +78,44 @@ export const getParentHistory = ({ row, pageSize, currentPage }) => {
 }
 
 export const getTopUsers = ({
-  startDate,
-  endDate,
-  isToday,
-  limit,
-  cluster,
+  section,
 }) => {
-  if (isToday) {
-
-    return axios
-      .get(
-        `${cluster === 'icex' ? icexHistory : altixHistory}/top_users?JobFinishedHookDone__contains=${endDate}&limit=${limit || 10}`
-      )
-      .then(res => res.data);
-  }
-  return axios
-    .get(
-      `${cluster === 'icex' ? icexHistory : altixHistory}/top_users?JobFinishedHookDone__range=${startDate},${endDate}&limit=${limit || 10}`
-    )
-    .then(res => res.data);
+  return axios.get(`${baseUrl}/top_users`)
+    .then(res => {
+      return agruparTopUsers(filtroSection(res.data,"ClusterName","Users", true));
+    });
 };
+
+const agruparTopUsers = (topUsers) => {
+  const topUsersAgrupado = [];
+  topUsers.forEach(topUser => {
+    const index = topUsersAgrupado.findIndex(el => el.User === topUser.User);
+    if (index >= 0){
+      topUsersAgrupado[index].TotalExecutionTime = 
+      topUsersAgrupado[index].TotalExecutionTime + topUser.TotalExecutionTime;
+    }else {
+      topUsersAgrupado.push(topUser);
+    }
+  })
+  return topUsersAgrupado;
+}
+
+const filtroSection = (data, propertySection, pathDados, isArray) => {
+  let dadosConcat = [];
+  if (data.length > 0) {
+    return data;
+  } else { 
+    sections.forEach(section => {
+      if (data[section[propertySection]]) {
+        dadosConcat = dadosConcat.concat(data[section[propertySection]][pathDados || 'data']);
+      }
+    });
+    if (isArray) {
+      return dadosConcat;
+    }
+    return {
+      total_count: dadosConcat.length,
+      data: dadosConcat
+    };
+  }
+}
