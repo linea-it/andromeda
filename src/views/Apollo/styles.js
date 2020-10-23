@@ -18,9 +18,6 @@ const styles = makeStyles(() => ({
     width: '100%',
     height: 'auto',
   },
-  marginAuto: {
-    margin: 'auto',
-  },
 }));
 
 export default styles;
