@@ -1,18 +1,15 @@
-/* eslint-disable max-len */
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
-import InputLabel from '@material-ui/core/InputLabel';
 import * as api from '../../api/Api';
 import CustomTable from '../../utils/CustomTable';
 import TableNode from '../commons/TableNode';
@@ -22,7 +19,6 @@ import useStyles from './styles';
 
 function Process() {
   const [activeJobs, setActiveJobs] = useState([]);
-  const [activeJobsOriginal, setActiveJobsOriginal] = useState([]);
   const [nodeTableModal, setNodeTableModal] = useState({
     visible: false,
     process: '',
@@ -44,24 +40,6 @@ function Process() {
     visible: false, Jobs: [], realTime: false,
   });
 
-  const [selectedAplication, setSelectedAplication] = useState('All');
-
-  const [arrayAplication, setArrayAplication] = useState(['All']);
-
-  const handleChange = (event) => {
-    setSelectedAplication(event.target.value);
-  };
-
-  useEffect(() => {
-    const arrayFilter = [];
-    activeJobsOriginal.forEach((job) => {
-      if (selectedAplication === job.AppType || selectedAplication === 'All') {
-        arrayFilter.push(job);
-      }
-    });
-    setActiveJobs(arrayFilter);
-  }, [selectedAplication]);
-
   const classes = useStyles();
 
   const renderCmd = row => (
@@ -70,11 +48,17 @@ function Process() {
     </Typography>
   );
 
-  const renderDate = row => (
-    <Typography title={moment(row.Jobs[0].JobStartDate).format('HH:mm')} variant="body2" display="block" gutterBottom>
-      {moment(row.Jobs[0].JobStartDate).format('YYYY-MM-DD')}
-    </Typography>
-  );
+  const renderDate = (row) => {
+    console.log(`>>>>>>>>>>>>${row}`);
+
+    return (
+
+      <Typography title={row.Cmd} variant="body2" display="block" gutterBottom>
+        {row.Jobs[0].JobStartDate}
+      </Typography>
+    );
+  };
+
 
   const processColumns = [
     {
@@ -83,18 +67,36 @@ function Process() {
       width: 140,
     },
     { name: 'Id', title: 'Id', align: 'center' },
-    { name: 'User', title: 'User', width: 200 },
+    { name: 'User', title: 'User' },
     { name: 'ClusterName', title: 'Cluster Name', width: 200 },
     { name: 'Portal', title: 'Portal', width: 150 },
     {
-      name: 'AppName', title: 'Pipeline', width: 150,
+      name: 'Submitter',
+      title: 'Submitter',
+      width: 140,
     },
     {
-      name: 'StartDate', title: 'Start Date', width: 100, customElement: row => (renderDate(row)),
+      name: 'Date', title: 'Date', width: 150, customElement: row => (renderDate(row)),
     },
     {
       name: 'Cmd', title: 'Cmd', width: 150, customElement: row => (renderCmd(row)),
     },
+    { name: 'Submitter', title: 'Submitter', width: 250 },
+    // {
+    //   name: 'Nodes',
+    //   title: 'Nodes',
+    //   icon: el => (
+    //     <span className={classes.nodeFakeBtn}>
+    //       {el.Jobs.length}
+    //     </span>
+    //   ),
+    //   action: el => setNodeTableModal({
+    //     visible: !nodeTableModal.visible,
+    //     process: el.process,
+    //     data: el.jobs,
+    //   }),
+    //   align: 'center',
+    // },
     {
       name: 'NumJobs',
       title: 'Jobs',
@@ -105,7 +107,6 @@ function Process() {
       ),
       action: el => setJobsDetail({
         visible: !jobsDetail.visible,
-        appType: el.AppType,
         id: el.ProcessId ? el.ProcessId : el.ClusterId,
         Jobs: el.Jobs,
         realTime: true,
@@ -127,26 +128,24 @@ function Process() {
   ];
 
   function getActiveJobs() {
-    const options = ['All'];
-    const arrayActiveJobs = [];
-    api.getJobsByApps()
+    api.getJobs()
       .then((data) => {
-        Object.keys(data).forEach((key) => {
-          options.push(key);
-          setArrayAplication(options);
-
-          data[key].forEach((job) => {
-            job.Id = (job.ProcessId != null ? job.ProcessId : (job.ClusterId + job.ProcId));
-            job.Nodes = true;
-            job.resources_usage = true;
-            job.NumJobs = true;
-            job.StartDate = true;
-            arrayActiveJobs.push(job);
-          });
+        data.forEach((job) => {
+          job.Id = (job.ProcessId != null ? job.ProcessId : (job.ClusterId + job.ProcId));
+          job.Nodes = true;
+          job.resources_usage = true;
+          job.NumJobs = true;
         });
-        setActiveJobsOriginal(arrayActiveJobs);
-        setActiveJobs(arrayActiveJobs);
+        setActiveJobs(data);
       });
+  }
+
+  function showStartDate(date) {
+    return (
+      <span title={moment.unix(date).format('HH:mm')}>
+        {moment.unix(date).format('DD/MM/YY')}
+      </span>
+    );
   }
 
 
@@ -168,21 +167,13 @@ function Process() {
         <Grid container spacing={3} className={classes.cardsContainer}>
           <Grid item xs={12} style={{ position: 'relative' }}>
             <Card className={classes.card}>
+              <CardHeader
+                title={(
+                  <span className={classes.headerTitle}>Processes</span>
+                )}
+                className={classes.cardHeader}
+              />
               <CardContent>
-                <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                  Aplications
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectedAplication}
-                  onChange={handleChange}
-                  className={classes.select}
-                >
-                  {
-                    arrayAplication.map(element => (<MenuItem value={element}>{element}</MenuItem>))
-                  }
-                </Select>
                 <CustomTable
                   columns={processColumns}
                   data={activeJobs}
@@ -208,7 +199,7 @@ function Process() {
         jobs={nodeTableModal.data}
       />
       <JobsDetail
-        title={`Jobs - ${jobsDetail.appType} (${jobsDetail.id})`}
+        title={`Jobs - Process (${jobsDetail.id})`}
         jobs={jobsDetail}
         handleClose={handleJobsDetailClose}
       />

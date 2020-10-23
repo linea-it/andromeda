@@ -16,9 +16,6 @@ const styles = makeStyles(() => ({
   card: {
     minHeight: 530,
   },
-  select: {
-    minWidth: '200px',
-  },
   cardHeader: {
     backgroundColor: 'rgb(248, 249, 252)',
     borderBottom: '1px solid rgb(227, 230, 240)',
