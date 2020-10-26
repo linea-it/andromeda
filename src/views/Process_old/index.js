@@ -1,6 +1,3 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -48,9 +45,7 @@ function Process() {
     </Typography>
   );
 
-  const renderDate = (row) => {
-    console.log(`>>>>>>>>>>>>${row}`);
-
+  const renderDate = (row) => 
     return (
 
       <Typography title={row.Cmd} variant="body2" display="block" gutterBottom>
