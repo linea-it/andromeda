@@ -9,7 +9,6 @@ import TopUsers from './TopUsers/TopUsers';
 import { getHistory, getTopUsers } from '../../api/Api';
 import CustomTable from '../../utils/CustomTable';
 import JobsDetail from '../commons/JobsDetail';
-// import SectionsSelect from '../commons/SectionsSelect';
 import useStyles from './styles';
 
 
@@ -60,11 +59,14 @@ function History() {
     });
   };
 
-  const renderCmd = row => (
-    <Typography title={row.Cmd} variant="body2" display="block" gutterBottom>
-      {row.Cmd.replace(/^.*(\\|\/|\:)/, '')}
-    </Typography>
-  );
+  const renderCmd = (row) => {
+    const cmd = row.Cmd.split('/');
+    return (
+      <Typography variant="body2" display="block" gutterBottom>
+        {cmd[cmd.length - 1]}
+      </Typography>
+    );
+  };
 
   const openProductLog = (row) => {
     // owner = production and cluster_name = altix / des-portal.linea.gov.br
@@ -139,12 +141,6 @@ function History() {
   const handleJobsDetailClose = () => setJobsDetail({
     visible: false, Jobs: [],
   });
-
-  // const handlePeriodChange = (e) => {
-  //   if (Number(e.target.value) !== period) {
-  //     setPeriod(Number(e.target.value));
-  //   }
-  // };
 
   return (
     <>

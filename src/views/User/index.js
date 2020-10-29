@@ -11,7 +11,6 @@ import useStyles from './styles';
 
 function User() {
   const [userStats, setUserStats] = useState([]);
-  const [anchorEl, setAnchorEl] = React.useState(false);
 
   const classes = useStyles();
   const userColumns = [

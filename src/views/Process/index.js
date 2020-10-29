@@ -48,22 +48,19 @@ function Process() {
   };
 
   useEffect(() => {
-    const arrayFilter = [];
-    activeJobsOriginal.forEach((job) => {
-      if (selectedAplication === job.AppType || selectedAplication === 'All') {
-        arrayFilter.push(job);
-      }
-    });
-    setActiveJobs(arrayFilter);
-  }, [selectedAplication]);
+    setActiveJobs(activeJobsOriginal.filter(el => el.AppType === selectedAplication || selectedAplication === 'All'));
+  }, [selectedAplication, activeJobsOriginal]);
 
   const classes = useStyles();
 
-  const renderCmd = row => (
-    <Typography title={row.Cmd} variant="body2" display="block" gutterBottom>
-      {row.Cmd.replace(/^.*(\\|\/|\:)/, '')}
-    </Typography>
-  );
+  const renderCmd = (row) => {
+    const cmd = row.Cmd.split('/');
+    return (
+      <Typography variant="body2" display="block" gutterBottom>
+        {cmd[cmd.length - 1]}
+      </Typography>
+    );
+  };
 
   const renderDate = row => (
     <Typography title={moment(row.Jobs[0].JobStartDate).format('HH:mm')} variant="body2" display="block" gutterBottom>
@@ -108,7 +105,7 @@ function Process() {
       align: 'center',
     },
     {
-      name: 'resources_usage',
+      name: 'ResourcesUsage',
       title: 'Resources Usage',
       icon: () => <i className="fas fa-hdd" />,
       action: el => setResourceUsage({
@@ -129,18 +126,19 @@ function Process() {
         Object.keys(data).forEach((key) => {
           options.push(key);
           setArrayAplication(options);
-
           data[key].forEach((job) => {
-            job.Id = (job.ProcessId != null ? job.ProcessId : (job.ClusterId + job.ProcId));
-            job.Nodes = true;
-            job.resources_usage = true;
-            job.NumJobs = true;
-            job.StartDate = true;
-            arrayActiveJobs.push(job);
+            const newJob = {
+              ...job,
+              Id: (job.ProcessId != null ? job.ProcessId : (job.ClusterId + job.ProcId)),
+              Nodes: true,
+              ResourcesUsage: true,
+              NumJobs: true,
+              StartDate: true,
+            };
+            arrayActiveJobs.push(newJob);
           });
         });
         setActiveJobsOriginal(arrayActiveJobs);
-        setActiveJobs(arrayActiveJobs);
       });
   }
 
@@ -168,14 +166,14 @@ function Process() {
                   Aplications
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   value={selectedAplication}
                   onChange={handleChange}
                   className={classes.select}
                 >
                   {
-                    arrayAplication.map(element => (<MenuItem value={element}>{element}</MenuItem>))
+                    arrayAplication.map(element => (
+                      <MenuItem key={element} value={element}>{element}</MenuItem>
+                    ))
                   }
                 </Select>
                 <CustomTable
