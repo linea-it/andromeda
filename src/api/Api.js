@@ -4,7 +4,7 @@ const host = process.env.REACT_APP_API || `${window.location.protocol}//${window
   window.location.port ? ':' : ''
 }${window.location.port}`;
 
-axios.defaults.baseURL = host;
+axios.defaults.baseURL = `${host}/api`;
 
 let sections = [];
 
