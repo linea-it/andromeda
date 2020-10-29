@@ -1,10 +1,15 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:8090';
+const host = process.env.REACT_APP_API || `${window.location.protocol}//${window.location.hostname}${
+  window.location.port ? ':' : ''
+}${window.location.port}`;
+
+axios.defaults.baseURL = host;
+
 let sections = [];
 
 export const getSections = () =>
-  axios.get(`${baseUrl}/sections`)
+  axios.get('/sections')
   .then((res) => {
     if (sections.length === 0) {
       sections = res.data;
@@ -16,17 +21,16 @@ export const getSections = () =>
   });
   getSections();
 
-// export const getJobs = () => filtroSection(jobsJson,"Section","data",true);
 export const getJobs = () =>
-  axios.get(`${baseUrl}/jobs?cols=ImageSize`)
-  .then((res) => filtroSection(res.data,"Section","data",true))
+  axios.get('/jobs?cols=ImageSize')
+  .then((res) => filterSection(res.data,"Section","data",true))
   .catch((err) => {
     console.error(err);
     return err;
   });
 
 export const getJobsByApps = () => {
-    return axios.get(`${baseUrl}/jobs_by_key?key=AppType`)
+    return axios.get('/jobs_by_key?key=AppType')
       .then(res => res.data)
       .catch((err) => {
         console.error(err);
@@ -36,36 +40,33 @@ export const getJobsByApps = () => {
 
 
 export const getProcesses = () =>
-  axios.get(`${baseUrl}/jobs?cols=ImageSize`).then(res => {
-    return filtroSection(res.data,"Section","data",true);
+  axios.get('/jobs?cols=ImageSize').then(res => {
+    return filterSection(res.data,"Section","data",true);
   }).catch((err) => {
     console.error(err);
     return err;
   });
 
 export const getUsersStats = () =>
-  axios.get(`${baseUrl}/users_stats`).then(
-    (res) => filtroSection(res.data,"ClusterName","Users", true)
+  axios.get('/users_stats').then(
+    (res) => filterSection(res.data,"ClusterName","Users", true)
   ).catch((err) => {
     console.error(err);
     return err;
   });
 
 export const getNodes = () =>
-  axios.get(`${baseUrl}/nodes`).then((res) => res.data)
+  axios.get('/nodes').then((res) => res.data)
   .catch((err) => {
     console.error(err);
     return err;
   });
 
 
-export const getHistory = ({ section }) => {
-  const params = {
-    section
-  }
-  return axios.get(`${baseUrl}/history`, { params })
+export const getHistory = () => {
+  return axios.get('/history')
     .then(res => {
-      const data = filtroSection(res.data,"Section");
+      const data = filterSection(res.data,"Section");
       return {
         total_count: data.total_count,
         data: data.data.map(item => ({...item, Id: item.ClusterId || item.ProcessId}))
@@ -77,45 +78,43 @@ export const getHistory = ({ section }) => {
     });
 }
 
-export const getTopUsers = ({
-  section,
-}) => {
-  return axios.get(`${baseUrl}/top_users`)
+export const getTopUsers = () => {
+  return axios.get('/top_users')
     .then(res => {
-      return agruparTopUsers(filtroSection(res.data,"ClusterName","Users", true));
+      return groupTopUsers(filterSection(res.data,"ClusterName","Users", true));
     });
 };
 
-const agruparTopUsers = (topUsers) => {
-  const topUsersAgrupado = [];
+const groupTopUsers = (topUsers) => {
+  const topUsersGrouped = [];
   topUsers.forEach(topUser => {
-    const index = topUsersAgrupado.findIndex(el => el.User === topUser.User);
+    const index = topUsersGrouped.findIndex(el => el.User === topUser.User);
     if (index >= 0){
-      topUsersAgrupado[index].TotalExecutionTime = 
-      topUsersAgrupado[index].TotalExecutionTime + topUser.TotalExecutionTime;
+      topUsersGrouped[index].TotalExecutionTime = 
+      topUsersGrouped[index].TotalExecutionTime + topUser.TotalExecutionTime;
     }else {
-      topUsersAgrupado.push(topUser);
+      topUsersGrouped.push(topUser);
     }
   })
-  return topUsersAgrupado;
+  return topUsersGrouped;
 }
 
-const filtroSection = (data, propertySection, pathDados, isArray) => {
-  let dadosConcat = [];
+const filterSection = (data, propertySection, path, isArray) => {
+  let dataConcat = [];
   if (data.length > 0) {
     return data;
   } else { 
     sections.forEach(section => {
       if (data[section[propertySection]]) {
-        dadosConcat = dadosConcat.concat(data[section[propertySection]][pathDados || 'data']);
+        dataConcat = dataConcat.concat(data[section[propertySection]][path || 'data']);
       }
     });
     if (isArray) {
-      return dadosConcat;
+      return dataConcat;
     }
     return {
-      total_count: dadosConcat.length,
-      data: dadosConcat
+      total_count: dataConcat.length,
+      data: dataConcat
     };
   }
 }
