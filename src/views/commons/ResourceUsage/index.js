@@ -114,6 +114,7 @@ function ResourceUsage({
                 </React.Fragment>
               );
             }
+            return null;
           })}
         </CardContent>
       </Card>

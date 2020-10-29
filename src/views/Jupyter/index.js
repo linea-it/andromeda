@@ -15,6 +15,7 @@ function useInterval(callback, delay) {
   }, [callback]);
 
   // Set up the interval.
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     function tick() {
       savedCallback.current();
@@ -41,9 +42,7 @@ function Jupyter() {
   }, 2000);
 
   useEffect(() => {
-    setLineaGridOverview(
-      lineaGridOverview.map(overview => `${overview.split('&st=')[0]}&st=${count}`),
-    );
+    setLineaGridOverview(prevState => prevState.map(overview => `${overview.split('&st=')[0]}&st=${count}`));
   }, [count]);
 
   return (
