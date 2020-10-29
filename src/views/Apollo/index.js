@@ -1,30 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-
-const useStyles = makeStyles(({
-  root: {
-    flexGrow: 1,
-  },
-  cardsContainer: {
-    paddingTop: 20,
-  },
-  title: {
-    fontSize: '1.75rem',
-    fontWeight: '400',
-    color: '#5a5c69',
-    marginBottom: 0,
-  },
-  imgResponsive: {
-    maxWidth: '100%',
-    width: '100%',
-    height: 'auto',
-  },
-}));
+import styles from './styles';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -47,10 +27,18 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-function Icex() {
-  const classes = useStyles();
+function Apollo() {
+  const classes = styles();
   const [count, setCount] = useState(1);
-  const [computerNodesPlots, setComputerNodesPlots] = useState([
+
+  const [lineaGridOverview, setLineaGridOverview] = useState([
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=mem_report&z=medium&_=1563364904424&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=cpu_report&z=medium&_=1563364904425&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=network_report&z=medium&_=1563364904425&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute+Nodes&r=hour&st=',
+  ]);
+
+  const [lineaGridPlots, setLineaGridPlots] = useState([
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl01&l=&v=1.06&r=hour&su=1&x=16.09&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl02&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl03&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
@@ -61,63 +49,29 @@ function Icex() {
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl08&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl09&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl10&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes%20Nodes&h=apl11&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodess&h=apl11&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl12&l=&v=0.03&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl13&l=&v=1.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl14&l=&v=0.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl15&l=&v=17.00&r=hour&su=1&x=17.00&n=0&st=',
     'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=apl16&l=&v=1.05&r=hour&su=1&x=17.00&n=0&st=',
-  ]);
-  const [rackPlots, setRackPlots] = useState([
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n0&l=&v=1.00&r=hour&su=1&x=1.03&n=0&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i0n1&l=&v=0.00&r=hour&su=1&x=1.03&n=0&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n0&l=&v=0.00&r=hour&su=1&x=1.03&n=0&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Rack%201&h=r1i1n1&l=&v=0.01&r=hour&su=1&x=1.03&n=0&st=',
-  ]);
-  const [computerNodesOverview, setComputerNodesOverview] = useState([
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=mem_report&z=medium&_=1563364904424&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=cpu_report&z=medium&_=1563364904425&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Compute+Nodes&m=load_one&r=hour&s=by+name&hc=4&mc=2&g=network_report&z=medium&_=1563364904425&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Compute+Nodes&r=hour&st=',
-  ]);
-  const [rackOverview, setRackOverview] = useState([
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Rack%201&m=load_one&r=hour&s=by%20name&hc=4&mc=2&g=mem_report&z=medium&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Rack%201&m=load_one&r=hour&s=by%20name&hc=4&mc=2&g=cpu_report&z=medium&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/graph.php?c=Rack%201&m=load_one&r=hour&s=by%20name&hc=4&mc=2&g=network_report&z=medium&st=',
-    'http://condorapi.linea.gov.br/gangliaicx/stacked.php?m=load_one&c=Rack%201&r=hour&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=gwicx&l=&v=1.05&r=hour&su=1&x=17.00&n=0&st=',
+    'http://condorapi.linea.gov.br/gangliaicx/graph.php?m=load_one&z=small&c=Compute%20Nodes&h=loginicx&l=&v=1.05&r=hour&su=1&x=17.00&n=0&st=',
   ]);
 
   useInterval(() => {
-    if (count > 1000) {
-      setCount(0);
-    } else {
-      setCount(count + 1);
-    }
+    setCount(count + 1);
   }, 2000);
 
   useEffect(() => {
-    setComputerNodesPlots(
-      computerNodesPlots.map(node => `${node.split('&st=')[0]}&st=${count}`),
-    );
-
-    setRackPlots(
-      rackPlots.map(node => `${node.split('&st=')[0]}&st=${count}`),
-    );
-
-    setComputerNodesOverview(
-      computerNodesOverview.map(overview => `${overview.split('&st=')[0]}&st=${count}`),
-    );
-
-    setRackOverview(
-      rackOverview.map(overview => `${overview.split('&st=')[0]}&st=${count}`),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setLineaGridPlots(prevState => prevState.map(node => `${node.split('&st=')[0]}&st=${count}`));
+    setLineaGridOverview(prevState => prevState.map(overview => `${overview.split('&st=')[0]}&st=${count}`));
   }, [count]);
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Typography component="h1" className={classes.title}>ICEx</Typography>
+      <Typography component="h1" className={classes.title}>Apollo</Typography>
       <div className={classes.root}>
         <Grid container spacing={3} className={classes.cardsContainer}>
           <Grid item xs={12}>
@@ -132,15 +86,9 @@ function Icex() {
                 cellHeight="auto"
                 cols={3}
               >
-                {
-                  computerNodesOverview.filter(
-                    (el, i) => computerNodesOverview.length - 1 !== i,
-                  ).map(chart => (
-                    <GridListTile>
-                      <img src={chart} alt="Overview" className={classes.imgResponsive} />
-                    </GridListTile>
-                  ))}
-                {rackOverview.filter((el, i) => rackOverview.length - 1 !== i).map(chart => (
+                {lineaGridOverview.filter(
+                  (el, i) => lineaGridOverview.length - 1 !== i,
+                ).map(chart => (
                   <GridListTile>
                     <img src={chart} alt="Overview" className={classes.imgResponsive} />
                   </GridListTile>
@@ -148,25 +96,18 @@ function Icex() {
               </GridList>
               <GridList
                 cellHeight="auto"
-                cols={2}
+                cols={1}
               >
                 <GridListTile>
-                  <img src={computerNodesOverview[computerNodesOverview.length - 1]} alt="Aggregated Cluster Load" className={classes.imgResponsive} />
+                  <img src={lineaGridOverview[lineaGridOverview.length - 1]} alt="Aggregated Cluster Load" className={classes.imgResponsive} />
                 </GridListTile>
-                <GridListTile>
-                  <img src={rackOverview[rackOverview.length - 1]} alt="Aggregated Cluster Load" className={classes.imgResponsive} />
-                </GridListTile>
+
               </GridList>
               <GridList
                 cellHeight="auto"
                 cols={4}
               >
-                {computerNodesPlots.map(plot => (
-                  <GridListTile>
-                    <img src={plot} alt="Nodes" className={classes.imgResponsive} />
-                  </GridListTile>
-                ))}
-                {rackPlots.map(plot => (
+                {lineaGridPlots.map(plot => (
                   <GridListTile>
                     <img src={plot} alt="Nodes" className={classes.imgResponsive} />
                   </GridListTile>
@@ -180,4 +121,4 @@ function Icex() {
   );
 }
 
-export default Icex;
+export default Apollo;

@@ -10,6 +10,7 @@ import {
   SortingState,
   CustomPaging,
   SearchState,
+  IntegratedFiltering,
   SelectionState,
   GroupingState,
   IntegratedSorting,
@@ -189,7 +190,7 @@ function Table({
       }
       setSearchValue(value);
     } else {
-      setSearchValue('');
+      setSearchValue(value);
     }
   };
 
@@ -264,6 +265,7 @@ function Table({
         <>
           <Grid rows={rows} columns={customColumns}>
             {hasSearching ? <SearchState onValueChange={changeSearchValue} /> : null}
+            {hasSearching ? <IntegratedFiltering /> : null}
             {hasSorting ? <SortingState sorting={sorting} onSortingChange={changeSorting} columnExtensions={customColumnExtensions} /> : null}
             {hasPagination
               ? (
@@ -333,7 +335,8 @@ function Table({
     return (
       <>
         <Grid rows={rows} columns={customColumns}>
-          {hasSearching ? <SearchState /> : null}
+          {hasSearching ? <SearchState onValueChange={changeSearchValue} /> : null}
+          {hasSearching ? <IntegratedFiltering /> : null}
           {hasSorting
             ? (
               <SortingState
