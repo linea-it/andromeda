@@ -9,9 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import {
-  BrowserRouter as Router, Route, Link, Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -21,7 +19,7 @@ import Logo from '../assets/img/linea.png';
 import Dashboard from '../views/Dashboard';
 import Footer from './Footer';
 import Apollo from '../views/Apollo';
-import Icex from '../views/Icex';
+// import Icex from '../views/Icex';
 import Altix from '../views/Altix';
 import Jupyter from '../views/Jupyter';
 import User from '../views/User';
@@ -30,7 +28,7 @@ import History from '../views/History';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100%',
@@ -204,22 +202,26 @@ function MiniDrawer() {
               [classes.drawerClose]: !open,
             }),
           }}
-          open={open}
-        >
+          open={open}>
           <List className={classes.drawerList}>
             <Link to="/dashboard" className={classes.invisibleLink}>
               <ListItem button>
                 <ListItemText
-                  primary={(
+                  primary={
                     <React.Fragment>
-                      <ListItemIcon className={clsx(classes.ListIconDrawer, open ? classes.logoBlock : '')}>
-                        <img src={Logo} alt="Monitor" className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose)} />
+                      <ListItemIcon
+                        className={clsx(classes.ListIconDrawer, open ? classes.logoBlock : '')}>
+                        <img
+                          src={Logo}
+                          alt="Monitor"
+                          className={clsx(open ? classes.iconHomeOpen : classes.iconHomeClose)}
+                        />
                       </ListItemIcon>
                       <span className={clsx(classes.homeDrawer, open ? classes.titleBlock : '')}>
                         Process Monitor
                       </span>
                     </React.Fragment>
-                  )}
+                  }
                   className={clsx(classes.homeBtn, classes.textDrawer)}
                 />
               </ListItem>
@@ -230,10 +232,7 @@ function MiniDrawer() {
                 <ListItemIcon className={classes.ListIconDrawer}>
                   <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-tachometer-alt')} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Dashboard"
-                  className={classes.textDrawer}
-                />
+                <ListItemText primary="Dashboard" className={classes.textDrawer} />
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
@@ -242,10 +241,7 @@ function MiniDrawer() {
                 <ListItemIcon className={classes.ListIconDrawer}>
                   <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-users')} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Users"
-                  className={classes.textDrawer}
-                />
+                <ListItemText primary="Users" className={classes.textDrawer} />
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
@@ -254,30 +250,29 @@ function MiniDrawer() {
                 <ListItemIcon className={classes.ListIconDrawer}>
                   <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-object-group')} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="Process"
-                  className={classes.textDrawer}
-                />
+                <ListItemText primary="Process" className={classes.textDrawer} />
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
-
 
             <ListItem button onClick={handleClickMachineStatus}>
               <ListItemIcon className={classes.ListIconDrawer}>
                 <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server')} />
               </ListItemIcon>
-              <ListItemText
-                primary="Machine Status"
-                className={classes.textDrawer}
-              />
+              <ListItemText primary="Machine Status" className={classes.textDrawer} />
               <ListItemIcon className={classes.ListIconDrawer}>
-                <Icon className={clsx(classes.iconDrawerPadding, 'fa', openMachineStatus ? 'fa-chevron-up' : 'fa-chevron-down')} />
+                <Icon
+                  className={clsx(
+                    classes.iconDrawerPadding,
+                    'fa',
+                    openMachineStatus ? 'fa-chevron-up' : 'fa-chevron-down'
+                  )}
+                />
               </ListItemIcon>
             </ListItem>
             <Collapse in={openMachineStatus} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <Divider className={classes.borderDrawer} />
+                {/* <Divider className={classes.borderDrawer} />
                 <Link to="/icex" className={classes.invisibleLink}>
                   <ListItem button>
                     <ListItemIcon className={classes.ListIconDrawerPadding}>
@@ -288,29 +283,30 @@ function MiniDrawer() {
                       className={classes.textDrawer}
                     />
                   </ListItem>
-                </Link>
+                </Link> */}
                 <Divider className={classes.borderDrawer} />
                 <Link to="/apollo" className={classes.invisibleLink}>
                   <ListItem button>
                     <ListItemIcon className={classes.ListIconDrawerPadding}>
                       <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server')} />
                     </ListItemIcon>
-                    <ListItemText
-                      primary="Apollo"
-                      className={classes.textDrawer}
-                    />
+                    <ListItemText primary="Apollo" className={classes.textDrawer} />
                   </ListItem>
                 </Link>
                 <Divider className={classes.borderDrawer} />
                 <Link to="/altix" className={classes.invisibleLink}>
                   <ListItem button>
                     <ListItemIcon className={classes.ListIconDrawerPadding}>
-                      <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server', classes.iconAltixDrawer)} />
+                      <Icon
+                        className={clsx(
+                          classes.iconDrawer,
+                          'fa',
+                          'fa-server',
+                          classes.iconAltixDrawer
+                        )}
+                      />
                     </ListItemIcon>
-                    <ListItemText
-                      primary="Altix"
-                      className={classes.textDrawer}
-                    />
+                    <ListItemText primary="Altix" className={classes.textDrawer} />
                   </ListItem>
                 </Link>
                 <Divider className={classes.borderDrawer} />
@@ -319,10 +315,7 @@ function MiniDrawer() {
                     <ListItemIcon className={classes.ListIconDrawerPadding}>
                       <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-server')} />
                     </ListItemIcon>
-                    <ListItemText
-                      primary="Jupyter"
-                      className={classes.textDrawer}
-                    />
+                    <ListItemText primary="Jupyter" className={classes.textDrawer} />
                   </ListItem>
                 </Link>
               </List>
@@ -333,10 +326,7 @@ function MiniDrawer() {
                 <ListItemIcon className={classes.ListIconDrawer}>
                   <Icon className={clsx(classes.iconDrawer, 'fa', 'fa-history')} />
                 </ListItemIcon>
-                <ListItemText
-                  primary="History"
-                  className={classes.textDrawer}
-                />
+                <ListItemText primary="History" className={classes.textDrawer} />
               </ListItem>
             </Link>
             <Divider className={classes.borderDrawer} />
@@ -344,17 +334,16 @@ function MiniDrawer() {
           <div className={classes.drawerControlWrapper}>
             <IconButton
               onClick={open ? handleDrawerClose : handleDrawerOpen}
-              className={clsx(classes.ListIconDrawer, classes.ListIconControlDrawer)}
-            >
+              className={clsx(classes.ListIconDrawer, classes.ListIconControlDrawer)}>
               {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
         </Drawer>
         <div className={classes.bodyWrapper}>
           <main className={classes.content}>
-            <Route exact path="/" render={() => (<Redirect to="/dashboard" />)} />
+            <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/icex" component={Icex} />
+            {/* <Route exact path="/icex" component={Icex} /> */}
             <Route exact path="/apollo" component={Apollo} />
             <Route exact path="/altix" component={Altix} />
             <Route exact path="/jupyter" component={Jupyter} />

@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import styles from './styles';
+import { host } from '../../api/Api';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -32,9 +33,9 @@ function Jupyter() {
   const [count, setCount] = useState(1);
 
   const [lineaGridOverview, setLineaGridOverview] = useState([
-    'http://condorapi.linea.gov.br/gangliaaltix/graph.php?m=load_one&g=mem_report&z=medium&c=Servidores+de+Apoio&h=srvnode01.linea.gov.br&st=',
-    'http://condorapi.linea.gov.br/gangliaaltix/graph.php?m=load_one&g=load_report&z=medium&c=Servidores+de+Apoio&h=srvnode01.linea.gov.br&st=',
-    'http://condorapi.linea.gov.br/gangliaaltix/graph.php?m=load_one&g=network_report&z=medium&c=Servidores+de+Apoio&h=srvnode01.linea.gov.br&st=',
+    `${host}/gangliaaltix/graph.php?m=load_one&g=mem_report&z=medium&c=Servidores+de+Apoio&h=srvnode01.linea.gov.br&st=`,
+    `${host}/gangliaaltix/graph.php?m=load_one&g=load_report&z=medium&c=Servidores+de+Apoio&h=srvnode01.linea.gov.br&st=`,
+    `${host}/gangliaaltix/graph.php?m=load_one&g=network_report&z=medium&c=Servidores+de+Apoio&h=srvnode01.linea.gov.br&st=`,
   ]);
 
   useInterval(() => {
@@ -42,28 +43,29 @@ function Jupyter() {
   }, 2000);
 
   useEffect(() => {
-    setLineaGridOverview(prevState => prevState.map(overview => `${overview.split('&st=')[0]}&st=${count}`));
+    setLineaGridOverview((prevState) =>
+      prevState.map((overview) => `${overview.split('&st=')[0]}&st=${count}`)
+    );
   }, [count]);
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Typography component="h1" className={classes.title}>Jupyter</Typography>
+      <Typography component="h1" className={classes.title}>
+        Jupyter
+      </Typography>
       <div className={classes.root}>
         <Grid container spacing={3} className={classes.cardsContainer}>
           <Grid item xs={12}>
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-around',
-              overflow: 'hidden',
-            }}
-            >
-              <GridList
-                cellHeight="auto"
-                cols={3}
-              >
-                {lineaGridOverview.map(chart => (
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around',
+                overflow: 'hidden',
+              }}>
+              <GridList cellHeight="auto" cols={3}>
+                {lineaGridOverview.map((chart) => (
                   <GridListTile>
                     <img src={chart} alt="Overview" className={classes.imgResponsive} />
                   </GridListTile>
